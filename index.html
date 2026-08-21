@@ -2,94 +2,58 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>ٹیلر منیجر پرو</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Tailor - ڈیش بورڈ</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background-color: #f4f7f6; padding: 20px; }
+        .header { background: white; padding: 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .btn-menu { background: #28a745; color: white; border: none; padding: 20px; border-radius: 8px; cursor: pointer; font-size: 18px; }
+        .btn-menu:hover { background: #218838; }
+        .btn-logout { background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+    </style>
 </head>
-<body class="bg-gray-100 p-2 md:p-6">
+<body>
 
-<div class="max-w-xl mx-auto bg-white p-5 rounded-3xl shadow-2xl">
-    <h1 class="text-2xl font-bold text-center text-blue-900 mb-6">عدنان ٹیلرز منیجر</h1>
-
-    <!-- ٹاپ نیویگیشن -->
-    <div class="grid grid-cols-4 gap-1 mb-4 text-[10px] md:text-xs">
-        <button onclick="filterOrders('pending')" class="bg-yellow-500 text-white p-2 rounded-lg">پینڈنگ</button>
-        <button onclick="filterOrders('unpaid')" class="bg-blue-600 text-white p-2 rounded-lg">ان-پیڈ</button>
-        <button onclick="filterOrders('paid')" class="bg-green-700 text-white p-2 rounded-lg">پیڈ</button>
-        <button onclick="showAll()" class="bg-gray-700 text-white p-2 rounded-lg">سب</button>
+    <div class="header">
+        <h2 id="userName">خوش آمدید</h2>
+        <button id="logoutBtn" class="btn-logout">لاگ آؤٹ</button>
     </div>
 
-    <!-- سرچ بار -->
-    <input type="text" id="searchInput" placeholder="نام، نمبر یا ID سرچ کریں..." class="w-full p-3 border rounded-xl mb-4">
-
-    <!-- ڈسپلے ایریا -->
-    <div id="displayArea" class="space-y-3 min-h-[300px]">
-        <!-- یہاں ڈیٹا آئے گا -->
-        <p class="text-center text-gray-400">کوئی آرڈر نہیں</p>
+    <div class="menu">
+        <button class="btn-menu" onclick="location.href='customers.html'">گراہک کا ریکارڈ</button>
+        <button class="btn-menu" onclick="location.href='orders.html'">آرڈرز</button>
     </div>
 
-    <!-- باٹم بٹنز -->
-    <div class="grid grid-cols-3 gap-2 mt-6">
-        <button onclick="openForm()" class="bg-blue-900 text-white p-3 rounded-2xl font-bold">+</button>
-        <button onclick="showCustomers()" class="bg-purple-600 text-white p-3 rounded-2xl">گاک</button>
-        <button onclick="showHistory()" class="bg-teal-600 text-white p-3 rounded-2xl">ہسٹری</button>
-    </div>
-</div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-<script>
-    // ڈیٹا کا نظام
-    let orders = JSON.parse(localStorage.getItem('tailorApp') || '[]');
-
-    function openForm() {
-        document.getElementById('displayArea').innerHTML = `
-            <div class="space-y-3 p-4 border rounded-2xl">
-                <input type="text" id="inName" placeholder="گاہک کا نام" class="w-full p-2 border rounded">
-                <input type="text" id="inPhone" placeholder="فون نمبر" class="w-full p-2 border rounded">
-                <input type="text" id="inLen" placeholder="لمبائی" class="w-full p-2 border rounded">
-                <button onclick="submitOrder()" class="w-full bg-green-600 text-white p-3 rounded-xl">محفوظ کریں</button>
-            </div>
-        `;
-    }
-
-    function submitOrder() {
-        const newOrder = {
-            id: Date.now(),
-            name: document.getElementById('inName').value,
-            phone: document.getElementById('inPhone').value,
-            len: document.getElementById('inLen').value,
-            status: 'pending',
-            date: new Date().toLocaleDateString()
+        const firebaseConfig = {
+            apiKey: "AIzaSyDsoWnSGzzt3BRuL5fIhq7dfg2fqyibM1U",
+            authDomain: "tailor-web-f1f1c.firebaseapp.com",
+            projectId: "tailor-web-f1f1c",
+            storageBucket: "tailor-web-f1f1c.firebasestorage.app",
+            messagingSenderId: "129811668871",
+            appId: "1:129811668871:web:586357e9e696a9652ffd22"
         };
-        orders.push(newOrder);
-        localStorage.setItem('tailorApp', JSON.stringify(orders));
-        alert("آرڈر پینڈنگ میں محفوظ ہو گیا!");
-        location.reload();
-    }
 
-    function filterOrders(status) {
-        let filtered = orders.filter(o => o.status === status);
-        render(filtered);
-    }
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-    function render(data) {
-        let container = document.getElementById('displayArea');
-        container.innerHTML = data.map(o => `
-            <div class="p-4 bg-gray-50 rounded-xl border flex justify-between items-center">
-                <div>
-                    <h3 class="font-bold">${o.name}</h3>
-                    <p class="text-xs text-gray-500">${o.phone}</p>
-                </div>
-                <span class="text-xs font-bold px-2 py-1 bg-white rounded">${o.status}</span>
-            </div>
-        `).join('');
-    }
+        // چیک کریں کہ یوزر لاگ ان ہے یا نہیں
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById("userName").innerText = "خوش آمدید، " + user.displayName;
+            } else {
+                window.location.href = "login.html"; // اگر لاگ ان نہیں تو لاگ ان پیج پر بھیج دیں
+            }
+        });
 
-    // سرچ فنکشن
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-        let val = e.target.value.toLowerCase();
-        let filtered = orders.filter(o => o.name.toLowerCase().includes(val) || o.phone.includes(val));
-        render(filtered);
-    });
-</script>
-
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            signOut(auth).then(() => {
+                window.location.href = "login.html";
+            });
+        });
+    </script>
 </body>
 </html>
