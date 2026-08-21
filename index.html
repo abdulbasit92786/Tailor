@@ -2,68 +2,68 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عدنان ٹیلرز - مکمل منیجر</title>
+    <title>ٹیلر منیجر</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-4">
+<body class="bg-gray-50 min-h-screen p-4">
 
-    <div class="max-w-lg mx-auto bg-white p-6 rounded-xl shadow-lg">
-        <h1 class="text-3xl font-bold text-center text-blue-800 mb-6">عدنان ٹیلرز</h1>
-        
-        <!-- مین نیویگیشن بٹن -->
-        <div class="flex justify-between gap-2 mb-6">
-            <button class="flex-1 bg-yellow-500 text-white py-3 rounded-lg font-bold">پینڈنگ</button>
-            <button class="flex-1 bg-blue-500 text-white py-3 rounded-lg font-bold">کمپلیٹ-ان پیڈ</button>
-            <button class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold">کمپلیٹ-پیڈ</button>
+<div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-xl">
+    <h1 class="text-3xl font-bold text-center text-blue-900 mb-6">عدنان ٹیلرز</h1>
+
+    <!-- 1. مین نیویگیشن -->
+    <div class="grid grid-cols-3 gap-2 mb-8">
+        <button class="bg-yellow-500 text-white p-3 rounded-lg font-bold">پینڈنگ</button>
+        <button class="bg-blue-600 text-white p-3 rounded-lg font-bold">ان پیڈ</button>
+        <button class="bg-green-600 text-white p-3 rounded-lg font-bold">مکمل پیڈ</button>
+    </div>
+
+    <!-- 2. کسٹمر اور ناپ فارم -->
+    <form class="space-y-6">
+        <!-- ذاتی تفصیل -->
+        <div class="space-y-4">
+            <input type="text" placeholder="گاہک کا نام" class="w-full p-3 border rounded-lg">
+            <input type="number" placeholder="فون نمبر" class="w-full p-3 border rounded-lg">
+            <input type="text" placeholder="علاقہ / پتہ" class="w-full p-3 border rounded-lg">
         </div>
 
-        <!-- فارم شروع -->
-        <form class="space-y-4">
-            <!-- ذاتی معلومات -->
+        <!-- ناپ کے خانے (ترتیب وار) -->
+        <div class="border-t pt-4">
+            <h2 class="font-bold text-xl mb-4 text-blue-800">ناپ کی تفصیلات</h2>
             <div class="space-y-3">
-                <input type="text" placeholder="گاہک کا نام" class="w-full p-3 border border-gray-300 rounded-lg">
-                <input type="number" placeholder="فون نمبر" class="w-full p-3 border border-gray-300 rounded-lg">
-                <input type="text" placeholder="پتہ / علاقہ" class="w-full p-3 border border-gray-300 rounded-lg">
+                <input type="text" placeholder="لمبائی" class="w-full p-3 border rounded-lg">
+                <input type="text" placeholder="تیرا" class="w-full p-3 border rounded-lg">
+                <input type="text" placeholder="استین" class="w-full p-3 border rounded-lg">
+                <input type="text" placeholder="گلا" class="w-full p-3 border rounded-lg">
+                <input type="text" placeholder="چھاتی" class="w-full p-3 border rounded-lg">
+                <input type="text" placeholder="کمر" class="w-full p-3 border rounded-lg">
+                <input type="text" placeholder="دامن" class="w-full p-3 border rounded-lg">
+                <input type="text" placeholder="شلوار لمبائی مکمل" class="w-full p-3 border rounded-lg">
+                <input type="text" placeholder="پانچہ" class="w-full p-3 border rounded-lg">
+                <input type="text" placeholder="کپڑے کا رنگ" class="w-full p-3 border rounded-lg">
             </div>
+        </div>
 
-            <!-- ناپ کی تفصیل -->
-            <div class="border-t border-b py-4 my-4">
-                <h2 class="font-bold text-lg mb-3">ناپ کی تفصیلات:</h2>
-                <div class="space-y-2">
-                    <input type="text" placeholder="لمبائی" class="w-full p-2 border rounded">
-                    <input type="text" placeholder="تیرا" class="w-full p-2 border rounded">
-                    <input type="text" placeholder="استین" class="w-full p-2 border rounded">
-                    <input type="text" placeholder="گلا" class="w-full p-2 border rounded">
-                    <input type="text" placeholder="چھاتی" class="w-full p-2 border rounded">
-                    <input type="text" placeholder="کمر" class="w-full p-2 border rounded">
-                    <input type="text" placeholder="دامن" class="w-full p-2 border rounded">
-                    <input type="text" placeholder="شلوار لمبائی مکمل" class="w-full p-2 border rounded">
-                    <input type="text" placeholder="پانچہ" class="w-full p-2 border rounded">
-                    <input type="text" placeholder="کپڑے کا کلر" class="w-full p-2 border rounded">
-                </div>
+        <!-- ڈیزائن چیک باکسز -->
+        <div class="border-t pt-4 space-y-4">
+            <h2 class="font-bold text-xl text-blue-800">ڈیزائن آپشنز</h2>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>بین</span></label>
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>گول دامن</span></label>
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>چورس دامن</span></label>
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>دوبغل جیب</span></label>
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>سامنے جیب</span></label>
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>شلوار جیب</span></label>
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>تیلا گوٹ</span></label>
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>فیٹ کف</span></label>
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>سادہ آستین</span></label>
+                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>کف دار</span></label>
             </div>
+        </div>
 
-            <!-- ڈیزائن آپشنز -->
-            <div class="space-y-4">
-                <h2 class="font-bold text-lg">ڈیزائن اور جیب:</h2>
-                
-                <div class="space-y-2 border p-3 rounded">
-                    <label class="flex items-center gap-3 font-semibold"><input type="checkbox" class="w-5 h-5"> بین</label>
-                    <label class="flex items-center gap-3 font-semibold"><input type="checkbox" class="w-5 h-5"> گول دامن</label>
-                    <label class="flex items-center gap-3 font-semibold"><input type="checkbox" class="w-5 h-5"> چورس دامن</label>
-                    <label class="flex items-center gap-3 font-semibold"><input type="checkbox" class="w-5 h-5"> دو بغل جیب</label>
-                    <label class="flex items-center gap-3 font-semibold"><input type="checkbox" class="w-5 h-5"> سامنے جیب</label>
-                    <label class="flex items-center gap-3 font-semibold"><input type="checkbox" class="w-5 h-5"> شلوار جیب</label>
-                    <label class="flex items-center gap-3 font-semibold"><input type="checkbox" class="w-5 h-5"> فیٹ کف</label>
-                    <label class="flex items-center gap-3 font-semibold"><input type="checkbox" class="w-5 h-5"> سادہ آستین</label>
-                    <label class="flex items-center gap-3 font-semibold"><input type="checkbox" class="w-5 h-5"> کفدار</label>
-                </div>
-            </div>
-
-            <button type="submit" class="w-full bg-blue-800 text-white py-4 rounded-xl font-bold text-lg shadow-md hover:bg-blue-900 transition">آرڈر محفوظ کریں</button>
-        </form>
-    </div>
+        <button type="button" class="w-full bg-blue-900 text-white p-4 rounded-xl font-bold text-lg">آرڈر محفوظ کریں</button>
+    </form>
+</div>
 
 </body>
 </html>
