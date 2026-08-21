@@ -3,94 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ٹیلر منیجر پرو</title>
+    <title>عدنان ٹیلرز - پروفیشنل منیجر</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen p-4">
+<body class="bg-gray-100 p-4">
 
-<div class="max-w-md mx-auto bg-white p-5 rounded-2xl shadow-xl">
-    <!-- ٹیلر پروفائل -->
-    <div id="profileSection" class="text-center mb-6">
-        <h1 id="tailorNameDisplay" class="text-2xl font-bold text-blue-900">عدنان ٹیلرز</h1>
-        <button onclick="changeName()" class="text-xs text-gray-500">پروفائل تبدیل کریں</button>
-    </div>
+<div class="max-w-lg mx-auto bg-white p-6 rounded-3xl shadow-2xl">
+    <h1 class="text-3xl font-bold text-center text-blue-900 mb-6">عدنان ٹیلرز منیجر</h1>
 
-    <!-- سٹیٹس ڈیش بورڈ -->
+    <!-- ڈیش بورڈ -->
     <div class="grid grid-cols-3 gap-2 mb-6">
-        <div class="bg-yellow-500 text-white p-3 rounded-lg text-center">
-            <span class="block text-xl font-bold" id="pendingCount">0</span>
-            <span class="text-[10px]">پینڈنگ</span>
-        </div>
-        <div class="bg-blue-500 text-white p-3 rounded-lg text-center">
-            <span class="block text-xl font-bold" id="unpaidCount">0</span>
-            <span class="text-[10px]">ان-پیڈ</span>
-        </div>
-        <div class="bg-green-600 text-white p-3 rounded-lg text-center">
-            <span class="block text-xl font-bold" id="paidCount">0</span>
-            <span class="text-[10px]">پیڈ</span>
-        </div>
+        <button onclick="showList('pending')" class="bg-yellow-500 text-white p-2 rounded-xl text-sm font-bold">پینڈنگ: <span id="pCount">0</span></button>
+        <button onclick="showList('unpaid')" class="bg-blue-600 text-white p-2 rounded-xl text-sm font-bold">ان-پیڈ: <span id="uCount">0</span></button>
+        <button onclick="showList('paid')" class="bg-green-700 text-white p-2 rounded-xl text-sm font-bold">کمپلیٹ: <span id="cCount">0</span></button>
     </div>
 
-    <!-- فارم (مکمل ناپ کے ساتھ) -->
-    <div id="formSection" class="space-y-3">
-        <input type="text" id="custName" placeholder="گاہک کا نام" class="w-full p-2 border rounded">
-        <input type="text" id="custPhone" placeholder="فون نمبر" class="w-full p-2 border rounded">
-        
-        <h2 class="font-bold border-b pt-2">ناپ کی تفصیلات:</h2>
-        <div class="grid grid-cols-2 gap-2">
-            <input type="text" id="len" placeholder="لمبائی" class="p-2 border rounded">
-            <input type="text" id="tera" placeholder="تیرا" class="p-2 border rounded">
-            <input type="text" id="ast" placeholder="آستین" class="p-2 border rounded">
-            <input type="text" id="gala" placeholder="گلا" class="p-2 border rounded">
+    <!-- ان پٹ فارم -->
+    <div id="mainForm" class="space-y-4">
+        <h2 class="text-xl font-bold border-b pb-2">گاہک کی معلومات</h2>
+        <input type="text" id="name" placeholder="گاہک کا نام" class="w-full p-3 border rounded-xl">
+        <input type="text" id="phone" placeholder="فون نمبر" class="w-full p-3 border rounded-xl">
+        <input type="text" id="area" placeholder="پتہ / علاقہ" class="w-full p-3 border rounded-xl">
+
+        <h2 class="text-xl font-bold border-b pb-2 mt-6">ناپ کی تفصیلات</h2>
+        <div class="grid grid-cols-2 gap-3">
+            <input type="text" id="len" placeholder="لمبائی" class="p-3 border rounded-lg">
+            <input type="text" id="tera" placeholder="تیرا" class="p-3 border rounded-lg">
+            <input type="text" id="ast" placeholder="استین" class="p-3 border rounded-lg">
+            <input type="text" id="gala" placeholder="گلا" class="p-3 border rounded-lg">
+            <input type="text" id="chati" placeholder="چھاتی" class="p-3 border rounded-lg">
+            <input type="text" id="kamar" placeholder="کمر" class="p-3 border rounded-lg">
+            <input type="text" id="daman" placeholder="دامن" class="p-3 border rounded-lg">
+            <input type="text" id="shalwar" placeholder="شلوار لمبائی" class="p-3 border rounded-lg">
+            <input type="text" id="pancha" placeholder="پانچہ" class="p-3 border rounded-lg">
         </div>
-        
-        <h2 class="font-bold border-b pt-2">ڈیزائن:</h2>
-        <div class="grid grid-cols-2 gap-2 text-sm">
-            <label><input type="checkbox" class="design" value="بین"> بین</label>
-            <label><input type="checkbox" class="design" value="گول دامن"> گول دامن</label>
-            <label><input type="checkbox" class="design" value="دوبغل جیب"> دوبغل جیب</label>
-            <label><input type="checkbox" class="design" value="سامنے جیب"> سامنے جیب</label>
+
+        <h2 class="text-xl font-bold border-b pb-2 mt-6">ڈیزائن آپشنز</h2>
+        <div class="grid grid-cols-2 gap-2 text-gray-700">
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="ٹوپس"> ٹوپس</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="بین"> بین</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="گول دامن"> گول دامن</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="چورس دامن"> چورس دامن</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="دوبغل جیب"> دوبغل جیب</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="سامنے جیب"> سامنے جیب</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="شلوار جیب"> شلوار جیب</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="تیلا گوٹ"> تیلا گوٹ</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="فیٹ کف"> فیٹ کف</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="سادہ آستین"> سادہ آستین</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="design" value="کف دار"> کف دار</label>
         </div>
-        <button onclick="saveOrder()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold mt-4">آرڈر محفوظ کریں</button>
+
+        <h2 class="text-xl font-bold border-b pb-2 mt-6">پیمنٹ کا حساب</h2>
+        <input type="number" id="total" placeholder="کل قیمت" class="w-full p-3 border rounded-xl">
+        <input type="number" id="advance" placeholder="ایڈوانس وصول" class="w-full p-3 border rounded-xl">
+
+        <button onclick="saveOrder()" class="w-full bg-blue-900 text-white p-4 rounded-2xl font-bold text-lg hover:bg-black transition">آرڈر محفوظ کریں</button>
+    </div>
+
+    <!-- لسٹ کنٹینر -->
+    <div id="listSection" class="hidden space-y-4">
+        <h2 id="listHeader" class="text-2xl font-bold text-center">آرڈرز</h2>
+        <div id="orderContainer" class="space-y-3"></div>
+        <button onclick="location.reload()" class="w-full bg-gray-500 text-white p-3 rounded-xl">واپس فارم پر</button>
     </div>
 </div>
 
 <script>
-    // ایپ لوڈ ہوتے وقت ڈیٹا اپ ڈیٹ کرنا
-    function updateDashboard() {
-        let orders = JSON.parse(localStorage.getItem('tailorOrders') || '[]');
-        document.getElementById('pendingCount').innerText = orders.filter(o => o.status === 'pending').length;
-        document.getElementById('unpaidCount').innerText = orders.filter(o => o.status === 'unpaid').length;
-        document.getElementById('paidCount').innerText = orders.filter(o => o.status === 'paid').length;
-    }
-
     function saveOrder() {
-        let orders = JSON.parse(localStorage.getItem('tailorOrders') || '[]');
-        let newOrder = {
+        let designs = [];
+        document.querySelectorAll('.design:checked').forEach(c => designs.push(c.value));
+        
+        const total = document.getElementById('total').value;
+        const adv = document.getElementById('advance').value;
+        const status = adv >= total ? 'paid' : (adv > 0 ? 'unpaid' : 'pending');
+
+        const order = {
             id: Date.now(),
-            name: document.getElementById('custName').value,
-            status: 'pending' // ڈیفالٹ
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            status: status,
+            designs: designs,
+            total: total,
+            advance: adv
         };
-        orders.push(newOrder);
-        localStorage.setItem('tailorOrders', JSON.stringify(orders));
-        alert("آرڈر پینڈنگ میں محفوظ ہو گیا!");
-        updateDashboard();
+
+        let orders = JSON.parse(localStorage.getItem('tailorApp') || '[]');
+        orders.push(order);
+        localStorage.setItem('tailorApp', JSON.stringify(orders));
+        alert("آرڈر پینڈنگ میں شامل ہو گیا!");
+        location.reload();
     }
 
-    function changeName() {
-        let name = prompt("اپنا نام درج کریں:");
-        if(name) {
-            document.getElementById('tailorNameDisplay').innerText = name;
-            localStorage.setItem('tailorName', name);
-        }
+    function showList(status) {
+        document.getElementById('mainForm').classList.add('hidden');
+        document.getElementById('listSection').classList.remove('hidden');
+        let orders = JSON.parse(localStorage.getItem('tailorApp') || '[]');
+        let container = document.getElementById('orderContainer');
+        container.innerHTML = '';
+        
+        orders.filter(o => o.status === status).forEach(o => {
+            container.innerHTML += `<div class="p-4 border rounded-xl bg-gray-50 shadow-sm font-bold">نام: ${o.name} <br> فون: ${o.phone}</div>`;
+        });
     }
 
-    // شروع میں ڈیٹا لوڈ کریں
-    window.onload = () => {
-        let storedName = localStorage.getItem('tailorName');
-        if(storedName) document.getElementById('tailorNameDisplay').innerText = storedName;
-        updateDashboard();
-    };
+    // کاؤنٹر اپ ڈیٹ
+    let orders = JSON.parse(localStorage.getItem('tailorApp') || '[]');
+    document.getElementById('pCount').innerText = orders.filter(o => o.status === 'pending').length;
+    document.getElementById('uCount').innerText = orders.filter(o => o.status === 'unpaid').length;
+    document.getElementById('cCount').innerText = orders.filter(o => o.status === 'paid').length;
 </script>
 </body>
 </html>
