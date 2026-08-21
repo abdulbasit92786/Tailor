@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ٹیلر منیجر</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-4">
+
+    <div class="max-w-md mx-auto bg-white p-6 rounded-xl shadow-lg">
+        <h1 class="text-2xl font-bold text-center text-blue-600 mb-6">عدنان ٹیلرز</h1>
+        
+        <!-- مین تین آپشنز -->
+        <div class="grid grid-cols-3 gap-2 mb-6">
+            <button class="bg-yellow-500 text-white py-2 rounded text-sm">پینڈنگ</button>
+            <button class="bg-blue-500 text-white py-2 rounded text-sm">ان پیڈ</button>
+            <button class="bg-green-500 text-white py-2 rounded text-sm">مکمل پیڈ</button>
+        </div>
+
+        <!-- فارم کا حصہ (ابھی صرف ڈیزائن) -->
+        <form class="space-y-4">
+            <input type="text" placeholder="گاہک کا نام" class="w-full p-2 border rounded">
+            <input type="text" placeholder="فون نمبر" class="w-full p-2 border rounded">
+            
+            <div class="border-t pt-4">
+                <h2 class="font-bold mb-2">ناپ کی تفصیلات:</h2>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="لمبائی" class="p-2 border rounded">
+                    <input type="text" placeholder="تیرا" class="p-2 border rounded">
+                    <input type="text" placeholder="استین" class="p-2 border rounded">
+                    <input type="text" placeholder="چھاتی" class="p-2 border rounded">
+                </div>
+            </div>
+
+            <!-- ڈیزائن والے چیک باکسز -->
+            <div class="space-y-2">
+                <label class="flex items-center gap-2">
+                    <input type="checkbox"> دامن: گول
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox"> دامن: چورس
+                </label>
+            </div>
+
+            <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold">آرڈر محفوظ کریں</button>
+        </form>
+    </div>
+
+</body>
+</html>
