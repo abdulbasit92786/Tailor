@@ -1,72 +1,655 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tailor ڈیش بورڈ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tailor Manager</title>
+
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; margin: 0; padding-bottom: 80px; }
-        
-        /* ٹاپ پروفائل بار */
-        .top-bar { background: #2a5298; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .profile img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        /* سرچ بار */
-        .search-container { padding: 20px; }
-        .search-bar { width: 100%; padding: 12px; border-radius: 25px; border: 1px solid #ccc; text-align: center; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #334155 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #312e81 0%, transparent 40%),
+                linear-gradient(145deg, #020617, #0f172a);
+            color: #ffffff;
+            padding-bottom: 90px;
+        }
 
-        /* 5 سٹیٹس بٹنز */
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px; }
-        .btn-status { background: white; border: 1px solid #ddd; padding: 15px; border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        .btn-status:hover { background: #e7f1ff; }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-        /* نیچے والا نیویگیشن بار */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
-        .nav-btn { background: none; border: none; font-size: 14px; cursor: pointer; color: #555; }
-        .nav-btn:hover { color: #2a5298; }
+        .app {
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
+            padding: 16px;
+        }
 
-        /* لاگ آؤٹ مینو (پروفائل پر کلک کرنے پر) */
-        .dropdown { display: none; position: absolute; top: 60px; right: 20px; background: white; color: black; padding: 10px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .top-button {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.12);
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.25);
+
+            backdrop-filter: blur(15px);
+
+            font-size: 22px;
+
+            transition: 0.2s;
+        }
+
+        .top-button:active {
+            transform: scale(0.92);
+        }
+
+        .title-area {
+            text-align: center;
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        .title-area h1 {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .title-area p {
+            margin-top: 4px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 5px 2px 14px;
+        }
+
+        /* =========================
+           FIVE MAIN BUTTONS
+        ========================= */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 11px;
+        }
+
+        .status-card {
+            min-height: 125px;
+            border-radius: 23px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 12px 7px;
+
+            position: relative;
+            overflow: hidden;
+
+            border: 1px solid rgba(255,255,255,0.10);
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,0.25);
+
+            transition: transform 0.2s;
+        }
+
+        .status-card::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            top: -45px;
+            right: -35px;
+        }
+
+        .status-card:active {
+            transform: scale(0.95);
+        }
+
+        /* First 3 cards */
+
+        .status-card:nth-child(1),
+        .status-card:nth-child(2),
+        .status-card:nth-child(3) {
+            grid-column: span 2;
+        }
+
+        /* Last 2 cards */
+
+        .status-card:nth-child(4) {
+            grid-column: 2 / span 2;
+        }
+
+        .status-card:nth-child(5) {
+            grid-column: 4 / span 2;
+        }
+
+        .status-icon {
+            font-size: 31px;
+            margin-bottom: 9px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .status-name {
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.35;
+            position: relative;
+            z-index: 2;
+        }
+
+        .status-count {
+            margin-top: 8px;
+            padding: 4px 9px;
+
+            border-radius: 20px;
+
+            background: rgba(0,0,0,0.18);
+
+            font-size: 10px;
+            color: rgba(255,255,255,0.9);
+
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =========================
+           STATUS COLORS
+        ========================= */
+
+        .pending {
+            background: linear-gradient(145deg, #f59e0b, #b45309);
+        }
+
+        .unpaid {
+            background: linear-gradient(145deg, #ef4444, #991b1b);
+        }
+
+        .paid {
+            background: linear-gradient(145deg, #10b981, #047857);
+        }
+
+        .shop {
+            background: linear-gradient(145deg, #8b5cf6, #5b21b6);
+        }
+
+        .delivered {
+            background: linear-gradient(145deg, #0ea5e9, #0369a1);
+        }
+
+        /* =========================
+           OVERVIEW BOX
+        ========================= */
+
+        .overview {
+            margin-top: 22px;
+
+            padding: 18px;
+
+            border-radius: 22px;
+
+            background: rgba(255,255,255,0.07);
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.18);
+        }
+
+        .overview h2 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .overview p {
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
+
+        .bottom-navigation {
+            position: fixed;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 78px;
+
+            background: rgba(2,6,23,0.94);
+
+            border-top:
+                1px solid rgba(255,255,255,0.08);
+
+            backdrop-filter: blur(20px);
+
+            z-index: 999;
+        }
+
+        .bottom-inner {
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .nav-button {
+            width: 55px;
+
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 9px;
+
+            transition: 0.2s;
+        }
+
+        .nav-button:active {
+            transform: scale(0.92);
+        }
+
+        .nav-icon {
+            width: 38px;
+            height: 34px;
+
+            margin: 0 auto 3px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            font-size: 20px;
+        }
+
+        .nav-button.active {
+            color: #ffffff;
+        }
+
+        .nav-button.active .nav-icon {
+            background: rgba(255,255,255,0.12);
+        }
+
+        /* =========================
+           PLUS BUTTON
+        ========================= */
+
+        .add-order {
+            margin-top: -25px;
+        }
+
+        .add-order .nav-icon {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(145deg, #22c55e, #15803d);
+
+            box-shadow:
+                0 8px 25px rgba(34,197,94,0.35);
+
+            border: 4px solid #020617;
+
+            font-size: 30px;
+        }
+
+        .add-order span {
+            position: relative;
+            top: 2px;
+        }
+
+        /* =========================
+           SMALL MOBILE SCREEN
+        ========================= */
+
+        @media (max-width: 360px) {
+
+            .app {
+                padding: 12px;
+            }
+
+            .dashboard {
+                gap: 8px;
+            }
+
+            .status-card {
+                min-height: 112px;
+            }
+
+            .status-icon {
+                font-size: 26px;
+            }
+
+            .status-name {
+                font-size: 10px;
+            }
+
+            .status-count {
+                font-size: 9px;
+            }
+
+            .nav-button {
+                width: 48px;
+                font-size: 8px;
+            }
+        }
+
     </style>
 </head>
+
 <body>
 
-    <!-- ٹاپ بار -->
+<div class="app">
+
+    <!-- =========================
+         TOP BAR
+    ========================= -->
+
     <div class="top-bar">
-        <span>ٹیلر سسٹم</span>
-        <div class="profile" onclick="document.getElementById('logoutMenu').style.display='block'">
-            <img src="user-placeholder.png" alt="Profile">
-            <span id="userName">نام</span>
+
+        <!-- PROFILE BUTTON -->
+
+        <a href="profile.html" class="top-button">
+            👤
+        </a>
+
+
+        <!-- TITLE -->
+
+        <div class="title-area">
+
+            <h1>Tailor Manager</h1>
+
+            <p>Smart Tailoring Dashboard</p>
+
         </div>
-    </div>
-    <div id="logoutMenu" class="dropdown">
-        <button id="logoutBtn" style="border:none; background:none; cursor:pointer;">لاگ آؤٹ</button>
+
+
+        <!-- SEARCH BUTTON -->
+
+        <a href="search.html" class="top-button">
+            🔍
+        </a>
+
     </div>
 
-    <!-- سرچ -->
-    <div class="search-container">
-        <input type="text" class="search-bar" placeholder="نام یا نمبر سے تلاش کریں...">
+
+    <!-- =========================
+         ORDER STATUS
+    ========================= -->
+
+    <div class="section-title">
+        Order Status
     </div>
 
-    <!-- 5 سٹیٹس بٹنز -->
-    <div class="status-grid">
-        <button class="btn-status">پینڈنگ</button>
-        <button class="btn-status">کمپلیٹ - ان پیڈ</button>
-        <button class="btn-status">کمپلیٹ - پیڈ</button>
-        <button class="btn-status">دکان میں موجود</button>
-        <button class="btn-status">گھر لے گئے</button>
+
+    <div class="dashboard">
+
+        <!-- 1 PENDING -->
+
+        <a href="pending.html" class="status-card pending">
+
+            <div class="status-icon">
+                🧵
+            </div>
+
+            <div class="status-name">
+                PENDING
+            </div>
+
+            <div class="status-count">
+                0 Orders
+            </div>
+
+        </a>
+
+
+        <!-- 2 COMPLETED UNPAID -->
+
+        <a href="completed-unpaid.html" class="status-card unpaid">
+
+            <div class="status-icon">
+                💰
+            </div>
+
+            <div class="status-name">
+                COMPLETED<br>UNPAID
+            </div>
+
+            <div class="status-count">
+                0 Orders
+            </div>
+
+        </a>
+
+
+        <!-- 3 COMPLETED PAID -->
+
+        <a href="completed-paid.html" class="status-card paid">
+
+            <div class="status-icon">
+                ✅
+            </div>
+
+            <div class="status-name">
+                COMPLETED<br>PAID
+            </div>
+
+            <div class="status-count">
+                0 Orders
+            </div>
+
+        </a>
+
+
+        <!-- 4 READY IN SHOP -->
+
+        <a href="ready-shop.html" class="status-card shop">
+
+            <div class="status-icon">
+                🏪
+            </div>
+
+            <div class="status-name">
+                READY<br>IN SHOP
+            </div>
+
+            <div class="status-count">
+                0 Orders
+            </div>
+
+        </a>
+
+
+        <!-- 5 DELIVERED -->
+
+        <a href="delivered.html" class="status-card delivered">
+
+            <div class="status-icon">
+                👕
+            </div>
+
+            <div class="status-name">
+                DELIVERED
+            </div>
+
+            <div class="status-count">
+                0 Orders
+            </div>
+
+        </a>
+
     </div>
 
-    <!-- نیچے والے بٹنز -->
-    <div class="bottom-nav">
-        <button class="nav-btn">ڈیش بورڈ</button>
-        <button class="nav-btn">سیو یوزر</button>
-        <button class="nav-btn">نیا آرڈر (+)</button>
-        <button class="nav-btn">مینیو (بیک اپ)</button>
+
+    <!-- =========================
+         OVERVIEW
+    ========================= -->
+
+    <div class="overview">
+
+        <h2>Today's Overview</h2>
+
+        <p>
+            Your orders, customers and payment
+            information will appear here.
+        </p>
+
     </div>
 
-    <script type="module">
-        // یہاں ہم فائر بیس کا لاگ ان لاجک لگائیں گے
-    </script>
+</div>
+
+
+<!-- =========================
+     BOTTOM NAVIGATION
+========================= -->
+
+<div class="bottom-navigation">
+
+    <div class="bottom-inner">
+
+
+        <!-- HOME -->
+
+        <a href="index.html" class="nav-button active">
+
+            <div class="nav-icon">
+                🏠
+            </div>
+
+            <span>Home</span>
+
+        </a>
+
+
+        <!-- ADD ORDER -->
+
+        <a href="add-order.html" class="nav-button add-order">
+
+            <div class="nav-icon">
+                +
+            </div>
+
+            <span>Add Order</span>
+
+        </a>
+
+
+        <!-- CUSTOMERS -->
+
+        <a href="customers.html" class="nav-button">
+
+            <div class="nav-icon">
+                👥
+            </div>
+
+            <span>Customers</span>
+
+        </a>
+
+
+        <!-- NEW USERS -->
+
+        <a href="new-users.html" class="nav-button">
+
+            <div class="nav-icon">
+                🆕
+            </div>
+
+            <span>New Users</span>
+
+        </a>
+
+
+        <!-- HISTORY -->
+
+        <a href="history.html" class="nav-button">
+
+            <div class="nav-icon">
+                📋
+            </div>
+
+            <span>History</span>
+
+        </a>
+
+
+        <!-- MENU -->
+
+        <a href="menu.html" class="nav-button">
+
+            <div class="nav-icon">
+                ☰
+            </div>
+
+            <span>Menu</span>
+
+        </a>
+
+
+    </div>
+
+</div>
+
 </body>
-</html>
+                </html>
