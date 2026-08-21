@@ -2,68 +2,106 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>ٹیلر منیجر</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عدنان ٹیلرز - منیجر</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 min-h-screen p-4">
+<body class="bg-gray-100 p-4">
 
-<div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-xl">
-    <h1 class="text-3xl font-bold text-center text-blue-900 mb-6">عدنان ٹیلرز</h1>
-
-    <!-- 1. مین نیویگیشن -->
-    <div class="grid grid-cols-3 gap-2 mb-8">
-        <button class="bg-yellow-500 text-white p-3 rounded-lg font-bold">پینڈنگ</button>
-        <button class="bg-blue-600 text-white p-3 rounded-lg font-bold">ان پیڈ</button>
-        <button class="bg-green-600 text-white p-3 rounded-lg font-bold">مکمل پیڈ</button>
+<div class="max-w-lg mx-auto bg-white p-6 rounded-xl shadow-lg">
+    <h1 class="text-3xl font-bold text-center text-blue-800 mb-6">عدنان ٹیلرز</h1>
+    
+    <!-- مین نیویگیشن -->
+    <div class="flex justify-between gap-2 mb-6">
+        <button onclick="showSection('pending')" class="flex-1 bg-yellow-500 text-white py-2 rounded font-bold">پینڈنگ</button>
+        <button onclick="showSection('unpaid')" class="flex-1 bg-blue-500 text-white py-2 rounded font-bold">ان-پیڈ</button>
+        <button onclick="showSection('paid')" class="flex-1 bg-green-600 text-white py-2 rounded font-bold">مکمل پیڈ</button>
     </div>
 
-    <!-- 2. کسٹمر اور ناپ فارم -->
-    <form class="space-y-6">
-        <!-- ذاتی تفصیل -->
-        <div class="space-y-4">
-            <input type="text" placeholder="گاہک کا نام" class="w-full p-3 border rounded-lg">
-            <input type="number" placeholder="فون نمبر" class="w-full p-3 border rounded-lg">
-            <input type="text" placeholder="علاقہ / پتہ" class="w-full p-3 border rounded-lg">
-        </div>
-
-        <!-- ناپ کے خانے (ترتیب وار) -->
-        <div class="border-t pt-4">
-            <h2 class="font-bold text-xl mb-4 text-blue-800">ناپ کی تفصیلات</h2>
-            <div class="space-y-3">
-                <input type="text" placeholder="لمبائی" class="w-full p-3 border rounded-lg">
-                <input type="text" placeholder="تیرا" class="w-full p-3 border rounded-lg">
-                <input type="text" placeholder="استین" class="w-full p-3 border rounded-lg">
-                <input type="text" placeholder="گلا" class="w-full p-3 border rounded-lg">
-                <input type="text" placeholder="چھاتی" class="w-full p-3 border rounded-lg">
-                <input type="text" placeholder="کمر" class="w-full p-3 border rounded-lg">
-                <input type="text" placeholder="دامن" class="w-full p-3 border rounded-lg">
-                <input type="text" placeholder="شلوار لمبائی مکمل" class="w-full p-3 border rounded-lg">
-                <input type="text" placeholder="پانچہ" class="w-full p-3 border rounded-lg">
-                <input type="text" placeholder="کپڑے کا رنگ" class="w-full p-3 border rounded-lg">
-            </div>
-        </div>
-
-        <!-- ڈیزائن چیک باکسز -->
-        <div class="border-t pt-4 space-y-4">
-            <h2 class="font-bold text-xl text-blue-800">ڈیزائن آپشنز</h2>
+    <!-- آرڈر فارم -->
+    <div id="formSection">
+        <form id="tailorForm" class="space-y-3">
+            <input type="text" id="name" placeholder="گاہک کا نام" class="w-full p-2 border rounded">
+            <input type="text" id="phone" placeholder="فون نمبر" class="w-full p-2 border rounded">
+            <input type="text" id="area" placeholder="علاقہ" class="w-full p-2 border rounded">
             
-            <div class="grid grid-cols-2 gap-4">
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>بین</span></label>
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>گول دامن</span></label>
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>چورس دامن</span></label>
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>دوبغل جیب</span></label>
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>سامنے جیب</span></label>
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>شلوار جیب</span></label>
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>تیلا گوٹ</span></label>
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>فیٹ کف</span></label>
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>سادہ آستین</span></label>
-                <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" class="w-5 h-5"> <span>کف دار</span></label>
-            </div>
-        </div>
+            <h2 class="font-bold border-b pb-2 mt-4">ناپ کی تفصیلات:</h2>
+            <input type="text" id="len" placeholder="لمبائی" class="w-full p-2 border rounded">
+            <input type="text" id="tera" placeholder="تیرا" class="w-full p-2 border rounded">
+            <input type="text" id="ast" placeholder="استین" class="w-full p-2 border rounded">
+            <input type="text" id="gala" placeholder="گلا" class="w-full p-2 border rounded">
+            <input type="text" id="chati" placeholder="چھاتی" class="w-full p-2 border rounded">
+            <input type="text" id="kamar" placeholder="کمر" class="w-full p-2 border rounded">
+            <input type="text" id="daman" placeholder="دامن" class="w-full p-2 border rounded">
+            <input type="text" id="shalwar" placeholder="شلوار لمبائی" class="w-full p-2 border rounded">
+            <input type="text" id="pancha" placeholder="پانچہ" class="w-full p-2 border rounded">
+            <input type="text" id="color" placeholder="کپڑے کا کلر" class="w-full p-2 border rounded">
 
-        <button type="button" class="w-full bg-blue-900 text-white p-4 rounded-xl font-bold text-lg">آرڈر محفوظ کریں</button>
-    </form>
+            <h2 class="font-bold border-b pb-2 mt-4">ڈیزائن:</h2>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+                <label><input type="checkbox" class="design" value="بین"> بین</label>
+                <label><input type="checkbox" class="design" value="گول دامن"> گول دامن</label>
+                <label><input type="checkbox" class="design" value="چورس دامن"> چورس دامن</label>
+                <label><input type="checkbox" class="design" value="دوبغل جیب"> دوبغل جیب</label>
+                <label><input type="checkbox" class="design" value="سامنے جیب"> سامنے جیب</label>
+                <label><input type="checkbox" class="design" value="شلوار جیب"> شلوار جیب</label>
+                <label><input type="checkbox" class="design" value="تیلا گوٹ"> تیلا گوٹ</label>
+                <label><input type="checkbox" class="design" value="فیٹ کف"> فیٹ کف</label>
+                <label><input type="checkbox" class="design" value="کف دار"> کف دار</label>
+            </div>
+
+            <button type="button" onclick="saveData()" class="w-full bg-blue-800 text-white py-3 rounded mt-4 font-bold">آرڈر محفوظ کریں</button>
+        </form>
+    </div>
+
+    <!-- لسٹ دیکھنے کی جگہ -->
+    <div id="listSection" class="hidden mt-6">
+        <h2 id="listTitle" class="text-xl font-bold mb-4">آرڈرز</h2>
+        <div id="orderList" class="space-y-2"></div>
+        <button onclick="backToForm()" class="w-full bg-gray-500 text-white py-2 rounded mt-4">واپس جائیں</button>
+    </div>
 </div>
 
+<script>
+    function saveData() {
+        let designs = [];
+        document.querySelectorAll('.design:checked').forEach(c => designs.push(c.value));
+        
+        const order = {
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            status: 'pending',
+            designs: designs
+        };
+
+        let orders = JSON.parse(localStorage.getItem('tailorsApp') || '[]');
+        orders.push(order);
+        localStorage.setItem('tailorsApp', JSON.stringify(orders));
+        alert("آرڈر محفوظ ہو گیا!");
+        location.reload();
+    }
+
+    function showSection(status) {
+        document.getElementById('formSection').classList.add('hidden');
+        document.getElementById('listSection').classList.remove('hidden');
+        document.getElementById('orderList').innerHTML = '';
+        
+        let orders = JSON.parse(localStorage.getItem('tailorsApp') || '[]');
+        orders.forEach(o => {
+            if(o.status === status) {
+                let div = document.createElement('div');
+                div.className = "p-3 border rounded bg-gray-50";
+                div.innerHTML = `<strong>${o.name}</strong> - ${o.phone}`;
+                document.getElementById('orderList').appendChild(div);
+            }
+        });
+    }
+
+    function backToForm() {
+        document.getElementById('formSection').classList.remove('hidden');
+        document.getElementById('listSection').classList.add('hidden');
+    }
+</script>
 </body>
-</html>
+    </html>
+    
