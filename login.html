@@ -2,23 +2,96 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Tailor - لاگ ان</title>
+    <title>Tailor - لاگ ان سسٹم</title>
     <style>
-        body { font-family: Tahoma, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); text-align: center; width: 300px; }
-        .btn-google { background-color: #4285F4; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 20px; }
-        .btn-google:hover { background-color: #357ae8; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-card {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 360px;
+            transition: transform 0.3s ease;
+        }
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+        .icon-container {
+            font-size: 50px;
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #333333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        .btn-google {
+            background-color: #ffffff;
+            color: #3c4043;
+            border: 1px solid #dadce0;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+        .btn-google:hover {
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .google-logo {
+            width: 20px;
+            height: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="login-box">
-        <h2>Tailor لاگ ان</h2>
-        <p>اپنے گوگل اکاؤنٹ سے شروع کریں</p>
-        <button id="googleLoginBtn" class="btn-google">گوگل کے ذریعے لاگ ان</button>
+    <div class="login-card">
+        <!-- ٹیلرنگ کا خوبصورت آئکن یا لوگو -->
+        <div class="icon-container">✂️</div>
+        <h2>درزی مینجمنٹ سسٹم</h2>
+        <p>اپنے گوگل اکاؤنٹ سے سائن ان کریں</p>
+        
+        <!-- گوگل لاگ ان کا خوبصورت بٹن (گوگل لوگو کے ساتھ) -->
+        <button id="googleLoginBtn" class="btn-google">
+            <svg class="google-logo" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.15C3.17 21.32 7.23 24 12 24z"/>
+                <path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.39-1.5-.39-2.24s.14-1.52.39-2.24V6.6H1.18C.43 8.13 0 9.87 0 11.7s.43 3.57 1.18 5.1l4.09-2.56z"/>
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.68 1.18 6.6l4.09 3.15c.95-2.85 3.6-4.96 6.73-4.96z"/>
+            </svg>
+            گوگل کے ذریعے لاگ ان کریں
+        </button>
     </div>
 
-    <!-- فائر بیس کی کنفیگریشن اور لاگ ان کا لاجک -->
+    <!-- فائر بیس کی کنفیگریشن اور لاگ ان لاجک -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -39,7 +112,7 @@
         document.getElementById("googleLoginBtn").addEventListener("click", () => {
             signInWithPopup(auth, provider)
                 .then(() => {
-                    window.location.href = "index.html"; // کامیاب لاگ ان کے بعد انڈیکس پر جائیں
+                    window.location.href = "index.html"; // لاگ ان کے بعد ڈیش بورڈ پر منتقلی
                 })
                 .catch((error) => {
                     alert("لاگ ان میں مسئلہ: " + error.message);
@@ -47,4 +120,5 @@
         });
     </script>
 </body>
-</html>
+    </html>
+    
