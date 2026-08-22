@@ -33,7 +33,7 @@ display:block;margin:auto
 .photoBtns{
 display:flex;gap:9px;justify-content:center;margin-top:14px
 }
-.photoBtns label{
+.photoBtns label, .photoBtns button{
 border:0;border-radius:13px;padding:10px 13px;
 background:#ffffff18;color:#fff;font-size:12px;cursor:pointer
 }
@@ -55,6 +55,7 @@ width:100%;margin-top:12px;padding:15px;border:0;
 border-radius:15px;color:#fff;font-weight:bold;
 font-size:14px;cursor:pointer
 }
+.set-photo-btn{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
 .save{background:linear-gradient(135deg,#22c55e,#15803d)}
 .logout{
 background:#ef44441c;border:1px solid #ef444455;
@@ -95,6 +96,11 @@ font-size:12px;color:#a7f3d0;line-height:1.5
 </div>
 </div>
 
+<!-- تصویر کو الگ سے فائر بیس میں سیو کرنے کا بٹن -->
+<button id="setPhoto" class="btn set-photo-btn" style="margin-top: 0px; margin-bottom: 10px;">
+📸 Save Profile Photo
+</button>
+
 <div class="field">
 <label>Your Name</label>
 <input id="name" type="text" placeholder="Enter your name">
@@ -106,7 +112,7 @@ font-size:12px;color:#a7f3d0;line-height:1.5
 </div>
 
 <button id="save" class="btn save">
-💾 Save Profile
+💾 Save Profile & Name
 </button>
 
 <button id="logout" class="btn logout">
@@ -123,7 +129,7 @@ import{initializeApp}from
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 
 import{
-getAuth,onAuthStateChanged,signOut
+getAuth,onAuthStateChanged,updateProfile,signOut
 }from
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
@@ -152,7 +158,7 @@ let user=null;
 let photoData="";
 
 
-function message(text){
+function msg(text){
 $("msg").textContent=text;
 }
 
@@ -228,90 +234,120 @@ showPhoto(u.photoURL);
    IMAGE COMPRESS
 ========================= */
 
-function processImage(file){
-
-if(!file)return;
-
-if(file.size>10*1024*1024){
-
-message("تصویر 10 MB سے کم منتخب کریں۔");
-return;
-
-}
-
+function compressImage(file){
+return new Promise((resolve,reject)=>{
 const reader=new FileReader();
 
 reader.onload=e=>{
-
 const img=new Image();
 
 img.onload=()=>{
-
-const max=600;
-
+const max=500;
 let w=img.width;
 let h=img.height;
 
 if(w>max||h>max){
-
 if(w>h){
-h=h*max/w;
+h=Math.round(h*max/w);
 w=max;
 }else{
-w=w*max/h;
+w=Math.round(w*max/h);
 h=max;
 }
-
 }
 
 const canvas=document.createElement("canvas");
-
 canvas.width=w;
 canvas.height=h;
 
 const ctx=canvas.getContext("2d");
-
 ctx.drawImage(img,0,0,w,h);
 
-/*
- JPEG compression
- */
-
-photoData=canvas.toDataURL("image/jpeg",0.70);
-
-showPhoto(photoData);
-
-message("تصویر تیار ہے۔ اب Save Profile دبائیں۔");
-
+resolve(canvas.toDataURL("image/jpeg",.75));
 };
 
+img.onerror=reject;
 img.src=e.target.result;
-
 };
 
+reader.onerror=reject;
 reader.readAsDataURL(file);
-
+});
 }
 
 
-$("camera").onchange=e=>{
-processImage(e.target.files[0]);
-};
+async function chooseFile(file){
+if(!file)return;
 
-$("gallery").onchange=e=>{
-processImage(e.target.files[0]);
+if(file.size>10*1024*1024){
+msg("تصویر 10 MB سے کم ہونی چاہیے۔");
+return;
+}
+
+try{
+photoData=await compressImage(file);
+showPhoto(photoData);
+msg("تصویر تیار ہے۔ اب 'Save Profile Photo' یا 'Save Profile & Name' دبائیں۔");
+}catch(e){
+msg("تصویر پڑھنے میں مسئلہ آیا۔");
+}
+}
+
+
+$("camera").onchange=e=>chooseFile(e.target.files[0]);
+$("gallery").onchange=e=>chooseFile(e.target.files[0]);
+
+
+/* =========================
+   SAVE PROFILE PHOTO ONLY
+========================= */
+
+$("setPhoto").onclick=async()=>{
+
+if(!user){
+msg("پہلے Google سے Login کریں۔");
+return;
+}
+
+if(!photoData){
+msg("پہلے Camera یا Gallery سے تصویر منتخب کریں۔");
+return;
+}
+
+try{
+msg("تصویر محفوظ ہو رہی ہے...");
+
+await setDoc(
+doc(db,"users",user.uid),
+{
+profilePhoto:photoData,
+email:user.email||"",
+updatedAt:Date.now()
+},
+{merge:true}
+);
+
+msg("✅ تصویر فائر بیس (Firebase) میں محفوظ ہوگئی۔");
+
+}catch(e){
+
+console.error(e);
+msg("تصویر محفوظ نہیں ہوئی: "+e.message);
+
+}
+
 };
 
 
 /* =========================
-   SAVE PROFILE
+   SAVE PROFILE (Name & Photo)
 ========================= */
 
 $("save").onclick=async()=>{
 
 if(!user){
 
-message("پہلے Google سے Login کریں۔");
+msg("پہلے Google سے Login کریں۔");
 return;
 
 }
@@ -320,25 +356,22 @@ const name=$("name").value.trim();
 
 if(!name){
 
-message("براہ کرم اپنا نام لکھیں۔");
+msg("براہ کرم اپنا نام لکھیں۔");
 return;
 
 }
 
 try{
 
-message("Saving...");
+msg("Saving...");
+
+await updateProfile(user,{displayName:name});
 
 const data={
-
 name:name,
-
 email:user.email||"",
-
 profilePhoto:photoData||user.photoURL||"",
-
-updatedAt:new Date().toISOString()
-
+updatedAt:Date.now()
 };
 
 await setDoc(
@@ -347,13 +380,13 @@ data,
 {merge:true}
 );
 
-message("✅ Profile کامیابی سے محفوظ ہوگئی۔");
+msg("✅ نام اور پروفائل کامیابی سے محفوظ ہوگیا۔");
 
 }catch(e){
 
 console.error(e);
 
-message("❌ Save نہیں ہوا: "+e.message);
+msg("❌ Save نہیں ہوا: "+e.message);
 
 }
 
@@ -374,7 +407,7 @@ location.replace("login.html");
 
 }catch(e){
 
-message("Logout failed: "+e.message);
+msg("Logout failed: "+e.message);
 
 }
 
@@ -383,4 +416,4 @@ message("Logout failed: "+e.message);
 </script>
 
 </body>
-  </html>
+</html>
