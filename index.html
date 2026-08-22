@@ -39,7 +39,7 @@ const defaultIcon=document.querySelector(".user-default-icon");
 if(nameEl)nameEl.textContent=user.displayName||"Tailor User";
 if(emailEl)emailEl.textContent=user.email||"";
 
-/* Google photo پہلے دکھائیں */
+/* پہلے Google photo دکھائیں (اگر ہو) */
 if(user.photoURL){
 if(userPhoto){
 userPhoto.src=user.photoURL;
@@ -53,7 +53,7 @@ if(profileIcon)profileIcon.style.display="none";
 if(defaultIcon)defaultIcon.style.display="none";
 }
 
-/* Firebase سے Custom Profile پڑھیں */
+/* Firebase سے Custom Profile (Firestore) پڑھیں */
 try{
 const ref=doc(db,"users",user.uid);
 const snap=await getDoc(ref);
@@ -66,14 +66,14 @@ if(data.name&&nameEl){
 nameEl.textContent=data.name;
 }
 
-/* Custom Photo */
-if(data.photoURL){
+/* Custom Photo (یہاں profilePhoto چیک کیا گیا ہے جو profile.html میں سیو ہوتا ہے) */
+if(data.profilePhoto){
 if(userPhoto){
-userPhoto.src=data.photoURL;
+userPhoto.src=data.profilePhoto;
 userPhoto.style.display="block";
 }
 if(indexPhoto){
-indexPhoto.src=data.photoURL;
+indexPhoto.src=data.profilePhoto;
 indexPhoto.style.display="block";
 }
 if(profileIcon)profileIcon.style.display="none";
