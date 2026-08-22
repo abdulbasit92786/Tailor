@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>New User - Tailor Manager</title>
+<title>New Customer - Tailor Manager</title>
 
 <style>
 
@@ -26,12 +26,17 @@ linear-gradient(145deg,#020617,#0f172a);
 padding:16px 16px 105px
 }
 
+button,input{
+font-family:inherit
+}
+
 .app{
 max-width:480px;
 margin:auto
 }
 
-/* TOP */
+
+/* ================= TOP ================= */
 
 .top{
 display:flex;
@@ -51,7 +56,8 @@ background:#ffffff12;
 border:1px solid #ffffff20;
 color:#fff;
 text-decoration:none;
-font-size:22px
+font-size:22px;
+flex-shrink:0
 }
 
 .title{
@@ -69,7 +75,27 @@ color:#94a3b8;
 margin-top:4px
 }
 
-/* CARD */
+
+/* ================= EDIT BADGE ================= */
+
+.mode-badge{
+display:none;
+margin:-5px auto 15px;
+width:max-content;
+padding:7px 13px;
+border-radius:20px;
+background:#3b82f622;
+border:1px solid #60a5fa44;
+color:#bfdbfe;
+font-size:11px
+}
+
+.mode-badge.show{
+display:block
+}
+
+
+/* ================= SECTION ================= */
 
 .section{
 margin-top:16px;
@@ -89,10 +115,12 @@ margin-bottom:15px
 font-size:10px;
 color:#94a3b8;
 margin-top:-8px;
-margin-bottom:14px
+margin-bottom:14px;
+line-height:1.6
 }
 
-/* INPUTS */
+
+/* ================= INPUTS ================= */
 
 label{
 display:block;
@@ -115,24 +143,38 @@ margin-bottom:13px
 
 input:focus{
 border-color:#818cf8;
-background:#ffffff12
+background:#ffffff12;
+box-shadow:0 0 0 3px #6366f122
 }
 
 input::placeholder{
 color:#64748b
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px
+
+/* ================= MEASUREMENTS ================= */
+
+/*
+اہم:
+ناپ اب ایک ایک کرکے اوپر سے نیچے آئیں گے۔
+*/
+
+.measurements{
+display:flex;
+flex-direction:column;
+gap:0
 }
 
-.grid input{
-margin-bottom:2px
+.measure-item{
+width:100%
 }
 
-/* PHOTO */
+.measure-item input{
+margin-bottom:12px
+}
+
+
+/* ================= PHOTO ================= */
 
 .photo-box{
 display:flex;
@@ -186,7 +228,8 @@ cursor:pointer
 display:none
 }
 
-/* DESIGNS */
+
+/* ================= DESIGNS ================= */
 
 .options{
 display:grid;
@@ -212,7 +255,12 @@ background:#ffffff08;
 text-align:center;
 color:#cbd5e1;
 font-size:12px;
-cursor:pointer
+cursor:pointer;
+transition:.2s
+}
+
+.option label:active{
+transform:scale(.96)
 }
 
 .option input:checked + label{
@@ -222,7 +270,8 @@ color:#fff;
 box-shadow:0 5px 18px #6366f155
 }
 
-/* SAVE */
+
+/* ================= SAVE BUTTON ================= */
 
 .save{
 width:100%;
@@ -235,13 +284,26 @@ color:#fff;
 font-size:15px;
 font-weight:bold;
 cursor:pointer;
-box-shadow:0 8px 25px #22c55e44
+box-shadow:0 8px 25px #22c55e44;
+transition:.2s
+}
+
+.save:active{
+transform:scale(.98)
+}
+
+.save.edit-mode{
+background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+box-shadow:0 8px 25px #3b82f644
 }
 
 .save:disabled{
 opacity:.6;
 cursor:not-allowed
 }
+
+
+/* ================= MESSAGE ================= */
 
 .msg{
 text-align:center;
@@ -251,7 +313,8 @@ font-size:12px;
 line-height:1.6
 }
 
-/* BOTTOM NAV */
+
+/* ================= BOTTOM NAV ================= */
 
 .bottom{
 position:fixed;
@@ -271,14 +334,17 @@ max-width:480px;
 margin:auto;
 display:flex;
 align-items:center;
-justify-content:space-around
+justify-content:space-around;
+direction:ltr
 }
 
 .nav a{
 text-decoration:none;
 color:#94a3b8;
 font-size:9px;
-text-align:center
+text-align:center;
+min-width:45px;
+direction:ltr
 }
 
 .nav i{
@@ -292,9 +358,15 @@ margin-bottom:3px
 color:#fff
 }
 
+.nav .active i{
+filter:drop-shadow(0 0 6px #fff5)
+}
+
+
+/* ================= MOBILE ================= */
+
 @media(max-width:360px){
 
-.grid,
 .options{
 grid-template-columns:1fr
 }
@@ -307,6 +379,15 @@ padding:0 2px
 padding:14px
 }
 
+.nav a{
+font-size:8px;
+min-width:40px
+}
+
+.nav i{
+font-size:18px
+}
+
 }
 
 </style>
@@ -316,27 +397,41 @@ padding:14px
 
 <div class="app">
 
-<!-- TOP -->
+
+<!-- ================= TOP ================= -->
 
 <div class="top">
 
 <a href="customers.html" class="back">→</a>
 
 <div class="title">
-<h1>👤 نیا کسٹمر</h1>
-<p>New Customer Profile</p>
-</div>
+
+<h1 id="pageTitle">👤 نیا کسٹمر</h1>
+
+<p id="pageSubtitle">
+New Customer Profile
+</p>
 
 </div>
 
+</div>
 
-<!-- CUSTOMER INFORMATION -->
+
+<!-- EDIT MODE -->
+
+<div id="modeBadge" class="mode-badge">
+✏️ Customer Edit Mode
+</div>
+
+
+<!-- ================= CUSTOMER INFORMATION ================= -->
 
 <div class="section">
 
 <h2>👤 کسٹمر کی معلومات</h2>
 
 <label>نام</label>
+
 <input
 id="name"
 type="text"
@@ -344,7 +439,9 @@ placeholder="کسٹمر کا نام"
 autocomplete="name"
 >
 
+
 <label>فون نمبر</label>
+
 <input
 id="phone"
 type="tel"
@@ -352,7 +449,9 @@ placeholder="03XXXXXXXXX"
 autocomplete="tel"
 >
 
+
 <label>علاقہ / مکمل پتہ</label>
+
 <input
 id="address"
 type="text"
@@ -362,14 +461,15 @@ placeholder="علاقہ یا مکمل پتہ"
 </div>
 
 
-<!-- PHOTO -->
+<!-- ================= PHOTO ================= -->
 
 <div class="section">
 
 <h2>📷 کسٹمر کی تصویر</h2>
 
 <div class="section-sub">
-تصویر لگانا اختیاری ہے
+تصویر لگانا اختیاری ہے۔
+Edit کرتے وقت پرانی تصویر برقرار رہے گی جب تک آپ نئی تصویر منتخب نہ کریں۔
 </div>
 
 <div class="photo-box">
@@ -381,7 +481,7 @@ placeholder="علاقہ یا مکمل پتہ"
 <div class="photo-info">
 
 <p>
-ایک تصویر لگانے سے ایک جیسے نام یا نمبر والے کسٹمر کو پہچاننا آسان ہوگا۔
+تصویر لگانے سے ایک جیسے نام یا نمبر والے کسٹمر کو پہچاننا آسان ہوگا۔
 </p>
 
 <label class="photo-btn" for="photo">
@@ -402,69 +502,134 @@ capture="environment"
 </div>
 
 
-<!-- MEASUREMENTS -->
+<!-- ================= MEASUREMENTS ================= -->
 
 <div class="section">
 
 <h2>📏 کسٹمر کا ناپ</h2>
 
 <div class="section-sub">
-کسٹمر کا مستقل ناپ یہاں محفوظ ہوگا۔
+کسٹمر کا مستقل ناپ اوپر سے نیچے ترتیب کے ساتھ محفوظ ہوگا۔
 </div>
 
-<div class="grid">
 
-<div>
-<label>لمبائی</label>
-<input id="length" placeholder="ناپ">
+<div class="measurements">
+
+
+<div class="measure-item">
+
+<label>قمیض لمبائی</label>
+
+<input
+id="length"
+placeholder="مثلاً 40"
+>
+
 </div>
 
-<div>
+
+<div class="measure-item">
+
 <label>تیرا</label>
-<input id="tera" placeholder="ناپ">
+
+<input
+id="tera"
+placeholder="ناپ"
+>
+
 </div>
 
-<div>
+
+<div class="measure-item">
+
 <label>آستین</label>
-<input id="sleeve" placeholder="ناپ">
+
+<input
+id="sleeve"
+placeholder="ناپ"
+>
+
 </div>
 
-<div>
+
+<div class="measure-item">
+
 <label>گلہ</label>
-<input id="neck" placeholder="ناپ">
+
+<input
+id="neck"
+placeholder="ناپ"
+>
+
 </div>
 
-<div>
+
+<div class="measure-item">
+
 <label>چھاتی</label>
-<input id="chest" placeholder="ناپ">
+
+<input
+id="chest"
+placeholder="ناپ"
+>
+
 </div>
 
-<div>
+
+<div class="measure-item">
+
 <label>کمر</label>
-<input id="waist" placeholder="ناپ">
+
+<input
+id="waist"
+placeholder="ناپ"
+>
+
 </div>
 
-<div>
+
+<div class="measure-item">
+
 <label>دامن</label>
-<input id="daman" placeholder="ناپ">
+
+<input
+id="daman"
+placeholder="ناپ"
+>
+
 </div>
 
-<div>
+
+<div class="measure-item">
+
 <label>شلوار لمبائی مکمل</label>
-<input id="shalwarLength" placeholder="ناپ">
+
+<input
+id="shalwarLength"
+placeholder="ناپ"
+>
+
 </div>
 
-<div>
+
+<div class="measure-item">
+
 <label>پانچہ</label>
-<input id="pancha" placeholder="ناپ">
+
+<input
+id="pancha"
+placeholder="ناپ"
+>
+
+</div>
+
+
 </div>
 
 </div>
 
-</div>
 
-
-<!-- PERMANENT DESIGNS -->
+<!-- ================= DESIGNS ================= -->
 
 <div class="section">
 
@@ -474,114 +639,141 @@ capture="environment"
 جو چیز کسٹمر عام طور پر پسند کرتا ہے اسے منتخب کریں۔
 </div>
 
+
 <div class="options">
+
 
 <div class="option">
 <input type="checkbox" id="twoPiece">
 <label for="twoPiece">ٹو پیس</label>
 </div>
 
+
 <div class="option">
 <input type="checkbox" id="band">
 <label for="band">بین</label>
 </div>
+
 
 <div class="option">
 <input type="checkbox" id="roundDaman">
 <label for="roundDaman">گول دامن</label>
 </div>
 
+
 <div class="option">
 <input type="checkbox" id="squareDaman">
 <label for="squareDaman">چورس دامن</label>
 </div>
+
 
 <div class="option">
 <input type="checkbox" id="bothSides">
 <label for="bothSides">دوبغل</label>
 </div>
 
+
 <div class="option">
 <input type="checkbox" id="front">
 <label for="front">سامنے</label>
 </div>
+
 
 <div class="option">
 <input type="checkbox" id="shalwarPocket">
 <label for="shalwarPocket">شلوار جیب</label>
 </div>
 
+
 <div class="option">
 <input type="checkbox" id="tilaGoot">
 <label for="tilaGoot">تیلا گوٹ</label>
 </div>
+
 
 <div class="option">
 <input type="checkbox" id="fitCuff">
 <label for="fitCuff">فیٹ کف</label>
 </div>
 
+
 <div class="option">
 <input type="checkbox" id="simpleSleeve">
 <label for="simpleSleeve">سادہ آستین</label>
 </div>
+
 
 <div class="option">
 <input type="checkbox" id="cuffed">
 <label for="cuffed">کف دار</label>
 </div>
 
-</div>
 
 </div>
 
+</div>
 
-<!-- SAVE -->
 
-<button id="saveCustomer" class="save">
+<!-- ================= SAVE / UPDATE ================= -->
+
+<button
+id="saveCustomer"
+class="save">
+
 💾 کسٹمر محفوظ کریں
+
 </button>
+
 
 <div id="msg" class="msg"></div>
 
+
 </div>
 
 
-<!-- BOTTOM NAV -->
+<!-- ================= BOTTOM NAV ================= -->
 
 <div class="bottom">
 
 <div class="nav">
+
 
 <a href="index.html">
 <i>🏠</i>
 Home
 </a>
 
+
 <a href="add-order.html">
 <i>➕</i>
 Add Order
 </a>
+
 
 <a href="customers.html">
 <i>👥</i>
 Customers
 </a>
 
-<a href="new-user.html" class="active">
+
+<a href="new-user.html"
+class="active">
 <i>🆕</i>
 New Users
 </a>
+
 
 <a href="history.html">
 <i>📋</i>
 History
 </a>
 
+
 <a href="menu.html">
 <i>☰</i>
 Menu
 </a>
+
 
 </div>
 
@@ -590,25 +782,43 @@ Menu
 
 <script type="module">
 
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
 import{
 initializeApp
-}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
 
 import{
 getAuth,
 onAuthStateChanged
-}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
 
 import{
 getFirestore,
 collection,
 getDocs,
 addDoc,
+doc,
+getDoc,
+updateDoc,
 serverTimestamp
-}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 
-/* FIREBASE */
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
 const firebaseConfig={
 
@@ -633,15 +843,41 @@ const auth=getAuth(app);
 
 const db=getFirestore(app);
 
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
 let currentUser=null;
 
 let photoData="";
 
+let existingPhoto="";
+
+let editCustomerId=null;
+
+
+/* =====================================================
+   GET ELEMENT
+===================================================== */
 
 const $=id=>document.getElementById(id);
 
 
-/* VALUE */
+/* =====================================================
+   READ EDIT ID FROM URL
+===================================================== */
+
+const params=new URLSearchParams(
+window.location.search
+);
+
+editCustomerId=params.get("edit");
+
+
+/* =====================================================
+   VALUE
+===================================================== */
 
 function val(id){
 
@@ -650,7 +886,9 @@ return $(id).value.trim();
 }
 
 
-/* CHECKBOX */
+/* =====================================================
+   CHECKBOX
+===================================================== */
 
 function checked(id){
 
@@ -659,9 +897,24 @@ return $(id).checked;
 }
 
 
-/* AUTH */
+/* =====================================================
+   SET VALUE
+===================================================== */
 
-onAuthStateChanged(auth,user=>{
+function setVal(id,value){
+
+$(id).value=value||"";
+
+}
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+onAuthStateChanged(
+auth,
+async user=>{
 
 if(!user){
 
@@ -673,34 +926,220 @@ return;
 
 currentUser=user;
 
-});
+
+/*
+اگر URL میں edit موجود ہے
+تو موجودہ Customer لوڈ کریں۔
+*/
+
+if(editCustomerId){
+
+await loadCustomerForEdit();
+
+}
+
+}
+);
 
 
-/* PHOTO */
+/* =====================================================
+   LOAD CUSTOMER FOR EDIT
+===================================================== */
 
-$("photo").addEventListener("change",event=>{
+async function loadCustomerForEdit(){
+
+const btn=$("saveCustomer");
+
+try{
+
+btn.disabled=true;
+
+btn.textContent="⏳ Customer کا ڈیٹا لوڈ ہو رہا ہے...";
+
+
+const customerRef=doc(
+db,
+"users",
+currentUser.uid,
+"customers",
+editCustomerId
+);
+
+
+const snap=await getDoc(customerRef);
+
+
+if(!snap.exists()){
+
+$("msg").style.color="#fca5a5";
+
+$("msg").textContent=
+"❌ یہ Customer موجود نہیں ہے۔";
+
+
+btn.disabled=false;
+
+btn.textContent="💾 کسٹمر محفوظ کریں";
+
+return;
+
+}
+
+
+const data=snap.data();
+
+
+/* ================= PAGE EDIT MODE ================= */
+
+$("pageTitle").textContent=
+"✏️ کسٹمر Edit کریں";
+
+$("pageSubtitle").textContent=
+"Edit Customer Profile";
+
+$("modeBadge").classList.add("show");
+
+btn.classList.add("edit-mode");
+
+btn.textContent=
+"💾 Customer Update کریں";
+
+
+/* ================= BASIC DATA ================= */
+
+setVal("name",data.name);
+
+setVal("phone",data.phone);
+
+setVal("address",data.address);
+
+
+/* ================= PHOTO ================= */
+
+existingPhoto=data.photo||"";
+
+photoData="";
+
+
+if(existingPhoto){
+
+$("photoPreview").innerHTML=
+`<img src="${escapeHtml(existingPhoto)}" alt="Customer">`;
+
+}
+
+
+/* ================= MEASUREMENTS ================= */
+
+const m=data.measurements||{};
+
+setVal("length",m.length);
+
+setVal("tera",m.tera);
+
+setVal("sleeve",m.sleeve);
+
+setVal("neck",m.neck);
+
+setVal("chest",m.chest);
+
+setVal("waist",m.waist);
+
+setVal("daman",m.daman);
+
+setVal("shalwarLength",m.shalwarLength);
+
+setVal("pancha",m.pancha);
+
+
+/* ================= DESIGNS ================= */
+
+const d=data.designs||{};
+
+
+$("twoPiece").checked=!!d.twoPiece;
+
+$("band").checked=!!d.band;
+
+$("roundDaman").checked=!!d.roundDaman;
+
+$("squareDaman").checked=!!d.squareDaman;
+
+$("bothSides").checked=!!d.bothSides;
+
+$("front").checked=!!d.front;
+
+$("shalwarPocket").checked=!!d.shalwarPocket;
+
+$("tilaGoot").checked=!!d.tilaGoot;
+
+$("fitCuff").checked=!!d.fitCuff;
+
+$("simpleSleeve").checked=!!d.simpleSleeve;
+
+$("cuffed").checked=!!d.cuffed;
+
+
+btn.disabled=false;
+
+
+}catch(error){
+
+console.error(error);
+
+$("msg").style.color="#fca5a5";
+
+$("msg").textContent=
+"❌ Customer کا ڈیٹا لوڈ نہیں ہو سکا: "+
+error.message;
+
+btn.disabled=false;
+
+btn.textContent=
+"💾 کسٹمر محفوظ کریں";
+
+}
+
+}
+
+
+/* =====================================================
+   PHOTO
+===================================================== */
+
+$("photo").addEventListener(
+"change",
+event=>{
 
 const file=event.target.files[0];
 
-if(!file)return;
+if(!file){
+
+return;
+
+}
 
 
 /*
-Image کو compress کیا جا رہا ہے
-تاکہ Firestore میں بہت بڑی تصویر محفوظ نہ ہو۔
+نئی تصویر منتخب ہونے پر اسے compress کریں۔
 */
 
 const reader=new FileReader();
+
 
 reader.onload=()=>{
 
 const img=new Image();
 
+
 img.onload=()=>{
 
-const canvas=document.createElement("canvas");
+const canvas=
+document.createElement("canvas");
+
 
 const maxSize=600;
+
 
 let width=img.width;
 
@@ -712,7 +1151,9 @@ if(width>height){
 if(width>maxSize){
 
 height=
-Math.round(height*maxSize/width);
+Math.round(
+height*maxSize/width
+);
 
 width=maxSize;
 
@@ -723,7 +1164,9 @@ width=maxSize;
 if(height>maxSize){
 
 width=
-Math.round(width*maxSize/height);
+Math.round(
+width*maxSize/height
+);
 
 height=maxSize;
 
@@ -737,7 +1180,9 @@ canvas.width=width;
 canvas.height=height;
 
 
-const ctx=canvas.getContext("2d");
+const ctx=
+canvas.getContext("2d");
+
 
 ctx.drawImage(
 img,
@@ -748,11 +1193,8 @@ height
 );
 
 
-/*
-JPEG compression
-*/
-
-photoData=canvas.toDataURL(
+photoData=
+canvas.toDataURL(
 "image/jpeg",
 0.72
 );
@@ -763,18 +1205,23 @@ $("photoPreview").innerHTML=
 
 };
 
+
 img.src=reader.result;
 
 };
+
 
 reader.readAsDataURL(file);
 
 });
 
 
-/* SAVE CUSTOMER */
+/* =====================================================
+   SAVE / UPDATE CUSTOMER
+===================================================== */
 
 $("saveCustomer").onclick=async()=>{
+
 
 if(!currentUser){
 
@@ -795,7 +1242,7 @@ const phone=val("phone");
 const address=val("address");
 
 
-/* REQUIRED */
+/* ================= REQUIRED ================= */
 
 if(!name){
 
@@ -827,62 +1274,31 @@ return;
 
 const btn=$("saveCustomer");
 
+
 btn.disabled=true;
 
-btn.textContent="⏳ کسٹمر محفوظ ہو رہا ہے...";
-
 $("msg").textContent="";
+
+
+if(editCustomerId){
+
+btn.textContent=
+"⏳ Customer Update ہو رہا ہے...";
+
+}else{
+
+btn.textContent=
+"⏳ Customer محفوظ ہو رہا ہے...";
+
+}
 
 
 try{
 
 
-/*
-CUSTOMERS COLLECTION
-users / currentUser.uid / customers
-*/
-
-const customersRef=
-collection(
-db,
-"users",
-currentUser.uid,
-"customers"
-);
-
-
-/*
-پہلے موجود customers حاصل کریں
-اور اگلا Account Number بنائیں۔
-*/
-
-const snap=
-await getDocs(customersRef);
-
-
-let maxAccountNo=0;
-
-
-snap.forEach(doc=>{
-
-const data=doc.data();
-
-const no=
-Number(data.accountNo||0);
-
-if(no>maxAccountNo){
-
-maxAccountNo=no;
-
-}
-
-});
-
-
-const accountNo=maxAccountNo+1;
-
-
-/* MEASUREMENTS */
+/* =====================================================
+   MEASUREMENTS
+===================================================== */
 
 const measurements={
 
@@ -907,7 +1323,9 @@ pancha:val("pancha")
 };
 
 
-/* PERMANENT DESIGNS */
+/* =====================================================
+   PERMANENT DESIGNS
+===================================================== */
 
 const designs={
 
@@ -936,7 +1354,144 @@ cuffed:checked("cuffed")
 };
 
 
-/* CUSTOMER DATA */
+/* =====================================================
+   PHOTO
+===================================================== */
+
+let finalPhoto=existingPhoto||"";
+
+
+/*
+اگر نئی تصویر منتخب کی گئی ہے
+تو نئی تصویر استعمال ہوگی۔
+*/
+
+if(photoData){
+
+finalPhoto=photoData;
+
+}
+
+
+/* =====================================================
+   EDIT EXISTING CUSTOMER
+===================================================== */
+
+if(editCustomerId){
+
+
+const customerRef=doc(
+
+db,
+
+"users",
+
+currentUser.uid,
+
+"customers",
+
+editCustomerId
+
+);
+
+
+const updateData={
+
+name:name,
+
+phone:phone,
+
+address:address,
+
+measurements:measurements,
+
+designs:designs,
+
+photo:finalPhoto,
+
+updatedAt:serverTimestamp(),
+
+userId:currentUser.uid
+
+};
+
+
+await updateDoc(
+customerRef,
+updateData
+);
+
+
+$("msg").style.color="#86efac";
+
+$("msg").textContent=
+"✅ Customer کامیابی سے Update ہوگیا۔";
+
+
+btn.textContent=
+"✅ Customer Updated";
+
+
+setTimeout(()=>{
+
+location.href="customers.html";
+
+},1000);
+
+
+return;
+
+}
+
+
+/* =====================================================
+   NEW CUSTOMER
+===================================================== */
+
+const customersRef=
+collection(
+db,
+"users",
+currentUser.uid,
+"customers"
+);
+
+
+/*
+موجودہ Account Numbers دیکھیں۔
+*/
+
+const snap=
+await getDocs(customersRef);
+
+
+let maxAccountNo=0;
+
+
+snap.forEach(docSnap=>{
+
+const data=docSnap.data();
+
+const no=
+Number(data.accountNo||0);
+
+
+if(no>maxAccountNo){
+
+maxAccountNo=no;
+
+}
+
+});
+
+
+const accountNo=
+maxAccountNo+1;
+
+
+/* =====================================================
+   CUSTOMER DATA
+===================================================== */
 
 const customerData={
 
@@ -952,7 +1507,7 @@ measurements:measurements,
 
 designs:designs,
 
-photo:photoData||"",
+photo:finalPhoto,
 
 userId:currentUser.uid,
 
@@ -963,7 +1518,9 @@ updatedAt:serverTimestamp()
 };
 
 
-/* SAVE */
+/* =====================================================
+   SAVE NEW CUSTOMER
+===================================================== */
 
 await addDoc(
 customersRef,
@@ -971,7 +1528,9 @@ customerData
 );
 
 
-/* SUCCESS */
+/* =====================================================
+   SUCCESS
+===================================================== */
 
 $("msg").style.color="#86efac";
 
@@ -979,12 +1538,9 @@ $("msg").textContent=
 `✅ Customer محفوظ ہوگیا۔ Account No. #${accountNo}`;
 
 
-btn.textContent="✅ Customer Saved";
+btn.textContent=
+"✅ Customer Saved";
 
-
-/*
-Customers page پر واپس جائیں۔
-*/
 
 setTimeout(()=>{
 
@@ -1003,15 +1559,6 @@ $("msg").textContent=
 "❌ Customer محفوظ نہیں ہوا: "+
 error.message;
 
+
 btn.disabled=false;
-
-btn.textContent="💾 کسٹمر محفوظ کریں";
-
-}
-
-};
-
-</script>
-
-</body>
-</html>
+  
