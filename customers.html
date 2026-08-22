@@ -6,7 +6,12 @@
 <title>Customers - Tailor Manager</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+-webkit-tap-highlight-color:transparent
+}
 
 body{
 font-family:Arial,sans-serif;
@@ -19,7 +24,17 @@ linear-gradient(145deg,#020617,#0f172a);
 padding:16px 16px 100px
 }
 
-.app{max-width:480px;margin:auto}
+button,input{
+font-family:inherit
+}
+
+.app{
+max-width:480px;
+margin:auto
+}
+
+
+/* ================= TOP ================= */
 
 .top{
 display:flex;
@@ -28,7 +43,8 @@ gap:10px;
 margin-bottom:18px
 }
 
-.back,.addBtn{
+.back,
+.addBtn{
 width:46px;
 height:46px;
 border-radius:15px;
@@ -39,12 +55,14 @@ background:#ffffff12;
 border:1px solid #ffffff20;
 color:#fff;
 text-decoration:none;
-font-size:21px
+font-size:21px;
+cursor:pointer
 }
 
 .addBtn{
 background:linear-gradient(135deg,#22c55e,#15803d);
-border:0
+border:0;
+box-shadow:0 8px 20px #22c55e33
 }
 
 .title{
@@ -52,12 +70,18 @@ flex:1;
 text-align:center
 }
 
-.title h1{font-size:22px}
+.title h1{
+font-size:22px
+}
+
 .title p{
 font-size:11px;
 color:#94a3b8;
 margin-top:4px
 }
+
+
+/* ================= SEARCH ================= */
 
 .search{
 width:100%;
@@ -71,7 +95,17 @@ font-size:14px;
 margin-bottom:16px
 }
 
-.search::placeholder{color:#718096}
+.search:focus{
+border-color:#6366f1;
+box-shadow:0 0 0 3px #6366f122
+}
+
+.search::placeholder{
+color:#718096
+}
+
+
+/* ================= STATS ================= */
 
 .stats{
 display:flex;
@@ -98,6 +132,41 @@ font-size:10px;
 color:#94a3b8
 }
 
+
+/* ================= ADD CUSTOMER ================= */
+
+.addCustomer{
+width:100%;
+padding:15px;
+border:0;
+border-radius:16px;
+background:linear-gradient(135deg,#6366f1,#4338ca);
+color:#fff;
+font-weight:bold;
+font-size:14px;
+margin-bottom:15px;
+cursor:pointer;
+box-shadow:0 8px 22px #6366f133
+}
+
+.addCustomer:active{
+transform:scale(.98)
+}
+
+
+/* ================= MESSAGE ================= */
+
+.msg{
+text-align:center;
+font-size:12px;
+color:#a7f3d0;
+min-height:20px;
+margin:8px 0
+}
+
+
+/* ================= EMPTY ================= */
+
 .empty{
 padding:35px 15px;
 text-align:center;
@@ -114,6 +183,9 @@ color:#fff;
 margin-bottom:7px
 }
 
+
+/* ================= CUSTOMER CARD ================= */
+
 .customer{
 padding:15px;
 margin-bottom:11px;
@@ -121,10 +193,16 @@ border-radius:20px;
 background:#ffffff0b;
 border:1px solid #ffffff14;
 box-shadow:0 10px 25px #0004;
-cursor:pointer
+cursor:pointer;
+transition:.2s
 }
 
-.customer:active{transform:scale(.98)}
+.customer:active{
+transform:scale(.985)
+}
+
+
+/* ================= CUSTOMER ROW ================= */
 
 .row{
 display:flex;
@@ -174,8 +252,12 @@ font-size:10px;
 padding:5px 8px;
 border-radius:10px;
 background:#6366f122;
-color:#c7d2fe
+color:#c7d2fe;
+white-space:nowrap
 }
+
+
+/* ================= DETAILS ================= */
 
 .details{
 display:none;
@@ -184,7 +266,9 @@ padding-top:15px;
 border-top:1px solid #ffffff12
 }
 
-.customer.open .details{display:block}
+.customer.open .details{
+display:block
+}
 
 .detailTitle{
 font-size:13px;
@@ -212,6 +296,9 @@ color:#fff;
 margin-bottom:3px
 }
 
+
+/* ================= DESIGN TAGS ================= */
+
 .designs{
 display:flex;
 flex-wrap:wrap;
@@ -231,26 +318,122 @@ color:#64748b;
 font-size:11px
 }
 
-.addCustomer{
-width:100%;
-padding:15px;
+
+/* ================= EDIT DELETE ================= */
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:15px;
+padding-top:13px;
+border-top:1px solid #ffffff12
+}
+
+.actionBtn{
+flex:1;
 border:0;
-border-radius:16px;
-background:linear-gradient(135deg,#6366f1,#4338ca);
+border-radius:12px;
+padding:11px 8px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+color:#fff
+}
+
+.editBtn{
+background:linear-gradient(135deg,#3b82f6,#1d4ed8)
+}
+
+.deleteBtn{
+background:linear-gradient(135deg,#ef4444,#b91c1c)
+}
+
+.actionBtn:active{
+transform:scale(.96)
+}
+
+
+/* ================= DELETE MODAL ================= */
+
+.modal{
+position:fixed;
+inset:0;
+background:#0009;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:9999;
+backdrop-filter:blur(8px)
+}
+
+.modal.show{
+display:flex
+}
+
+.modalBox{
+width:100%;
+max-width:380px;
+background:#111827;
+border:1px solid #ffffff18;
+border-radius:22px;
+padding:22px;
+text-align:center;
+box-shadow:0 25px 70px #0008
+}
+
+.modalIcon{
+font-size:42px;
+margin-bottom:10px
+}
+
+.modalBox h3{
+font-size:18px;
+margin-bottom:8px
+}
+
+.modalBox p{
+font-size:12px;
+color:#94a3b8;
+line-height:1.7;
+margin-bottom:18px
+}
+
+.modalActions{
+display:flex;
+gap:9px
+}
+
+.modalActions button{
+flex:1;
+padding:13px;
+border:0;
+border-radius:13px;
 color:#fff;
 font-weight:bold;
-font-size:14px;
-margin-bottom:15px;
 cursor:pointer
 }
 
-.msg{
-text-align:center;
-font-size:12px;
-color:#a7f3d0;
-min-height:20px;
-margin:8px 0
+.cancelBtn{
+background:#334155
 }
+
+.confirmDelete{
+background:#dc2626
+}
+
+
+/* ================= LOADING ================= */
+
+.loading{
+padding:30px;
+text-align:center;
+color:#94a3b8;
+font-size:13px
+}
+
+
+/* ================= BOTTOM NAV ================= */
 
 .bottom{
 position:fixed;
@@ -270,14 +453,20 @@ max-width:480px;
 margin:auto;
 display:flex;
 align-items:center;
-justify-content:space-around
+justify-content:space-around;
+
+/* بہت اہم:
+   بٹن Left → Right ترتیب میں */
+direction:ltr
 }
 
 .nav a{
 text-decoration:none;
 color:#94a3b8;
 font-size:9px;
-text-align:center
+text-align:center;
+direction:ltr;
+min-width:45px
 }
 
 .nav i{
@@ -287,90 +476,212 @@ font-size:20px;
 margin-bottom:3px
 }
 
-.nav .active{color:#fff}
+.nav .active{
+color:#fff
+}
+
+.nav .active i{
+filter:drop-shadow(0 0 6px #fff5)
+}
+
+
+/* ================= MOBILE ================= */
 
 @media(max-width:360px){
-.detailGrid{grid-template-columns:1fr}
+
+.detailGrid{
+grid-template-columns:1fr
+}
+
+.nav a{
+font-size:8px;
+min-width:40px
+}
+
+.nav i{
+font-size:18px
+}
+
 }
 </style>
 </head>
 
+
 <body>
 
+
 <div class="app">
+
+
+<!-- ================= TOP ================= -->
 
 <div class="top">
 
 <a href="index.html" class="back">←</a>
 
 <div class="title">
+
 <h1>👥 Customers</h1>
-<p>آپ کے محفوظ کسٹمرز</p>
-</div>
 
-<a href="new-user.html" class="addBtn">+</a>
+<p>آپ کے مستقل محفوظ کسٹمرز</p>
 
 </div>
+
+<!-- PLUS اور نیچے Add Customer ایک ہی کام کرتے ہیں -->
+
+<a href="new-user.html"
+class="addBtn"
+title="Add New Customer">+</a>
+
+</div>
+
+
+<!-- ================= SEARCH ================= -->
 
 <input
 id="search"
 class="search"
+type="search"
 placeholder="🔍 نام، موبائل نمبر یا Account No. تلاش کریں"
+autocomplete="off"
 >
+
+
+<!-- ================= STATS ================= -->
 
 <div class="stats">
 
 <div class="stat">
+
 <b id="total">0</b>
+
 <span>Total Customers</span>
+
 </div>
+
 
 <div class="stat">
+
 <b id="shown">0</b>
+
 <span>Showing</span>
+
 </div>
 
 </div>
+
+
+<!-- ================= ADD BUTTON ================= -->
 
 <button
 class="addCustomer"
-onclick="location.href='new-user.html'">
+id="addCustomerBtn">
+
 ➕ Add New Customer
+
 </button>
+
 
 <div id="msg" class="msg"></div>
 
-<div id="list"></div>
+
+<!-- ================= CUSTOMER LIST ================= -->
+
+<div id="list">
+
+<div class="loading">
+⏳ Customers لوڈ ہو رہے ہیں...
+</div>
 
 </div>
 
+
+</div>
+
+
+<!-- ================= DELETE MODAL ================= -->
+
+<div id="deleteModal" class="modal">
+
+<div class="modalBox">
+
+<div class="modalIcon">
+🗑️
+</div>
+
+<h3>
+Customer Delete کریں؟
+</h3>
+
+<p id="deleteText">
+کیا آپ واقعی اس Customer کو مستقل طور پر Delete کرنا چاہتے ہیں؟
+</p>
+
+<div class="modalActions">
+
+<button
+id="cancelDelete"
+class="cancelBtn">
+Cancel
+</button>
+
+<button
+id="confirmDelete"
+class="confirmDelete">
+Delete
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= BOTTOM NAV ================= -->
 
 <div class="bottom">
 
 <div class="nav">
 
+<!-- LEFT -->
+
 <a href="index.html">
-<i>🏠</i>Home
+<i>🏠</i>
+Home
 </a>
+
 
 <a href="add-order.html">
-<i>➕</i>Add Order
+<i>➕</i>
+Add Order
 </a>
 
-<a href="customers.html" class="active">
-<i>👥</i>Customers
+
+<a href="customers.html"
+class="active">
+<i>👥</i>
+Customers
 </a>
+
 
 <a href="new-users.html">
-<i>🆕</i>New Users
+<i>🆕</i>
+New Users
 </a>
+
 
 <a href="history.html">
-<i>📋</i>History
+<i>📋</i>
+History
 </a>
 
+
+<!-- RIGHT -->
+
 <a href="menu.html">
-<i>☰</i>Menu
+<i>☰</i>
+Menu
 </a>
 
 </div>
@@ -380,47 +691,82 @@ onclick="location.href='new-user.html'">
 
 <script type="module">
 
+/* ================= FIREBASE ================= */
+
 import{
 initializeApp
-}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
 
 import{
 getAuth,
 onAuthStateChanged
-}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
 
 import{
 getFirestore,
 collection,
-getDocs
-}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+getDocs,
+deleteDoc,
+doc
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 
 const firebaseConfig={
+
 apiKey:"AIzaSyDsoWnSGzzt3BRuL5fIhq7dfg2fqyibM1U",
+
 authDomain:"tailor-web-f1f1c.firebaseapp.com",
+
 projectId:"tailor-web-f1f1c",
+
 storageBucket:"tailor-web-f1f1c.firebasestorage.app",
+
 messagingSenderId:"129811668871",
+
 appId:"1:129811668871:web:586357e9e696a9652ffd22"
+
 };
 
 
 const app=initializeApp(firebaseConfig);
+
 const auth=getAuth(app);
+
 const db=getFirestore(app);
 
+
+/* ================= VARIABLES ================= */
+
 let currentUser=null;
+
 let customers=[];
+
+let customerToDelete=null;
+
+
+/* ================= HELPER ================= */
 
 const $=id=>document.getElementById(id);
 
 
+/* ================= LOGIN ================= */
+
 onAuthStateChanged(auth,async user=>{
 
 if(!user){
+
 location.replace("login.html");
+
 return;
+
 }
 
 currentUser=user;
@@ -429,6 +775,8 @@ await loadCustomers();
 
 });
 
+
+/* ================= LOAD CUSTOMERS ================= */
 
 async function loadCustomers(){
 
@@ -441,35 +789,53 @@ currentUser.uid,
 "customers"
 );
 
+
 const snap=await getDocs(ref);
+
 
 customers=[];
 
-snap.forEach(doc=>{
+
+snap.forEach(docSnap=>{
 
 customers.push({
-id:doc.id,
-...doc.data()
-});
+
+id:docSnap.id,
+
+...docSnap.data()
 
 });
 
+});
+
+
+/*
+اگر Account No. موجود ہے تو اس کے حساب سے
+چھوٹے نمبر سے بڑے نمبر تک ترتیب ہوگی۔
+*/
 
 customers.sort((a,b)=>{
 
-return Number(a.accountNo||0)-
-Number(b.accountNo||0);
+const aNo=Number(a.accountNo||0);
+
+const bNo=Number(b.accountNo||0);
+
+return aNo-bNo;
 
 });
 
 
 $("total").textContent=customers.length;
 
+
 render(customers);
+
 
 }catch(error){
 
 console.error(error);
+
+$("list").innerHTML="";
 
 $("msg").textContent=
 "❌ Customers لوڈ نہیں ہو سکے: "+
@@ -480,19 +846,35 @@ error.message;
 }
 
 
+/* ================= RENDER ================= */
+
 function render(data){
 
 const list=$("list");
 
+
 $("shown").textContent=data.length;
+
 
 if(!data.length){
 
 list.innerHTML=`
+
 <div class="empty">
+
 <strong>👥 کوئی Customer نہیں</strong>
+
 ابھی تک کوئی Customer محفوظ نہیں کیا گیا۔
-</div>`;
+
+<br><br>
+
+اوپر + یا نیچے والے
+<strong>Add New Customer</strong>
+بٹن سے Customer محفوظ کریں۔
+
+</div>
+
+`;
 
 return;
 
@@ -501,7 +883,9 @@ return;
 
 list.innerHTML="";
 
+
 data.forEach(customer=>{
+
 
 const card=document.createElement("div");
 
@@ -513,143 +897,330 @@ const m=customer.measurements||{};
 const d=customer.designs||{};
 
 
+/* ================= DESIGNS ================= */
+
 const designs=[];
 
+
 const names={
+
 twoPiece:"ٹو پیس",
+
 band:"بین",
+
 roundDaman:"گول دامن",
+
 squareDaman:"چورس دامن",
+
 bothSides:"دوبغل",
+
 front:"سامنے",
+
 shalwarPocket:"شلوار جیب",
+
 tilaGoot:"تیلا گوٹ",
+
 fitCuff:"فیٹ کف",
+
 simpleSleeve:"سادہ آستین",
+
 cuffed:"کف دار"
+
 };
 
 
 Object.keys(names).forEach(key=>{
 
-if(d[key])designs.push(names[key]);
+if(d[key]){
+
+designs.push(names[key]);
+
+}
 
 });
 
 
+/* ================= AVATAR ================= */
+
 let avatar="👤";
+
 
 if(customer.photo){
 
-avatar=
-`<img src="${customer.photo}" alt="Customer">`;
+avatar=`
+
+<img
+src="${escapeHtml(customer.photo)}"
+alt="Customer"
+onerror="this.style.display='none';this.parentElement.textContent='👤';"
+>
+
+`;
 
 }
 
+
+/* ================= CARD ================= */
 
 card.innerHTML=`
 
 <div class="row">
 
+
 <div class="avatar">
+
 ${avatar}
+
 </div>
+
 
 <div class="info">
 
+
 <div class="name">
+
 ${escapeHtml(customer.name||"نام نہیں")}
+
 </div>
+
 
 <div class="meta">
-📱 ${escapeHtml(customer.phone||"")}<br>
-📍 ${escapeHtml(customer.address||"")}
-</div>
+
+📱 ${escapeHtml(customer.phone||"فون نمبر نہیں")}
+
+<br>
+
+📍 ${escapeHtml(customer.address||"پتہ نہیں")}
 
 </div>
+
+
+</div>
+
 
 <div class="number">
-#${customer.accountNo||"-"}
-</div>
+
+#${escapeHtml(customer.accountNo||"-")}
 
 </div>
 
+
+</div>
+
+
+<!-- ================= DETAILS ================= -->
 
 <div class="details">
 
+
 <div class="detailTitle">
+
 📋 Customer Details
+
 </div>
+
 
 <div class="detailGrid">
 
+
 <div class="detail">
+
 <b>نام</b>
+
 ${escapeHtml(customer.name||"-")}
+
 </div>
 
+
 <div class="detail">
+
 <b>فون</b>
+
 ${escapeHtml(customer.phone||"-")}
+
 </div>
 
+
 <div class="detail">
-<b>علاقہ</b>
+
+<b>علاقہ / پتہ</b>
+
 ${escapeHtml(customer.address||"-")}
+
 </div>
+
 
 <div class="detail">
+
 <b>Account No.</b>
-${customer.accountNo||"-"}
-</div>
+
+${escapeHtml(customer.accountNo||"-")}
 
 </div>
 
+
+</div>
+
+
+<!-- ================= MEASUREMENTS ================= -->
 
 <div class="detailTitle">
+
 📏 ناپ
+
 </div>
+
 
 <div class="detailGrid">
 
 ${measurement("لمبائی",m.length)}
+
 ${measurement("تیرا",m.tera)}
+
 ${measurement("آستین",m.sleeve)}
+
 ${measurement("گلہ",m.neck)}
+
 ${measurement("چھاتی",m.chest)}
+
 ${measurement("کمر",m.waist)}
+
 ${measurement("دامن",m.daman)}
+
 ${measurement("شلوار لمبائی",m.shalwarLength)}
+
 ${measurement("پانچہ",m.pancha)}
 
 </div>
 
 
+<!-- ================= DESIGNS ================= -->
+
 <div class="detailTitle">
+
 ✂️ مستقل ڈیزائن
+
 </div>
+
 
 <div class="designs">
 
 ${
 designs.length
-?designs.map(x=>`
-<span class="design">${x}</span>
+
+?
+
+designs.map(x=>`
+
+<span class="design">
+${escapeHtml(x)}
+</span>
+
 `).join("")
-:`<span class="noDesign">کوئی ڈیزائن محفوظ نہیں</span>`
+
+:
+
+`<span class="noDesign">
+کوئی مستقل ڈیزائن محفوظ نہیں
+</span>`
+
 }
 
 </div>
 
+
+<!-- ================= ACTIONS ================= -->
+
+<div class="actions">
+
+
+<button
+class="actionBtn editBtn"
+data-action="edit">
+
+✏️ Edit
+
+</button>
+
+
+<button
+class="actionBtn deleteBtn"
+data-action="delete">
+
+🗑️ Delete
+
+</button>
+
+
 </div>
+
+
+</div>
+
 `;
 
 
-card.onclick=()=>{
+/* ================= CARD CLICK ================= */
+
+card.addEventListener("click",event=>{
+
+/*
+اگر Edit یا Delete بٹن پر کلک ہوا ہے
+تو Card کو open/close نہیں کرنا۔
+*/
+
+if(
+event.target.closest("[data-action]")
+){
+
+return;
+
+}
 
 card.classList.toggle("open");
 
-};
+});
+
+
+/* ================= EDIT ================= */
+
+card.querySelector('[data-action="edit"]')
+.addEventListener("click",event=>{
+
+event.stopPropagation();
+
+
+/*
+Customer ID URL میں بھیج رہے ہیں۔
+new-user.html بعد میں اسی ID کو استعمال
+کر کے Customer Update کرے گا۔
+*/
+
+location.href=
+"new-user.html?edit="+
+encodeURIComponent(customer.id);
+
+});
+
+
+/* ================= DELETE ================= */
+
+card.querySelector('[data-action="delete"]')
+.addEventListener("click",event=>{
+
+event.stopPropagation();
+
+
+customerToDelete=customer;
+
+
+$("deleteText").textContent=
+`کیا آپ "${customer.name||"اس Customer"}" کو مستقل طور پر Delete کرنا چاہتے ہیں؟`;
+
+
+$("deleteModal").classList.add("show");
+
+});
 
 
 list.appendChild(card);
@@ -659,40 +1230,61 @@ list.appendChild(card);
 }
 
 
+/* ================= MEASUREMENT ================= */
+
 function measurement(name,value){
 
 return`
+
 <div class="detail">
+
 <b>${name}</b>
+
 ${escapeHtml(value||"-")}
+
 </div>
+
 `;
 
 }
 
 
+/* ================= ESCAPE HTML ================= */
+
 function escapeHtml(value){
 
 return String(value)
+
 .replaceAll("&","&amp;")
+
 .replaceAll("<","&lt;")
+
 .replaceAll(">","&gt;")
+
 .replaceAll('"',"&quot;")
+
 .replaceAll("'","&#039;");
 
 }
 
 
-$("search").addEventListener("input",()=>{
+/* ================= SEARCH ================= */
+
+$("search").addEventListener(
+"input",
+()=>{
+
 
 const q=$("search")
 .value
 .trim()
 .toLowerCase();
 
+
 if(!q){
 
 render(customers);
+
 return;
 
 }
@@ -700,23 +1292,29 @@ return;
 
 const result=customers.filter(c=>{
 
+
 return(
 
 String(c.name||"")
 .toLowerCase()
 .includes(q)
 
+
 ||
+
 
 String(c.phone||"")
 .toLowerCase()
 .includes(q)
 
+
 ||
+
 
 String(c.accountNo||"")
 .toLowerCase()
 .includes(q)
+
 
 );
 
@@ -724,6 +1322,126 @@ String(c.accountNo||"")
 
 
 render(result);
+
+});
+
+
+/* ================= ADD CUSTOMER ================= */
+
+$("addCustomerBtn").addEventListener(
+"click",
+()=>{
+
+location.href="new-user.html";
+
+});
+
+
+/* ================= CANCEL DELETE ================= */
+
+$("cancelDelete").addEventListener(
+"click",
+()=>{
+
+customerToDelete=null;
+
+$("deleteModal")
+.classList.remove("show");
+
+});
+
+
+/* ================= CONFIRM DELETE ================= */
+
+$("confirmDelete").addEventListener(
+"click",
+async()=>{
+
+
+if(!customerToDelete){
+
+return;
+
+}
+
+
+const btn=$("confirmDelete");
+
+
+btn.disabled=true;
+
+btn.textContent="Deleting...";
+
+
+try{
+
+
+await deleteDoc(
+
+doc(
+db,
+"users",
+currentUser.uid,
+"customers",
+customerToDelete.id
+)
+
+);
+
+
+$("msg").textContent=
+"✅ Customer Delete ہوگیا۔";
+
+
+$("deleteModal")
+.classList.remove("show");
+
+
+customerToDelete=null;
+
+
+await loadCustomers();
+
+
+}catch(error){
+
+console.error(error);
+
+
+$("msg").textContent=
+"❌ Delete نہیں ہو سکا: "+
+error.message;
+
+
+$("deleteModal")
+.classList.remove("show");
+
+
+}finally{
+
+btn.disabled=false;
+
+btn.textContent="Delete";
+
+}
+
+});
+
+
+/* ================= CLOSE MODAL ================= */
+
+$("deleteModal").addEventListener(
+"click",
+event=>{
+
+if(event.target.id==="deleteModal"){
+
+customerToDelete=null;
+
+$("deleteModal")
+.classList.remove("show");
+
+}
 
 });
 
