@@ -13,19 +13,27 @@ padding:0;
 -webkit-tap-highlight-color:transparent
 }
 
+html{
+scroll-behavior:smooth
+}
+
 body{
 font-family:Arial,sans-serif;
 min-height:100vh;
 color:#fff;
 background:
-radial-gradient(circle at top left,#334155 0%,transparent 35%),
-radial-gradient(circle at bottom right,#312e81 0%,transparent 40%),
-linear-gradient(145deg,#020617,#0f172a);
-padding:16px 16px 100px
+radial-gradient(circle at 10% 0%,#3730a3 0%,transparent 30%),
+radial-gradient(circle at 100% 100%,#164e63 0%,transparent 32%),
+linear-gradient(145deg,#020617,#0f172a 55%,#111827);
+padding:16px 16px 105px
 }
 
 button,input{
 font-family:inherit
+}
+
+button{
+-webkit-appearance:none
 }
 
 .app{
@@ -47,22 +55,31 @@ margin-bottom:18px
 .addBtn{
 width:46px;
 height:46px;
+min-width:46px;
 border-radius:15px;
 display:flex;
 align-items:center;
 justify-content:center;
-background:#ffffff12;
+background:#ffffff10;
 border:1px solid #ffffff20;
 color:#fff;
 text-decoration:none;
 font-size:21px;
-cursor:pointer
+cursor:pointer;
+transition:.2s;
+box-shadow:0 8px 22px #0003
+}
+
+.back:active,
+.addBtn:active{
+transform:scale(.92)
 }
 
 .addBtn{
 background:linear-gradient(135deg,#22c55e,#15803d);
 border:0;
-box-shadow:0 8px 20px #22c55e33
+box-shadow:0 8px 25px #22c55e33;
+font-size:26px
 }
 
 .title{
@@ -71,33 +88,53 @@ text-align:center
 }
 
 .title h1{
-font-size:22px
+font-size:22px;
+font-weight:800;
+letter-spacing:.2px
 }
 
 .title p{
 font-size:11px;
 color:#94a3b8;
-margin-top:4px
+margin-top:5px
 }
 
 
 /* ================= SEARCH ================= */
 
+.searchBox{
+position:relative;
+margin-bottom:15px
+}
+
+.searchIcon{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+font-size:18px;
+pointer-events:none;
+opacity:.8
+}
+
 .search{
 width:100%;
-padding:14px 16px;
-border-radius:16px;
+padding:14px 45px 14px 16px;
+border-radius:17px;
 border:1px solid #ffffff18;
-background:#ffffff0d;
+background:#ffffff0c;
 color:#fff;
 outline:none;
 font-size:14px;
-margin-bottom:16px
+backdrop-filter:blur(15px);
+box-shadow:0 10px 30px #0003
 }
 
 .search:focus{
-border-color:#6366f1;
-box-shadow:0 0 0 3px #6366f122
+border-color:#818cf8;
+box-shadow:
+0 0 0 3px #6366f122,
+0 12px 30px #0004
 }
 
 .search::placeholder{
@@ -110,21 +147,27 @@ color:#718096
 .stats{
 display:flex;
 gap:9px;
-margin-bottom:16px
+margin-bottom:15px
 }
 
 .stat{
 flex:1;
-padding:13px 8px;
-border-radius:17px;
+padding:14px 8px;
+border-radius:18px;
 text-align:center;
-background:#ffffff0b;
-border:1px solid #ffffff12
+background:linear-gradient(
+145deg,
+#ffffff0d,
+#ffffff05
+);
+border:1px solid #ffffff12;
+box-shadow:0 10px 25px #0003
 }
 
 .stat b{
 display:block;
-font-size:20px
+font-size:22px;
+margin-bottom:3px
 }
 
 .stat span{
@@ -139,14 +182,16 @@ color:#94a3b8
 width:100%;
 padding:15px;
 border:0;
-border-radius:16px;
-background:linear-gradient(135deg,#6366f1,#4338ca);
+border-radius:17px;
+background:
+linear-gradient(135deg,#6366f1,#4338ca);
 color:#fff;
 font-weight:bold;
 font-size:14px;
 margin-bottom:15px;
 cursor:pointer;
-box-shadow:0 8px 22px #6366f133
+box-shadow:0 10px 25px #6366f133;
+transition:.2s
 }
 
 .addCustomer:active{
@@ -168,19 +213,30 @@ margin:8px 0
 /* ================= EMPTY ================= */
 
 .empty{
-padding:35px 15px;
+padding:40px 18px;
 text-align:center;
-background:#ffffff09;
+background:#ffffff08;
 border:1px solid #ffffff12;
-border-radius:22px;
-color:#94a3b8
+border-radius:24px;
+color:#94a3b8;
+box-shadow:0 15px 35px #0003
+}
+
+.emptyIcon{
+font-size:42px;
+margin-bottom:12px
 }
 
 .empty strong{
 display:block;
-font-size:16px;
+font-size:17px;
 color:#fff;
-margin-bottom:7px
+margin-bottom:8px
+}
+
+.empty span{
+font-size:11px;
+line-height:1.8
 }
 
 
@@ -188,13 +244,25 @@ margin-bottom:7px
 
 .customer{
 padding:15px;
-margin-bottom:11px;
-border-radius:20px;
-background:#ffffff0b;
+margin-bottom:12px;
+border-radius:22px;
+background:
+linear-gradient(
+145deg,
+#ffffff0d,
+#ffffff05
+);
 border:1px solid #ffffff14;
-box-shadow:0 10px 25px #0004;
+box-shadow:
+0 12px 30px #0005,
+inset 0 1px #ffffff08;
 cursor:pointer;
-transition:.2s
+transition:.2s;
+overflow:hidden
+}
+
+.customer:hover{
+border-color:#818cf855
 }
 
 .customer:active{
@@ -211,17 +279,20 @@ gap:12px
 }
 
 .avatar{
-width:52px;
-height:52px;
-min-width:52px;
-border-radius:50%;
+width:55px;
+height:55px;
+min-width:55px;
+border-radius:18px;
 object-fit:cover;
 display:flex;
 align-items:center;
 justify-content:center;
-background:linear-gradient(135deg,#6366f1,#4338ca);
-font-size:22px;
-overflow:hidden
+background:
+linear-gradient(135deg,#6366f1,#4338ca);
+font-size:23px;
+overflow:hidden;
+box-shadow:0 7px 18px #0004;
+border:1px solid #ffffff18
 }
 
 .avatar img{
@@ -236,24 +307,46 @@ min-width:0
 }
 
 .name{
-font-weight:bold;
+font-weight:800;
 font-size:15px;
-margin-bottom:5px
+margin-bottom:5px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis
 }
 
 .meta{
 font-size:11px;
 color:#94a3b8;
-line-height:1.7
+line-height:1.8;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis
 }
 
 .number{
 font-size:10px;
-padding:5px 8px;
-border-radius:10px;
+padding:6px 9px;
+border-radius:11px;
 background:#6366f122;
+border:1px solid #818cf822;
 color:#c7d2fe;
 white-space:nowrap
+}
+
+
+/* ================= OPEN ARROW ================= */
+
+.openHint{
+margin-top:9px;
+text-align:center;
+font-size:10px;
+color:#64748b;
+transition:.2s
+}
+
+.customer.open .openHint{
+color:#a5b4fc
 }
 
 
@@ -271,29 +364,84 @@ display:block
 }
 
 .detailTitle{
+display:flex;
+align-items:center;
+gap:7px;
 font-size:13px;
-font-weight:bold;
-margin:12px 0 8px
+font-weight:800;
+margin:15px 0 9px;
+color:#e2e8f0
 }
 
-.detailGrid{
-display:grid;
-grid-template-columns:1fr 1fr;
+.detailTitle:first-child{
+margin-top:0
+}
+
+
+/* ================= BASIC INFO ================= */
+
+.basicInfo{
+display:flex;
+flex-direction:column;
 gap:7px
 }
 
 .detail{
-padding:9px;
-border-radius:11px;
+padding:11px 12px;
+border-radius:13px;
 background:#0003;
+border:1px solid #ffffff08;
 font-size:11px;
-color:#cbd5e1
+color:#cbd5e1;
+line-height:1.7
 }
 
 .detail b{
 display:block;
 color:#fff;
-margin-bottom:3px
+margin-bottom:2px;
+font-size:10px
+}
+
+
+/* ================= MEASUREMENTS ================= */
+
+/*
+ناپ اب مکمل اوپر سے نیچے
+ایک ہی column میں آئے گا۔
+*/
+
+.measurements{
+display:flex;
+flex-direction:column;
+gap:7px
+}
+
+.measurement{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:11px 13px;
+border-radius:13px;
+background:
+linear-gradient(90deg,#0003,#ffffff06);
+border:1px solid #ffffff08;
+font-size:12px
+}
+
+.measurementName{
+color:#cbd5e1
+}
+
+.measurementValue{
+font-weight:bold;
+color:#fff;
+background:#6366f122;
+border:1px solid #818cf822;
+padding:4px 9px;
+border-radius:8px;
+min-width:45px;
+text-align:center
 }
 
 
@@ -302,50 +450,56 @@ margin-bottom:3px
 .designs{
 display:flex;
 flex-wrap:wrap;
-gap:6px
+gap:7px
 }
 
 .design{
-padding:7px 9px;
-border-radius:10px;
-background:#6366f122;
+padding:8px 10px;
+border-radius:11px;
+background:
+linear-gradient(135deg,#6366f122,#4338ca22);
+border:1px solid #818cf822;
 color:#c7d2fe;
 font-size:10px
 }
 
 .noDesign{
 color:#64748b;
-font-size:11px
+font-size:11px;
+padding:7px 0
 }
 
 
-/* ================= EDIT DELETE ================= */
+/* ================= ACTIONS ================= */
 
 .actions{
 display:flex;
-gap:8px;
-margin-top:15px;
-padding-top:13px;
+gap:9px;
+margin-top:16px;
+padding-top:14px;
 border-top:1px solid #ffffff12
 }
 
 .actionBtn{
 flex:1;
 border:0;
-border-radius:12px;
-padding:11px 8px;
+border-radius:13px;
+padding:12px 8px;
 font-size:12px;
 font-weight:bold;
 cursor:pointer;
-color:#fff
+color:#fff;
+transition:.2s
 }
 
 .editBtn{
-background:linear-gradient(135deg,#3b82f6,#1d4ed8)
+background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+box-shadow:0 7px 18px #2563eb33
 }
 
 .deleteBtn{
-background:linear-gradient(135deg,#ef4444,#b91c1c)
+background:linear-gradient(135deg,#ef4444,#b91c1c);
+box-shadow:0 7px 18px #dc262633
 }
 
 .actionBtn:active{
@@ -358,13 +512,13 @@ transform:scale(.96)
 .modal{
 position:fixed;
 inset:0;
-background:#0009;
+background:#000b;
 display:none;
 align-items:center;
 justify-content:center;
 padding:20px;
 z-index:9999;
-backdrop-filter:blur(8px)
+backdrop-filter:blur(9px)
 }
 
 .modal.show{
@@ -374,16 +528,17 @@ display:flex
 .modalBox{
 width:100%;
 max-width:380px;
-background:#111827;
+background:
+linear-gradient(145deg,#1e293b,#0f172a);
 border:1px solid #ffffff18;
-border-radius:22px;
-padding:22px;
+border-radius:24px;
+padding:23px;
 text-align:center;
-box-shadow:0 25px 70px #0008
+box-shadow:0 25px 70px #0009
 }
 
 .modalIcon{
-font-size:42px;
+font-size:43px;
 margin-bottom:10px
 }
 
@@ -395,7 +550,7 @@ margin-bottom:8px
 .modalBox p{
 font-size:12px;
 color:#94a3b8;
-line-height:1.7;
+line-height:1.8;
 margin-bottom:18px
 }
 
@@ -426,7 +581,7 @@ background:#dc2626
 /* ================= LOADING ================= */
 
 .loading{
-padding:30px;
+padding:35px;
 text-align:center;
 color:#94a3b8;
 font-size:13px
@@ -441,9 +596,9 @@ left:0;
 right:0;
 bottom:0;
 height:75px;
-background:#020617f5;
+background:#020617f7;
 border-top:1px solid #ffffff15;
-backdrop-filter:blur(18px);
+backdrop-filter:blur(20px);
 z-index:99
 }
 
@@ -455,8 +610,7 @@ display:flex;
 align-items:center;
 justify-content:space-around;
 
-/* بہت اہم:
-   بٹن Left → Right ترتیب میں */
+/* Left → Right */
 direction:ltr
 }
 
@@ -466,7 +620,12 @@ color:#94a3b8;
 font-size:9px;
 text-align:center;
 direction:ltr;
-min-width:45px
+min-width:45px;
+transition:.2s
+}
+
+.nav a:active{
+transform:scale(.9)
 }
 
 .nav i{
@@ -485,13 +644,9 @@ filter:drop-shadow(0 0 6px #fff5)
 }
 
 
-/* ================= MOBILE ================= */
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:360px){
-
-.detailGrid{
-grid-template-columns:1fr
-}
 
 .nav a{
 font-size:8px;
@@ -527,24 +682,31 @@ font-size:18px
 
 </div>
 
-<!-- PLUS اور نیچے Add Customer ایک ہی کام کرتے ہیں -->
-
-<a href="new-user.html"
+<a
+href="new-user.html"
 class="addBtn"
-title="Add New Customer">+</a>
+title="Add New Customer">
++
+</a>
 
 </div>
 
 
 <!-- ================= SEARCH ================= -->
 
+<div class="searchBox">
+
+<span class="searchIcon">🔍</span>
+
 <input
 id="search"
 class="search"
 type="search"
-placeholder="🔍 نام، موبائل نمبر یا Account No. تلاش کریں"
+placeholder="نام، موبائل نمبر یا Account No. تلاش کریں"
 autocomplete="off"
 >
+
+</div>
 
 
 <!-- ================= STATS ================= -->
@@ -571,13 +733,13 @@ autocomplete="off"
 </div>
 
 
-<!-- ================= ADD BUTTON ================= -->
+<!-- ================= ADD CUSTOMER ================= -->
 
 <button
 class="addCustomer"
 id="addCustomerBtn">
 
-➕ Add New Customer
+➕ نیا مستقل Customer محفوظ کریں
 
 </button>
 
@@ -644,40 +806,32 @@ Delete
 
 <div class="nav">
 
-<!-- LEFT -->
-
 <a href="index.html">
 <i>🏠</i>
 Home
 </a>
-
 
 <a href="add-order.html">
 <i>➕</i>
 Add Order
 </a>
 
-
-<a href="customers.html"
+<a
+href="customers.html"
 class="active">
 <i>👥</i>
 Customers
 </a>
-
 
 <a href="new-users.html">
 <i>🆕</i>
 New Users
 </a>
 
-
 <a href="history.html">
 <i>📋</i>
 History
 </a>
-
-
-<!-- RIGHT -->
 
 <a href="menu.html">
 <i>☰</i>
@@ -690,6 +844,7 @@ Menu
 
 
 <script type="module">
+
 
 /* ================= FIREBASE ================= */
 
@@ -718,6 +873,8 @@ doc
 from
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+
+/* ================= FIREBASE CONFIG ================= */
 
 const firebaseConfig={
 
@@ -789,12 +946,9 @@ currentUser.uid,
 "customers"
 );
 
-
 const snap=await getDocs(ref);
 
-
 customers=[];
-
 
 snap.forEach(docSnap=>{
 
@@ -810,8 +964,7 @@ id:docSnap.id,
 
 
 /*
-اگر Account No. موجود ہے تو اس کے حساب سے
-چھوٹے نمبر سے بڑے نمبر تک ترتیب ہوگی۔
+Account Number کے حساب سے ترتیب۔
 */
 
 customers.sort((a,b)=>{
@@ -826,7 +979,6 @@ return aNo-bNo;
 
 
 $("total").textContent=customers.length;
-
 
 render(customers);
 
@@ -852,7 +1004,6 @@ function render(data){
 
 const list=$("list");
 
-
 $("shown").textContent=data.length;
 
 
@@ -862,15 +1013,18 @@ list.innerHTML=`
 
 <div class="empty">
 
-<strong>👥 کوئی Customer نہیں</strong>
+<div class="emptyIcon">
+👥
+</div>
 
-ابھی تک کوئی Customer محفوظ نہیں کیا گیا۔
+<strong>
+کوئی Customer موجود نہیں
+</strong>
 
-<br><br>
-
-اوپر + یا نیچے والے
-<strong>Add New Customer</strong>
-بٹن سے Customer محفوظ کریں۔
+<span>
+ابھی تک کوئی مستقل Customer محفوظ نہیں کیا گیا۔<br>
+اوپر + یا نیچے والے بٹن سے نیا Customer محفوظ کریں۔
+</span>
 
 </div>
 
@@ -886,7 +1040,6 @@ list.innerHTML="";
 
 data.forEach(customer=>{
 
-
 const card=document.createElement("div");
 
 card.className="customer";
@@ -900,7 +1053,6 @@ const d=customer.designs||{};
 /* ================= DESIGNS ================= */
 
 const designs=[];
-
 
 const names={
 
@@ -966,7 +1118,6 @@ card.innerHTML=`
 
 <div class="row">
 
-
 <div class="avatar">
 
 ${avatar}
@@ -976,13 +1127,11 @@ ${avatar}
 
 <div class="info">
 
-
 <div class="name">
 
 ${escapeHtml(customer.name||"نام نہیں")}
 
 </div>
-
 
 <div class="meta">
 
@@ -994,7 +1143,6 @@ ${escapeHtml(customer.name||"نام نہیں")}
 
 </div>
 
-
 </div>
 
 
@@ -1004,74 +1152,55 @@ ${escapeHtml(customer.name||"نام نہیں")}
 
 </div>
 
-
 </div>
 
 
-<!-- ================= DETAILS ================= -->
+<div class="openHint">
+▼ تفصیل دیکھنے کے لیے کلک کریں
+</div>
+
 
 <div class="details">
 
 
+<!-- BASIC INFORMATION -->
+
 <div class="detailTitle">
-
-📋 Customer Details
-
+👤 کسٹمر کی معلومات
 </div>
 
-
-<div class="detailGrid">
-
+<div class="basicInfo">
 
 <div class="detail">
-
 <b>نام</b>
-
 ${escapeHtml(customer.name||"-")}
-
 </div>
 
-
 <div class="detail">
-
-<b>فون</b>
-
+<b>فون نمبر</b>
 ${escapeHtml(customer.phone||"-")}
-
 </div>
 
-
 <div class="detail">
-
 <b>علاقہ / پتہ</b>
-
 ${escapeHtml(customer.address||"-")}
-
 </div>
-
 
 <div class="detail">
-
 <b>Account No.</b>
-
 ${escapeHtml(customer.accountNo||"-")}
+</div>
 
 </div>
 
 
-</div>
-
-
-<!-- ================= MEASUREMENTS ================= -->
+<!-- MEASUREMENTS -->
 
 <div class="detailTitle">
-
-📏 ناپ
-
+📏 مکمل ناپ
 </div>
 
-
-<div class="detailGrid">
+<div class="measurements">
 
 ${measurement("لمبائی",m.length)}
 
@@ -1087,21 +1216,18 @@ ${measurement("کمر",m.waist)}
 
 ${measurement("دامن",m.daman)}
 
-${measurement("شلوار لمبائی",m.shalwarLength)}
+${measurement("شلوار لمبائی مکمل",m.shalwarLength)}
 
 ${measurement("پانچہ",m.pancha)}
 
 </div>
 
 
-<!-- ================= DESIGNS ================= -->
+<!-- DESIGNS -->
 
 <div class="detailTitle">
-
-✂️ مستقل ڈیزائن
-
+✂️ مستقل ڈیزائن / پسند
 </div>
-
 
 <div class="designs">
 
@@ -1113,7 +1239,7 @@ designs.length
 designs.map(x=>`
 
 <span class="design">
-${escapeHtml(x)}
+✓ ${escapeHtml(x)}
 </span>
 
 `).join("")
@@ -1129,28 +1255,22 @@ ${escapeHtml(x)}
 </div>
 
 
-<!-- ================= ACTIONS ================= -->
+<!-- ACTIONS -->
 
 <div class="actions">
-
 
 <button
 class="actionBtn editBtn"
 data-action="edit">
-
-✏️ Edit
-
+✏️ Edit Customer
 </button>
 
 
 <button
 class="actionBtn deleteBtn"
 data-action="delete">
-
 🗑️ Delete
-
 </button>
-
 
 </div>
 
@@ -1160,18 +1280,11 @@ data-action="delete">
 `;
 
 
-/* ================= CARD CLICK ================= */
+/* ================= CARD OPEN / CLOSE ================= */
 
 card.addEventListener("click",event=>{
 
-/*
-اگر Edit یا Delete بٹن پر کلک ہوا ہے
-تو Card کو open/close نہیں کرنا۔
-*/
-
-if(
-event.target.closest("[data-action]")
-){
+if(event.target.closest("[data-action]")){
 
 return;
 
@@ -1179,21 +1292,36 @@ return;
 
 card.classList.toggle("open");
 
+const hint=card.querySelector(".openHint");
+
+if(card.classList.contains("open")){
+
+hint.textContent="▲ تفصیل بند کریں";
+
+}else{
+
+hint.textContent="▼ تفصیل دیکھنے کے لیے کلک کریں";
+
+}
+
 });
 
 
 /* ================= EDIT ================= */
 
-card.querySelector('[data-action="edit"]')
+card
+.querySelector('[data-action="edit"]')
 .addEventListener("click",event=>{
 
 event.stopPropagation();
 
 
 /*
-Customer ID URL میں بھیج رہے ہیں۔
-new-user.html بعد میں اسی ID کو استعمال
-کر کے Customer Update کرے گا۔
+موجودہ Customer کی Firestore ID
+new-user.html کو بھیجی جا رہی ہے۔
+
+new-user.html اس ID کو استعمال کر کے
+اسی Customer کو UPDATE کرے گا۔
 */
 
 location.href=
@@ -1205,7 +1333,8 @@ encodeURIComponent(customer.id);
 
 /* ================= DELETE ================= */
 
-card.querySelector('[data-action="delete"]')
+card
+.querySelector('[data-action="delete"]')
 .addEventListener("click",event=>{
 
 event.stopPropagation();
@@ -1218,7 +1347,8 @@ $("deleteText").textContent=
 `کیا آپ "${customer.name||"اس Customer"}" کو مستقل طور پر Delete کرنا چاہتے ہیں؟`;
 
 
-$("deleteModal").classList.add("show");
+$("deleteModal")
+.classList.add("show");
 
 });
 
@@ -1236,11 +1366,15 @@ function measurement(name,value){
 
 return`
 
-<div class="detail">
+<div class="measurement">
 
-<b>${name}</b>
+<span class="measurementName">
+${name}
+</span>
 
+<span class="measurementValue">
 ${escapeHtml(value||"-")}
+</span>
 
 </div>
 
@@ -1274,7 +1408,6 @@ $("search").addEventListener(
 "input",
 ()=>{
 
-
 const q=$("search")
 .value
 .trim()
@@ -1292,29 +1425,23 @@ return;
 
 const result=customers.filter(c=>{
 
-
 return(
 
 String(c.name||"")
 .toLowerCase()
 .includes(q)
 
-
 ||
-
 
 String(c.phone||"")
 .toLowerCase()
 .includes(q)
 
-
 ||
-
 
 String(c.accountNo||"")
 .toLowerCase()
 .includes(q)
-
 
 );
 
@@ -1357,7 +1484,6 @@ $("confirmDelete").addEventListener(
 "click",
 async()=>{
 
-
 if(!customerToDelete){
 
 return;
@@ -1367,14 +1493,12 @@ return;
 
 const btn=$("confirmDelete");
 
-
 btn.disabled=true;
 
 btn.textContent="Deleting...";
 
 
 try{
-
 
 await deleteDoc(
 
@@ -1390,7 +1514,7 @@ customerToDelete.id
 
 
 $("msg").textContent=
-"✅ Customer Delete ہوگیا۔";
+"✅ Customer کامیابی سے Delete ہوگیا۔";
 
 
 $("deleteModal")
@@ -1448,4 +1572,4 @@ $("deleteModal")
 </script>
 
 </body>
-</html>
+   </html>
