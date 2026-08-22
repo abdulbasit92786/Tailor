@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Customers - Tailor Manager</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+min-height:100vh;
+color:#fff;
+background:
+radial-gradient(circle at top left,#334155 0%,transparent 35%),
+radial-gradient(circle at bottom right,#312e81 0%,transparent 40%),
+linear-gradient(145deg,#020617,#0f172a);
+padding:16px 16px 100px
+}
+
+.app{max-width:480px;margin:auto}
+
+.top{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:18px
+}
+
+.back,.addBtn{
+width:46px;
+height:46px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#ffffff12;
+border:1px solid #ffffff20;
+color:#fff;
+text-decoration:none;
+font-size:21px
+}
+
+.addBtn{
+background:linear-gradient(135deg,#22c55e,#15803d);
+border:0
+}
+
+.title{
+flex:1;
+text-align:center
+}
+
+.title h1{font-size:22px}
+.title p{
+font-size:11px;
+color:#94a3b8;
+margin-top:4px
+}
+
+.search{
+width:100%;
+padding:14px 16px;
+border-radius:16px;
+border:1px solid #ffffff18;
+background:#ffffff0d;
+color:#fff;
+outline:none;
+font-size:14px;
+margin-bottom:16px
+}
+
+.search::placeholder{color:#718096}
+
+.stats{
+display:flex;
+gap:9px;
+margin-bottom:16px
+}
+
+.stat{
+flex:1;
+padding:13px 8px;
+border-radius:17px;
+text-align:center;
+background:#ffffff0b;
+border:1px solid #ffffff12
+}
+
+.stat b{
+display:block;
+font-size:20px
+}
+
+.stat span{
+font-size:10px;
+color:#94a3b8
+}
+
+.empty{
+padding:35px 15px;
+text-align:center;
+background:#ffffff09;
+border:1px solid #ffffff12;
+border-radius:22px;
+color:#94a3b8
+}
+
+.empty strong{
+display:block;
+font-size:16px;
+color:#fff;
+margin-bottom:7px
+}
+
+.customer{
+padding:15px;
+margin-bottom:11px;
+border-radius:20px;
+background:#ffffff0b;
+border:1px solid #ffffff14;
+box-shadow:0 10px 25px #0004;
+cursor:pointer
+}
+
+.customer:active{transform:scale(.98)}
+
+.row{
+display:flex;
+align-items:center;
+gap:12px
+}
+
+.avatar{
+width:52px;
+height:52px;
+min-width:52px;
+border-radius:50%;
+object-fit:cover;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#6366f1,#4338ca);
+font-size:22px;
+overflow:hidden
+}
+
+.avatar img{
+width:100%;
+height:100%;
+object-fit:cover
+}
+
+.info{
+flex:1;
+min-width:0
+}
+
+.name{
+font-weight:bold;
+font-size:15px;
+margin-bottom:5px
+}
+
+.meta{
+font-size:11px;
+color:#94a3b8;
+line-height:1.7
+}
+
+.number{
+font-size:10px;
+padding:5px 8px;
+border-radius:10px;
+background:#6366f122;
+color:#c7d2fe
+}
+
+.details{
+display:none;
+margin-top:15px;
+padding-top:15px;
+border-top:1px solid #ffffff12
+}
+
+.customer.open .details{display:block}
+
+.detailTitle{
+font-size:13px;
+font-weight:bold;
+margin:12px 0 8px
+}
+
+.detailGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px
+}
+
+.detail{
+padding:9px;
+border-radius:11px;
+background:#0003;
+font-size:11px;
+color:#cbd5e1
+}
+
+.detail b{
+display:block;
+color:#fff;
+margin-bottom:3px
+}
+
+.designs{
+display:flex;
+flex-wrap:wrap;
+gap:6px
+}
+
+.design{
+padding:7px 9px;
+border-radius:10px;
+background:#6366f122;
+color:#c7d2fe;
+font-size:10px
+}
+
+.noDesign{
+color:#64748b;
+font-size:11px
+}
+
+.addCustomer{
+width:100%;
+padding:15px;
+border:0;
+border-radius:16px;
+background:linear-gradient(135deg,#6366f1,#4338ca);
+color:#fff;
+font-weight:bold;
+font-size:14px;
+margin-bottom:15px;
+cursor:pointer
+}
+
+.msg{
+text-align:center;
+font-size:12px;
+color:#a7f3d0;
+min-height:20px;
+margin:8px 0
+}
+
+.bottom{
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+height:75px;
+background:#020617f5;
+border-top:1px solid #ffffff15;
+backdrop-filter:blur(18px);
+z-index:99
+}
+
+.nav{
+height:100%;
+max-width:480px;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:space-around
+}
+
+.nav a{
+text-decoration:none;
+color:#94a3b8;
+font-size:9px;
+text-align:center
+}
+
+.nav i{
+display:block;
+font-style:normal;
+font-size:20px;
+margin-bottom:3px
+}
+
+.nav .active{color:#fff}
+
+@media(max-width:360px){
+.detailGrid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="top">
+
+<a href="index.html" class="back">←</a>
+
+<div class="title">
+<h1>👥 Customers</h1>
+<p>آپ کے محفوظ کسٹمرز</p>
+</div>
+
+<a href="new-user.html" class="addBtn">+</a>
+
+</div>
+
+<input
+id="search"
+class="search"
+placeholder="🔍 نام، موبائل نمبر یا Account No. تلاش کریں"
+>
+
+<div class="stats">
+
+<div class="stat">
+<b id="total">0</b>
+<span>Total Customers</span>
+</div>
+
+<div class="stat">
+<b id="shown">0</b>
+<span>Showing</span>
+</div>
+
+</div>
+
+<button
+class="addCustomer"
+onclick="location.href='new-user.html'">
+➕ Add New Customer
+</button>
+
+<div id="msg" class="msg"></div>
+
+<div id="list"></div>
+
+</div>
+
+
+<div class="bottom">
+
+<div class="nav">
+
+<a href="index.html">
+<i>🏠</i>Home
+</a>
+
+<a href="add-order.html">
+<i>➕</i>Add Order
+</a>
+
+<a href="customers.html" class="active">
+<i>👥</i>Customers
+</a>
+
+<a href="new-users.html">
+<i>🆕</i>New Users
+</a>
+
+<a href="history.html">
+<i>📋</i>History
+</a>
+
+<a href="menu.html">
+<i>☰</i>Menu
+</a>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import{
+initializeApp
+}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import{
+getAuth,
+onAuthStateChanged
+}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+import{
+getFirestore,
+collection,
+getDocs
+}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+const firebaseConfig={
+apiKey:"AIzaSyDsoWnSGzzt3BRuL5fIhq7dfg2fqyibM1U",
+authDomain:"tailor-web-f1f1c.firebaseapp.com",
+projectId:"tailor-web-f1f1c",
+storageBucket:"tailor-web-f1f1c.firebasestorage.app",
+messagingSenderId:"129811668871",
+appId:"1:129811668871:web:586357e9e696a9652ffd22"
+};
+
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+let currentUser=null;
+let customers=[];
+
+const $=id=>document.getElementById(id);
+
+
+onAuthStateChanged(auth,async user=>{
+
+if(!user){
+location.replace("login.html");
+return;
+}
+
+currentUser=user;
+
+await loadCustomers();
+
+});
+
+
+async function loadCustomers(){
+
+try{
+
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"customers"
+);
+
+const snap=await getDocs(ref);
+
+customers=[];
+
+snap.forEach(doc=>{
+
+customers.push({
+id:doc.id,
+...doc.data()
+});
+
+});
+
+
+customers.sort((a,b)=>{
+
+return Number(a.accountNo||0)-
+Number(b.accountNo||0);
+
+});
+
+
+$("total").textContent=customers.length;
+
+render(customers);
+
+}catch(error){
+
+console.error(error);
+
+$("msg").textContent=
+"❌ Customers لوڈ نہیں ہو سکے: "+
+error.message;
+
+}
+
+}
+
+
+function render(data){
+
+const list=$("list");
+
+$("shown").textContent=data.length;
+
+if(!data.length){
+
+list.innerHTML=`
+<div class="empty">
+<strong>👥 کوئی Customer نہیں</strong>
+ابھی تک کوئی Customer محفوظ نہیں کیا گیا۔
+</div>`;
+
+return;
+
+}
+
+
+list.innerHTML="";
+
+data.forEach(customer=>{
+
+const card=document.createElement("div");
+
+card.className="customer";
+
+
+const m=customer.measurements||{};
+
+const d=customer.designs||{};
+
+
+const designs=[];
+
+const names={
+twoPiece:"ٹو پیس",
+band:"بین",
+roundDaman:"گول دامن",
+squareDaman:"چورس دامن",
+bothSides:"دوبغل",
+front:"سامنے",
+shalwarPocket:"شلوار جیب",
+tilaGoot:"تیلا گوٹ",
+fitCuff:"فیٹ کف",
+simpleSleeve:"سادہ آستین",
+cuffed:"کف دار"
+};
+
+
+Object.keys(names).forEach(key=>{
+
+if(d[key])designs.push(names[key]);
+
+});
+
+
+let avatar="👤";
+
+if(customer.photo){
+
+avatar=
+`<img src="${customer.photo}" alt="Customer">`;
+
+}
+
+
+card.innerHTML=`
+
+<div class="row">
+
+<div class="avatar">
+${avatar}
+</div>
+
+<div class="info">
+
+<div class="name">
+${escapeHtml(customer.name||"نام نہیں")}
+</div>
+
+<div class="meta">
+📱 ${escapeHtml(customer.phone||"")}<br>
+📍 ${escapeHtml(customer.address||"")}
+</div>
+
+</div>
+
+<div class="number">
+#${customer.accountNo||"-"}
+</div>
+
+</div>
+
+
+<div class="details">
+
+<div class="detailTitle">
+📋 Customer Details
+</div>
+
+<div class="detailGrid">
+
+<div class="detail">
+<b>نام</b>
+${escapeHtml(customer.name||"-")}
+</div>
+
+<div class="detail">
+<b>فون</b>
+${escapeHtml(customer.phone||"-")}
+</div>
+
+<div class="detail">
+<b>علاقہ</b>
+${escapeHtml(customer.address||"-")}
+</div>
+
+<div class="detail">
+<b>Account No.</b>
+${customer.accountNo||"-"}
+</div>
+
+</div>
+
+
+<div class="detailTitle">
+📏 ناپ
+</div>
+
+<div class="detailGrid">
+
+${measurement("لمبائی",m.length)}
+${measurement("تیرا",m.tera)}
+${measurement("آستین",m.sleeve)}
+${measurement("گلہ",m.neck)}
+${measurement("چھاتی",m.chest)}
+${measurement("کمر",m.waist)}
+${measurement("دامن",m.daman)}
+${measurement("شلوار لمبائی",m.shalwarLength)}
+${measurement("پانچہ",m.pancha)}
+
+</div>
+
+
+<div class="detailTitle">
+✂️ مستقل ڈیزائن
+</div>
+
+<div class="designs">
+
+${
+designs.length
+?designs.map(x=>`
+<span class="design">${x}</span>
+`).join("")
+:`<span class="noDesign">کوئی ڈیزائن محفوظ نہیں</span>`
+}
+
+</div>
+
+</div>
+`;
+
+
+card.onclick=()=>{
+
+card.classList.toggle("open");
+
+};
+
+
+list.appendChild(card);
+
+});
+
+}
+
+
+function measurement(name,value){
+
+return`
+<div class="detail">
+<b>${name}</b>
+${escapeHtml(value||"-")}
+</div>
+`;
+
+}
+
+
+function escapeHtml(value){
+
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+$("search").addEventListener("input",()=>{
+
+const q=$("search")
+.value
+.trim()
+.toLowerCase();
+
+if(!q){
+
+render(customers);
+return;
+
+}
+
+
+const result=customers.filter(c=>{
+
+return(
+
+String(c.name||"")
+.toLowerCase()
+.includes(q)
+
+||
+
+String(c.phone||"")
+.toLowerCase()
+.includes(q)
+
+||
+
+String(c.accountNo||"")
+.toLowerCase()
+.includes(q)
+
+);
+
+});
+
+
+render(result);
+
+});
+
+</script>
+
+</body>
+</html>
