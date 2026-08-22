@@ -6,8 +6,12 @@
 <title>Tailor Manager - Add Order</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;
--webkit-tap-highlight-color:transparent}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+-webkit-tap-highlight-color:transparent
+}
 
 body{
 min-height:100vh;
@@ -20,7 +24,10 @@ color:#fff;
 padding-bottom:95px
 }
 
-a{text-decoration:none;color:inherit}
+a{
+text-decoration:none;
+color:inherit
+}
 
 .app{
 width:100%;
@@ -29,7 +36,7 @@ margin:auto;
 padding:16px
 }
 
-/* TOP */
+/* TOP BAR */
 .top-bar{
 display:flex;
 align-items:center;
@@ -49,6 +56,10 @@ border:1px solid #ffffff20;
 box-shadow:0 8px 25px #0005;
 backdrop-filter:blur(15px);
 font-size:22px
+}
+
+.top-button:active{
+transform:scale(.92)
 }
 
 .title-area{
@@ -268,15 +279,27 @@ top:2px
 }
 
 @media(max-width:360px){
-.app{padding:12px}
+
+.app{
+padding:12px
+}
+
 .card-icon{
 width:58px;
 height:58px;
 min-width:58px;
 font-size:28px
 }
-.card-text h3{font-size:16px}
-.nav-button{width:48px;font-size:8px}
+
+.card-text h3{
+font-size:16px
+}
+
+.nav-button{
+width:48px;
+font-size:8px
+}
+
 }
 </style>
 </head>
@@ -318,18 +341,20 @@ or a new customer.
 <!-- TWO OPTIONS -->
 <div class="options">
 
-<!-- OLD CUSTOMER -->
+<!-- OLD / REGULAR CUSTOMER -->
 <a href="old-customer.html" class="order-card old">
 
 <div class="card-icon">👤</div>
 
 <div class="card-text">
+
 <h3>Old / Regular Customer</h3>
 
 <p>
 Select a customer already saved in your
 Tailor Manager and create a new order.
 </p>
+
 </div>
 
 <div class="arrow">←</div>
@@ -343,12 +368,14 @@ Tailor Manager and create a new order.
 <div class="card-icon">🆕</div>
 
 <div class="card-text">
+
 <h3>New Customer</h3>
 
 <p>
 Add a new customer for the first time
 and create their order.
 </p>
+
 </div>
 
 <div class="arrow">←</div>
@@ -379,37 +406,67 @@ use New Customer.
 
 <div class="bottom-inner">
 
+<!-- 1 HOME -->
 <a href="index.html" class="nav-button">
+
 <div class="nav-icon">🏠</div>
+
 <span>Home</span>
+
 </a>
 
+
+<!-- 2 ADD ORDER -->
 <a href="add-order.html" class="nav-button add-order active">
+
 <div class="nav-icon">+</div>
+
 <span>Add Order</span>
+
 </a>
 
+
+<!-- 3 CUSTOMERS -->
 <a href="customers.html" class="nav-button">
+
 <div class="nav-icon">👥</div>
+
 <span>Customers</span>
+
 </a>
 
+
+<!-- 4 NEW USERS -->
 <a href="new-users.html" class="nav-button">
+
 <div class="nav-icon">🆕</div>
+
 <span>New Users</span>
+
 </a>
 
+
+<!-- 5 HISTORY -->
 <a href="history.html" class="nav-button">
+
 <div class="nav-icon">📋</div>
+
 <span>History</span>
+
 </a>
 
+
+<!-- 6 MENU -->
 <a href="menu.html" class="nav-button">
+
 <div class="nav-icon">☰</div>
+
 <span>Menu</span>
+
 </a>
 
 </div>
+
 </div>
 
 </body>
