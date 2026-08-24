@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>New Users - Tailor Manager</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+min-height:100vh;
+color:#fff;
+background:
+radial-gradient(circle at top left,#334155 0%,transparent 35%),
+radial-gradient(circle at bottom right,#312e81 0%,transparent 40%),
+linear-gradient(145deg,#020617,#0f172a);
+padding:16px 16px 105px
+}
+
+.app{max-width:480px;margin:auto}
+
+.top{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:16px
+}
+
+.back,.refresh{
+width:46px;
+height:46px;
+border-radius:15px;
+display:grid;
+place-items:center;
+background:#ffffff12;
+border:1px solid #ffffff20;
+color:#fff;
+text-decoration:none;
+font-size:21px;
+cursor:pointer
+}
+
+.title{
+flex:1;
+text-align:center
+}
+
+.title h1{font-size:21px}
+.title p{
+font-size:11px;
+color:#94a3b8;
+margin-top:4px
+}
+
+.search{
+width:100%;
+padding:15px 16px;
+border-radius:17px;
+border:1px solid #ffffff18;
+background:#ffffff0d;
+color:#fff;
+outline:none;
+font-size:14px;
+margin-bottom:14px
+}
+
+.search::placeholder{color:#64748b}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:7px;
+margin-bottom:15px
+}
+
+.stat{
+padding:11px 4px;
+text-align:center;
+border-radius:15px;
+background:#ffffff0b;
+border:1px solid #ffffff12
+}
+
+.stat b{
+display:block;
+font-size:18px;
+margin-bottom:3px
+}
+
+.stat span{
+font-size:9px;
+color:#94a3b8
+}
+
+.msg{
+text-align:center;
+font-size:12px;
+color:#a7f3d0;
+min-height:22px;
+margin:6px 0 10px
+}
+
+.card{
+margin-bottom:12px;
+border-radius:21px;
+background:#ffffff0b;
+border:1px solid #ffffff14;
+overflow:hidden;
+box-shadow:0 10px 25px #0004
+}
+
+.head{
+padding:15px;
+display:flex;
+align-items:center;
+gap:11px;
+cursor:pointer
+}
+
+.head:active{transform:scale(.99)}
+
+.avatar{
+width:54px;
+height:54px;
+min-width:54px;
+border-radius:50%;
+display:grid;
+place-items:center;
+overflow:hidden;
+background:linear-gradient(135deg,#6366f1,#4338ca);
+font-size:23px
+}
+
+.avatar img{
+width:100%;
+height:100%;
+object-fit:cover
+}
+
+.info{
+flex:1;
+min-width:0
+}
+
+.name{
+font-weight:bold;
+font-size:15px;
+margin-bottom:5px
+}
+
+.meta{
+font-size:11px;
+color:#94a3b8;
+line-height:1.7
+}
+
+.badge{
+font-size:9px;
+padding:6px 8px;
+border-radius:10px;
+background:#6366f122;
+color:#c7d2fe;
+white-space:nowrap
+}
+
+.arrow{
+font-size:17px;
+color:#94a3b8;
+transition:.2s
+}
+
+.card.open .arrow{
+transform:rotate(180deg)
+}
+
+.details{
+display:none;
+padding:0 15px 17px;
+border-top:1px solid #ffffff12
+}
+
+.card.open .details{
+display:block
+}
+
+.section-title{
+font-size:13px;
+font-weight:bold;
+margin:15px 0 9px
+}
+
+.info-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px
+}
+
+.info-box{
+padding:10px;
+border-radius:11px;
+background:#0003;
+font-size:11px;
+color:#cbd5e1
+}
+
+.info-box b{
+display:block;
+color:#fff;
+margin-bottom:4px
+}
+
+.order{
+margin-top:10px;
+padding:13px;
+border-radius:16px;
+background:#0004;
+border:1px solid #ffffff12
+}
+
+.order-top{
+display:flex;
+align-items:center;
+gap:8px;
+margin-bottom:9px
+}
+
+.order-no{
+font-size:11px;
+font-weight:bold;
+flex:1
+}
+
+.status{
+font-size:9px;
+padding:6px 8px;
+border-radius:9px;
+font-weight:bold
+}
+
+.pending{
+background:#f59e0b22;
+color:#fbbf24;
+border:1px solid #f59e0b44
+}
+
+.ready{
+background:#3b82f622;
+color:#60a5fa;
+border:1px solid #3b82f644
+}
+
+.completed{
+background:#22c55e22;
+color:#4ade80;
+border:1px solid #22c55e44
+}
+
+.delivered{
+background:#a855f722;
+color:#c084fc;
+border:1px solid #a855f744
+}
+
+.cancelled{
+background:#ef444422;
+color:#f87171;
+border:1px solid #ef444444
+}
+
+.order-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px
+}
+
+.order-detail{
+padding:8px;
+border-radius:10px;
+background:#ffffff08;
+font-size:10px;
+color:#cbd5e1
+}
+
+.order-detail b{
+display:block;
+color:#fff;
+margin-bottom:3px
+}
+
+.color-line{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:8px;
+font-size:10px;
+color:#cbd5e1
+}
+
+.color-dot{
+width:25px;
+height:25px;
+border-radius:50%;
+border:2px solid #fff3;
+flex-shrink:0
+}
+
+.no-orders{
+padding:20px;
+text-align:center;
+font-size:11px;
+color:#64748b
+}
+
+.total-box{
+margin-top:14px;
+padding:14px;
+border-radius:16px;
+background:linear-gradient(135deg,#312e81,#4338ca);
+text-align:center
+}
+
+.total-box b{
+display:block;
+font-size:25px;
+margin-bottom:4px
+}
+
+.total-box span{
+font-size:10px;
+color:#c7d2fe
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:12px
+}
+
+.action{
+flex:1;
+padding:12px;
+border:0;
+border-radius:12px;
+color:#fff;
+font-weight:bold;
+font-size:11px;
+cursor:pointer
+}
+
+.add-customer{
+background:linear-gradient(135deg,#22c55e,#15803d)
+}
+
+.delete{
+background:#dc2626
+}
+
+.empty{
+padding:40px 15px;
+text-align:center;
+border-radius:21px;
+background:#ffffff09;
+border:1px solid #ffffff12;
+color:#94a3b8
+}
+
+.empty strong{
+display:block;
+font-size:17px;
+color:#fff;
+margin-bottom:8px
+}
+
+/* BOTTOM NAV */
+
+.bottom{
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+height:78px;
+background:#020617f5;
+border-top:1px solid #ffffff15;
+backdrop-filter:blur(18px);
+z-index:999
+}
+
+.nav{
+height:100%;
+max-width:480px;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:space-around
+}
+
+.nav a{
+text-decoration:none;
+color:#94a3b8;
+font-size:9px;
+text-align:center
+}
+
+.nav i{
+display:block;
+font-style:normal;
+font-size:20px;
+margin-bottom:3px
+}
+
+.nav .active{color:#fff}
+
+@media(max-width:360px){
+
+.stats{
+grid-template-columns:1fr 1fr
+}
+
+.info-grid,
+.order-row{
+grid-template-columns:1fr
+}
+
+.nav a{font-size:8px}
+.nav i{font-size:18px}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="top">
+
+<a href="index.html" class="back">←</a>
+
+<div class="title">
+<h1>🆕 New Users</h1>
+<p>نئے کسٹمرز اور ان کے تمام Orders</p>
+</div>
+
+<button id="refresh" class="refresh">↻</button>
+
+</div>
+
+<input
+id="search"
+class="search"
+type="search"
+placeholder="🔍 نام، موبائل نمبر یا Account No. تلاش کریں"
+>
+
+<div class="stats">
+
+<div class="stat">
+<b id="totalUsers">0</b>
+<span>Users</span>
+</div>
+
+<div class="stat">
+<b id="totalOrders">0</b>
+<span>Orders</span>
+</div>
+
+<div class="stat">
+<b id="pendingCount">0</b>
+<span>Pending</span>
+</div>
+
+<div class="stat">
+<b id="deliveredCount">0</b>
+<span>Delivered</span>
+</div>
+
+</div>
+
+<div id="msg" class="msg"></div>
+
+<div id="list"></div>
+
+</div>
+
+
+<!-- BOTTOM NAV -->
+
+<div class="bottom">
+
+<div class="nav">
+
+<a href="index.html">
+<i>🏠</i>
+Home
+</a>
+
+<a href="add-order.html">
+<i>➕</i>
+Add Order
+</a>
+
+<a href="customers.html">
+<i>👥</i>
+Customers
+</a>
+
+<a href="new-user.html" class="active">
+<i>🆕</i>
+New Users
+</a>
+
+<a href="history.html">
+<i>📋</i>
+History
+</a>
+
+<a href="menu.html">
+<i>☰</i>
+Menu
+</a>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import{
+initializeApp
+}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import{
+getAuth,
+onAuthStateChanged
+}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+import{
+getFirestore,
+collection,
+getDocs,
+deleteDoc,
+doc
+}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+/* FIREBASE */
+
+const firebaseConfig={
+
+apiKey:"AIzaSyDsoWnSGzzt3BRuL5fIhq7dfg2fqyibM1U",
+
+authDomain:"tailor-web-f1f1c.firebaseapp.com",
+
+projectId:"tailor-web-f1f1c",
+
+storageBucket:"tailor-web-f1f1c.firebasestorage.app",
+
+messagingSenderId:"129811668871",
+
+appId:"1:129811668871:web:586357e9e696a9652ffd22"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getFirestore(app);
+
+
+let currentUser=null;
+
+let customers=[];
+
+let orders=[];
+
+
+/* HELPERS */
+
+const $=id=>document.getElementById(id);
+
+
+function escapeHtml(value){
+
+return String(value??"")
+
+.replaceAll("&","&amp;")
+
+.replaceAll("<","&lt;")
+
+.replaceAll(">","&gt;")
+
+.replaceAll('"',"&quot;")
+
+.replaceAll("'","&#039;");
+
+}
+
+
+/* DATE */
+
+function dateValue(value){
+
+if(!value)return null;
+
+if(typeof value==="string"){
+
+const d=new Date(value);
+
+return isNaN(d.getTime())?null:d;
+
+}
+
+if(value.toDate){
+
+return value.toDate();
+
+}
+
+if(value.seconds){
+
+return new Date(value.seconds*1000);
+
+}
+
+return null;
+
+}
+
+
+function formatDate(value){
+
+const d=dateValue(value);
+
+if(!d)return "-";
+
+return d.toLocaleDateString(
+"ur-PK",
+{
+year:"numeric",
+month:"short",
+day:"numeric"
+}
+);
+
+}
+
+
+/*
+Different possible field names are supported.
+This allows the page to work with existing
+and future order records.
+*/
+
+function getOrderDate(order,type){
+
+if(type==="ordered"){
+
+return order.orderDate ||
+order.createdAt;
+
+}
+
+if(type==="ready"){
+
+return order.readyDate ||
+order.readyAt;
+
+}
+
+if(type==="completed"){
+
+return order.completedDate ||
+order.completedAt;
+
+}
+
+if(type==="delivered"){
+
+return order.deliveredDate ||
+order.deliveredAt;
+
+}
+
+return null;
+
+}
+
+
+/* STATUS */
+
+function getStatus(order){
+
+const status=
+String(order.status||"pending")
+.toLowerCase();
+
+if(
+status==="delivered" ||
+status==="deliver"
+)return{
+text:"📦 Delivered",
+className:"delivered"
+};
+
+if(
+status==="completed" ||
+status==="complete"
+)return{
+text:"🟢 Completed",
+className:"completed"
+};
+
+if(
+status==="ready" ||
+status==="ready_in_shop" ||
+status==="ready-in-shop"
+)return{
+text:"🔵 Ready in Shop",
+className:"ready"
+};
+
+if(
+status==="cancelled" ||
+status==="canceled"
+)return{
+text:"❌ Cancelled",
+className:"cancelled"
+};
+
+return{
+text:"🟡 Pending",
+className:"pending"
+};
+
+}
+
+
+/* AUTH */
+
+onAuthStateChanged(auth,async user=>{
+
+if(!user){
+
+location.replace("login.html");
+
+return;
+
+}
+
+currentUser=user;
+
+await loadData();
+
+});
+
+
+/* LOAD */
+
+async function loadData(){
+
+try{
+
+$("msg").textContent=
+"⏳ New Users لوڈ ہو رہے ہیں...";
+
+
+const customerSnap=
+await getDocs(
+collection(
+db,
+"users",
+currentUser.uid,
+"customers"
+)
+);
+
+
+customers=customerSnap.docs.map(d=>({
+
+id:d.id,
+...d.data()
+
+}));
+
+
+const orderSnap=
+await getDocs(
+collection(
+db,
+"users",
+currentUser.uid,
+"orders"
+)
+);
+
+
+orders=orderSnap.docs.map(d=>({
+
+id:d.id,
+...d.data()
+
+}));
+
+
+/*
+New User = ایسا customer
+جس کا کم از کم ایک order موجود ہو۔
+*/
+
+const orderCustomerIds=
+new Set(
+orders
+.map(o=>o.customerId)
+.filter(Boolean)
+);
+
+
+customers=customers.filter(c=>
+orderCustomerIds.has(c.id)
+);
+
+
+$("msg").textContent="";
+
+updateStats();
+
+render(customers);
+
+
+}catch(error){
+
+console.error(error);
+
+$("msg").textContent=
+"❌ Data لوڈ نہیں ہو سکا: "+
+error.message;
+
+}
+
+}
+
+
+/* STATS */
+
+function updateStats(){
+
+$("totalUsers").textContent=
+customers.length;
+
+$("totalOrders").textContent=
+orders.length;
+
+$("pendingCount").textContent=
+orders.filter(o=>
+getStatus(o).className==="pending"
+).length;
+
+$("deliveredCount").textContent=
+orders.filter(o=>
+getStatus(o).className==="delivered"
+).length;
+
+}
+
+
+/* RENDER */
+
+function render(data){
+
+const list=$("list");
+
+if(!data.length){
+
+list.innerHTML=`
+
+<div class="empty">
+
+<strong>🆕 کوئی New User نہیں</strong>
+
+جس Customer کا ابھی تک کوئی Order نہیں ہے
+وہ یہاں ظاہر نہیں ہوگا۔
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+list.innerHTML="";
+
+
+data.forEach(customer=>{
+
+const customerOrders=
+orders
+.filter(o=>
+o.customerId===customer.id
+)
+.sort((a,b)=>{
+
+const da=dateValue(
+getOrderDate(a,"ordered")
+);
+
+const db=dateValue(
+getOrderDate(b,"ordered")
+);
+
+return(
+(db?.getTime()||0)-
+(da?.getTime()||0)
+);
+
+});
+
+
+const card=
+document.createElement("div");
+
+card.className="card";
+
+
+let avatar="👤";
+
+if(customer.photo){
+
+avatar=`
+
+<img
+src="${escapeHtml(customer.photo)}"
+alt="Customer"
+>
+`;
+
+}
+
+
+/* ORDER HTML */
+
+let ordersHtml="";
+
+
+if(!customerOrders.length){
+
+ordersHtml=`
+
+<div class="no-orders">
+اس Customer کا کوئی Order نہیں ملا۔
+</div>
+
+`;
+
+}else{
+
+ordersHtml=
+customerOrders
+.map((order,index)=>{
+
+const status=
+getStatus(order);
+
+const orderNo=
+order.orderNo ||
+order.id.slice(0,6).toUpperCase();
+
+
+const color=
+order.color||{};
+
+const colorName=
+color.name||"-";
+
+const colorHex=
+color.hex||"#000000";
+
+
+const receiver=
+order.receivedBy ||
+order.deliveredBy ||
+order.receiverName ||
+"ابھی وصول نہیں ہوا";
+
+
+return`
+
+<div class="order">
+
+<div class="order-top">
+
+<div class="order-no">
+🧵 Order #${escapeHtml(orderNo)}
+</div>
+
+<div class="status ${status.className}">
+${status.text}
+</div>
+
+</div>
+
+
+<div class="order-row">
+
+<div class="order-detail">
+<b>📅 Order دیا</b>
+${formatDate(
+getOrderDate(order,"ordered")
+)}
+</div>
+
+
+<div class="order-detail">
+<b>🔵 Ready in Shop</b>
+${formatDate(
+getOrderDate(order,"ready")
+)}
+</div>
+
+
+<div class="order-detail">
+<b>🟢 Completed</b>
+${formatDate(
+getOrderDate(order,"completed")
+)}
+</div>
+
+
+<div class="order-detail">
+<b>📦 Delivered</b>
+${formatDate(
+getOrderDate(order,"delivered")
+)}
+</div>
+
+
+<div class="order-detail">
+<b>📊 موجودہ Status</b>
+${escapeHtml(status.text)}
+</div>
+
+
+<div class="order-detail">
+<b>👤 کس نے وصول کیا</b>
+${escapeHtml(receiver)}
+</div>
+
+</div>
+
+
+<div class="color-line">
+
+<span
+class="color-dot"
+style="background:${escapeHtml(colorHex)}"
+></span>
+
+کپڑے کا رنگ:
+${escapeHtml(colorName)}
+
+</div>
+
+</div>
+
+`;
+
+})
+.join("");
+
+}
+
+
+/* TOTAL BOX */
+
+const total=
+customerOrders.length;
+
+const pending=
+customerOrders.filter(o=>
+getStatus(o).className==="pending"
+).length;
+
+const ready=
+customerOrders.filter(o=>
+getStatus(o).className==="ready"
+).length;
+
+const completed=
+customerOrders.filter(o=>
+getStatus(o).className==="completed"
+).length;
+
+const delivered=
+customerOrders.filter(o=>
+getStatus(o).className==="delivered"
+).length;
+
+
+card.innerHTML=`
+
+<div class="head">
+
+<div class="avatar">
+${avatar}
+</div>
+
+
+<div class="info">
+
+<div class="name">
+${escapeHtml(customer.name||"نام نہیں")}
+</div>
+
+<div class="meta">
+📱 ${escapeHtml(customer.phone||"-")}<br>
+📍 ${escapeHtml(customer.address||"-")}
+</div>
+
+</div>
+
+
+<div class="badge">
+#${escapeHtml(customer.accountNo||"-")}
+</div>
+
+
+<div class="arrow">
+⌄
+</div>
+
+</div>
+
+
+<div class="details">
+
+<div class="section-title">
+👤 Customer Information
+</div>
+
+<div class="info-grid">
+
+<div class="info-box">
+<b>نام</b>
+${escapeHtml(customer.name||"-")}
+</div>
+
+<div class="info-box">
+<b>فون نمبر</b>
+${escapeHtml(customer.phone||"-")}
+</div>
+
+<div class="info-box">
+<b>پتہ</b>
+${escapeHtml(customer.address||"-")}
+</div>
+
+<div class="info-box">
+<b>Account No.</b>
+#${escapeHtml(customer.accountNo||"-")}
+</div>
+
+</div>
+
+
+<div class="total-box">
+
+<b>${total}</b>
+
+<span>
+Total Orders — اس Customer کے کل کپڑے
+</span>
+
+</div>
+
+
+<div class="info-grid" style="margin-top:8px">
+
+<div class="info-box">
+<b>🟡 Pending</b>
+${pending}
+</div>
+
+<div class="info-box">
+<b>🔵 Ready</b>
+${ready}
+</div>
+
+<div class="info-box">
+<b>🟢 Completed</b>
+${completed}
+</div>
+
+<div class="info-box">
+<b>📦 Delivered</b>
+${delivered}
+</div>
+
+</div>
+
+
+<div class="section-title">
+🧵 تمام Orders
+</div>
+
+${ordersHtml}
+
+
+<div class="actions">
+
+<button
+class="action add-customer"
+data-id="${customer.id}"
+>
+➕ Add Customer
+</button>
+
+
+<button
+class="action delete"
+data-id="${customer.id}"
+>
+🗑️ Delete
+</button>
+
+</div>
+
+
+</div>
+
+`;
+
+
+/* OPEN */
+
+card
+.querySelector(".head")
+.onclick=()=>{
+
+card.classList.toggle("open");
+
+};
+
+
+/* ADD CUSTOMER */
+
+card
+.querySelector(".add-customer")
+.onclick=event=>{
+
+event.stopPropagation();
+
+location.href=
+"new-user.html?edit="+
+encodeURIComponent(customer.id);
+
+};
+
+
+/* DELETE */
+
+card
+.querySelector(".delete")
+.onclick=async event=>{
+
+event.stopPropagation();
+
+const ok=
+confirm(
+"کیا آپ یہ New User حذف کرنا چاہتے ہیں؟\n\nCustomer کا اصل ریکارڈ اور Orders الگ محفوظ رہ سکتے ہیں۔"
+);
+
+if(!ok)return;
+
+
+try{
+
+await deleteDoc(
+
+doc(
+db,
+"users",
+currentUser.uid,
+"customers",
+customer.id
+)
+
+);
+
+
+customers=
+customers.filter(
+c=>c.id!==customer.id
+);
+
+
+render(customers);
+
+updateStats();
+
+
+$("msg").textContent=
+"✅ Customer New Users سے حذف ہوگیا۔";
+
+
+}catch(error){
+
+console.error(error);
+
+$("msg").textContent=
+"❌ Delete نہیں ہوا: "+
+error.message;
+
+}
+
+};
+
+
+list.appendChild(card);
+
+});
+
+}
+
+
+/* SEARCH */
+
+$("search").addEventListener(
+"input",
+()=>{
+
+const q=
+$("search")
+.value
+.trim()
+.toLowerCase();
+
+
+if(!q){
+
+render(customers);
+
+return;
+
+}
+
+
+const result=
+customers.filter(customer=>{
+
+return(
+
+String(customer.name||"")
+.toLowerCase()
+.includes(q)
+
+||
+
+String(customer.phone||"")
+.toLowerCase()
+.includes(q)
+
+||
+
+String(customer.accountNo||"")
+.toLowerCase()
+.includes(q)
+
+||
+
+String(customer.address||"")
+.toLowerCase()
+.includes(q)
+
+);
+
+});
+
+
+render(result);
+
+});
+
+
+/* REFRESH */
+
+$("refresh").onclick=async()=>{
+
+await loadData();
+
+};
+
+</script>
+
+</body>
+  </html>
