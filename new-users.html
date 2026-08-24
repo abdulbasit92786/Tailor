@@ -6,7 +6,12 @@
 <title>New Users - Tailor Manager</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+-webkit-tap-highlight-color:transparent
+}
 
 body{
 font-family:Arial,Helvetica,sans-serif;
@@ -19,7 +24,10 @@ linear-gradient(145deg,#020617,#0f172a);
 padding:16px 16px 105px
 }
 
-.app{max-width:480px;margin:auto}
+.app{
+max-width:480px;
+margin:auto
+}
 
 .top{
 display:flex;
@@ -47,7 +55,10 @@ flex:1;
 text-align:center
 }
 
-.title h1{font-size:21px}
+.title h1{
+font-size:21px
+}
+
 .title p{
 font-size:11px;
 color:#94a3b8;
@@ -66,7 +77,9 @@ font-size:14px;
 margin-bottom:14px
 }
 
-.search::placeholder{color:#64748b}
+.search::placeholder{
+color:#64748b
+}
 
 .stats{
 display:grid;
@@ -119,7 +132,9 @@ gap:11px;
 cursor:pointer
 }
 
-.head:active{transform:scale(.99)}
+.head:active{
+transform:scale(.99)
+}
 
 .avatar{
 width:54px;
@@ -353,6 +368,11 @@ cursor:pointer
 background:linear-gradient(135deg,#22c55e,#15803d)
 }
 
+.add-customer:disabled{
+opacity:.6;
+cursor:not-allowed
+}
+
 .delete{
 background:#dc2626
 }
@@ -372,6 +392,7 @@ font-size:17px;
 color:#fff;
 margin-bottom:8px
 }
+
 
 /* BOTTOM NAV */
 
@@ -410,7 +431,9 @@ font-size:20px;
 margin-bottom:3px
 }
 
-.nav .active{color:#fff}
+.nav .active{
+color:#fff
+}
 
 @media(max-width:360px){
 
@@ -423,29 +446,49 @@ grid-template-columns:1fr 1fr
 grid-template-columns:1fr
 }
 
-.nav a{font-size:8px}
-.nav i{font-size:18px}
+.nav a{
+font-size:8px
+}
+
+.nav i{
+font-size:18px
+}
 
 }
 </style>
 </head>
 
+
 <body>
 
 <div class="app">
 
+<!-- TOP -->
+
 <div class="top">
 
-<a href="index.html" class="back">←</a>
+<a href="index.html" class="back">
+←
+</a>
 
 <div class="title">
+
 <h1>🆕 New Users</h1>
-<p>نئے کسٹمرز اور ان کے تمام Orders</p>
+
+<p>
+نئے کسٹمرز اور ان کے تمام Orders
+</p>
+
 </div>
 
-<button id="refresh" class="refresh">↻</button>
+<button id="refresh" class="refresh">
+↻
+</button>
 
 </div>
+
+
+<!-- SEARCH -->
 
 <input
 id="search"
@@ -454,29 +497,64 @@ type="search"
 placeholder="🔍 نام، موبائل نمبر یا Account No. تلاش کریں"
 >
 
+
+<!-- STATS -->
+
 <div class="stats">
 
 <div class="stat">
-<b id="totalUsers">0</b>
-<span>Users</span>
+
+<b id="totalUsers">
+0
+</b>
+
+<span>
+Users
+</span>
+
 </div>
+
 
 <div class="stat">
-<b id="totalOrders">0</b>
-<span>Orders</span>
+
+<b id="totalOrders">
+0
+</b>
+
+<span>
+Orders
+</span>
+
 </div>
+
 
 <div class="stat">
-<b id="pendingCount">0</b>
-<span>Pending</span>
+
+<b id="pendingCount">
+0
+</b>
+
+<span>
+Pending
+</span>
+
 </div>
+
 
 <div class="stat">
-<b id="deliveredCount">0</b>
-<span>Delivered</span>
+
+<b id="deliveredCount">
+0
+</b>
+
+<span>
+Delivered
+</span>
+
 </div>
 
 </div>
+
 
 <div id="msg" class="msg"></div>
 
@@ -492,33 +570,56 @@ placeholder="🔍 نام، موبائل نمبر یا Account No. تلاش کر�
 <div class="nav">
 
 <a href="index.html">
+
 <i>🏠</i>
+
 Home
+
 </a>
+
 
 <a href="add-order.html">
+
 <i>➕</i>
+
 Add Order
+
 </a>
+
 
 <a href="customers.html">
+
 <i>👥</i>
+
 Customers
+
 </a>
+
 
 <a href="new-user.html" class="active">
+
 <i>🆕</i>
+
 New Users
+
 </a>
+
 
 <a href="history.html">
+
 <i>📋</i>
+
 History
+
 </a>
 
+
 <a href="menu.html">
+
 <i>☰</i>
+
 Menu
+
 </a>
 
 </div>
@@ -528,25 +629,45 @@ Menu
 
 <script type="module">
 
+
+/* FIREBASE */
+
 import{
+
 initializeApp
+
 }from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 
-import{
-getAuth,
-onAuthStateChanged
-}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 import{
+
+getAuth,
+
+onAuthStateChanged
+
+}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+
+import{
+
 getFirestore,
+
 collection,
+
 getDocs,
+
 deleteDoc,
-doc
+
+doc,
+
+setDoc,
+
+serverTimestamp
+
 }from"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 
-/* FIREBASE */
+/* FIREBASE CONFIG */
 
 const firebaseConfig={
 
@@ -565,11 +686,14 @@ appId:"1:129811668871:web:586357e9e696a9652ffd22"
 };
 
 
-const app=initializeApp(firebaseConfig);
+const app=
+initializeApp(firebaseConfig);
 
-const auth=getAuth(app);
+const auth=
+getAuth(app);
 
-const db=getFirestore(app);
+const db=
+getFirestore(app);
 
 
 let currentUser=null;
@@ -579,10 +703,13 @@ let customers=[];
 let orders=[];
 
 
-/* HELPERS */
+/* SHORT ID */
 
-const $=id=>document.getElementById(id);
+const $=
+id=>document.getElementById(id);
 
+
+/* ESCAPE */
 
 function escapeHtml(value){
 
@@ -607,13 +734,17 @@ function dateValue(value){
 
 if(!value)return null;
 
+
 if(typeof value==="string"){
 
 const d=new Date(value);
 
-return isNaN(d.getTime())?null:d;
+return isNaN(d.getTime())
+?null
+:d;
 
 }
+
 
 if(value.toDate){
 
@@ -621,11 +752,15 @@ return value.toDate();
 
 }
 
+
 if(value.seconds){
 
-return new Date(value.seconds*1000);
+return new Date(
+value.seconds*1000
+);
 
 }
+
 
 return null;
 
@@ -638,23 +773,27 @@ const d=dateValue(value);
 
 if(!d)return "-";
 
+
 return d.toLocaleDateString(
+
 "ur-PK",
+
 {
+
 year:"numeric",
+
 month:"short",
+
 day:"numeric"
+
 }
+
 );
 
 }
 
 
-/*
-Different possible field names are supported.
-This allows the page to work with existing
-and future order records.
-*/
+/* ORDER DATE */
 
 function getOrderDate(order,type){
 
@@ -665,12 +804,14 @@ order.createdAt;
 
 }
 
+
 if(type==="ready"){
 
 return order.readyDate ||
 order.readyAt;
 
 }
+
 
 if(type==="completed"){
 
@@ -679,12 +820,14 @@ order.completedAt;
 
 }
 
+
 if(type==="delivered"){
 
 return order.deliveredDate ||
 order.deliveredAt;
 
 }
+
 
 return null;
 
@@ -699,42 +842,78 @@ const status=
 String(order.status||"pending")
 .toLowerCase();
 
+
 if(
-status==="delivered" ||
+status==="delivered"||
 status==="deliver"
-)return{
-text:"📦 Delivered",
-className:"delivered"
-};
-
-if(
-status==="completed" ||
-status==="complete"
-)return{
-text:"🟢 Completed",
-className:"completed"
-};
-
-if(
-status==="ready" ||
-status==="ready_in_shop" ||
-status==="ready-in-shop"
-)return{
-text:"🔵 Ready in Shop",
-className:"ready"
-};
-
-if(
-status==="cancelled" ||
-status==="canceled"
-)return{
-text:"❌ Cancelled",
-className:"cancelled"
-};
+){
 
 return{
+
+text:"📦 Delivered",
+
+className:"delivered"
+
+};
+
+}
+
+
+if(
+status==="completed"||
+status==="complete"
+){
+
+return{
+
+text:"🟢 Completed",
+
+className:"completed"
+
+};
+
+}
+
+
+if(
+status==="ready"||
+status==="ready_in_shop"||
+status==="ready-in-shop"
+){
+
+return{
+
+text:"🔵 Ready in Shop",
+
+className:"ready"
+
+};
+
+}
+
+
+if(
+status==="cancelled"||
+status==="canceled"
+){
+
+return{
+
+text:"❌ Cancelled",
+
+className:"cancelled"
+
+};
+
+}
+
+
+return{
+
 text:"🟡 Pending",
+
 className:"pending"
+
 };
 
 }
@@ -742,24 +921,30 @@ className:"pending"
 
 /* AUTH */
 
-onAuthStateChanged(auth,async user=>{
+onAuthStateChanged(
+auth,
+async user=>{
 
 if(!user){
 
-location.replace("login.html");
+location.replace(
+"login.html"
+);
 
 return;
 
 }
 
+
 currentUser=user;
 
 await loadData();
 
-});
+}
+);
 
 
-/* LOAD */
+/* LOAD DATA */
 
 async function loadData(){
 
@@ -769,65 +954,96 @@ $("msg").textContent=
 "⏳ New Users لوڈ ہو رہے ہیں...";
 
 
+/* CUSTOMERS */
+
 const customerSnap=
 await getDocs(
+
 collection(
+
 db,
+
 "users",
+
 currentUser.uid,
+
 "customers"
+
 )
+
 );
 
 
-customers=customerSnap.docs.map(d=>({
+customers=
+customerSnap.docs.map(d=>({
 
 id:d.id,
+
 ...d.data()
 
 }));
 
 
+/* ORDERS */
+
 const orderSnap=
 await getDocs(
+
 collection(
+
 db,
+
 "users",
+
 currentUser.uid,
+
 "orders"
+
 )
+
 );
 
 
-orders=orderSnap.docs.map(d=>({
+orders=
+orderSnap.docs.map(d=>({
 
 id:d.id,
+
 ...d.data()
 
 }));
 
 
 /*
-New User = ایسا customer
-جس کا کم از کم ایک order موجود ہو۔
+صرف وہ Customers
+New Users میں دکھائیں
+جن کا کم از کم ایک Order ہے۔
 */
 
 const orderCustomerIds=
 new Set(
+
 orders
-.map(o=>o.customerId)
+
+.map(
+o=>o.customerId
+)
+
 .filter(Boolean)
+
 );
 
 
-customers=customers.filter(c=>
+customers=
+customers.filter(
+c=>
 orderCustomerIds.has(c.id)
 );
 
 
-$("msg").textContent="";
-
 updateStats();
+
+$("msg").textContent="";
 
 render(customers);
 
@@ -852,17 +1068,28 @@ function updateStats(){
 $("totalUsers").textContent=
 customers.length;
 
+
 $("totalOrders").textContent=
 orders.length;
 
+
 $("pendingCount").textContent=
-orders.filter(o=>
+
+orders.filter(
+
+o=>
 getStatus(o).className==="pending"
+
 ).length;
 
+
 $("deliveredCount").textContent=
-orders.filter(o=>
+
+orders.filter(
+
+o=>
 getStatus(o).className==="delivered"
+
 ).length;
 
 }
@@ -872,7 +1099,9 @@ getStatus(o).className==="delivered"
 
 function render(data){
 
-const list=$("list");
+const list=
+$("list");
+
 
 if(!data.length){
 
@@ -880,7 +1109,9 @@ list.innerHTML=`
 
 <div class="empty">
 
-<strong>🆕 کوئی New User نہیں</strong>
+<strong>
+🆕 کوئی New User نہیں
+</strong>
 
 جس Customer کا ابھی تک کوئی Order نہیں ہے
 وہ یہاں ظاہر نہیں ہوگا۔
@@ -899,20 +1130,28 @@ list.innerHTML="";
 
 data.forEach(customer=>{
 
+
 const customerOrders=
+
 orders
-.filter(o=>
+
+.filter(
+o=>
 o.customerId===customer.id
 )
+
 .sort((a,b)=>{
 
-const da=dateValue(
+const da=
+dateValue(
 getOrderDate(a,"ordered")
 );
 
-const db=dateValue(
+const db=
+dateValue(
 getOrderDate(b,"ordered")
 );
+
 
 return(
 (db?.getTime()||0)-
@@ -930,20 +1169,27 @@ card.className="card";
 
 let avatar="👤";
 
+
 if(customer.photo){
 
 avatar=`
 
 <img
-src="${escapeHtml(customer.photo)}"
+
+src="${escapeHtml(
+customer.photo
+)}"
+
 alt="Customer"
+
 >
+
 `;
 
 }
 
 
-/* ORDER HTML */
+/* ORDERS */
 
 let ordersHtml="";
 
@@ -953,39 +1199,54 @@ if(!customerOrders.length){
 ordersHtml=`
 
 <div class="no-orders">
+
 اس Customer کا کوئی Order نہیں ملا۔
+
 </div>
 
 `;
 
 }else{
 
+
 ordersHtml=
+
 customerOrders
-.map((order,index)=>{
+
+.map(order=>{
+
 
 const status=
 getStatus(order);
 
+
 const orderNo=
-order.orderNo ||
-order.id.slice(0,6).toUpperCase();
+order.orderNo||
+order.id
+.slice(0,6)
+.toUpperCase();
 
 
 const color=
 order.color||{};
 
+
 const colorName=
 color.name||"-";
+
 
 const colorHex=
 color.hex||"#000000";
 
 
 const receiver=
-order.receivedBy ||
-order.deliveredBy ||
-order.receiverName ||
+
+order.receivedBy||
+
+order.deliveredBy||
+
+order.receiverName||
+
 "ابھی وصول نہیں ہوا";
 
 
@@ -996,11 +1257,16 @@ return`
 <div class="order-top">
 
 <div class="order-no">
+
 🧵 Order #${escapeHtml(orderNo)}
+
 </div>
 
+
 <div class="status ${status.className}">
+
 ${status.text}
+
 </div>
 
 </div>
@@ -1008,48 +1274,96 @@ ${status.text}
 
 <div class="order-row">
 
+
 <div class="order-detail">
-<b>📅 Order دیا</b>
+
+<b>
+📅 Order دیا
+</b>
+
 ${formatDate(
-getOrderDate(order,"ordered")
+getOrderDate(
+order,
+"ordered"
+)
 )}
+
 </div>
 
 
 <div class="order-detail">
-<b>🔵 Ready in Shop</b>
+
+<b>
+🔵 Ready in Shop
+</b>
+
 ${formatDate(
-getOrderDate(order,"ready")
+getOrderDate(
+order,
+"ready"
+)
 )}
+
 </div>
 
 
 <div class="order-detail">
-<b>🟢 Completed</b>
+
+<b>
+🟢 Completed
+</b>
+
 ${formatDate(
-getOrderDate(order,"completed")
+getOrderDate(
+order,
+"completed"
+)
 )}
+
 </div>
 
 
 <div class="order-detail">
-<b>📦 Delivered</b>
+
+<b>
+📦 Delivered
+</b>
+
 ${formatDate(
-getOrderDate(order,"delivered")
+getOrderDate(
+order,
+"delivered"
+)
 )}
+
 </div>
 
 
 <div class="order-detail">
-<b>📊 موجودہ Status</b>
-${escapeHtml(status.text)}
+
+<b>
+📊 موجودہ Status
+</b>
+
+${escapeHtml(
+status.text
+)}
+
 </div>
 
 
 <div class="order-detail">
-<b>👤 کس نے وصول کیا</b>
-${escapeHtml(receiver)}
+
+<b>
+👤 کس نے وصول کیا
+</b>
+
+${escapeHtml(
+receiver
+)}
+
 </div>
+
 
 </div>
 
@@ -1057,12 +1371,20 @@ ${escapeHtml(receiver)}
 <div class="color-line">
 
 <span
+
 class="color-dot"
-style="background:${escapeHtml(colorHex)}"
+
+style="background:${escapeHtml(
+colorHex
+)}"
+
 ></span>
 
 کپڑے کا رنگ:
-${escapeHtml(colorName)}
+
+${escapeHtml(
+colorName
+)}
 
 </div>
 
@@ -1071,67 +1393,113 @@ ${escapeHtml(colorName)}
 `;
 
 })
+
 .join("");
 
 }
 
 
-/* TOTAL BOX */
+/* TOTAL */
 
 const total=
 customerOrders.length;
 
+
 const pending=
-customerOrders.filter(o=>
+
+customerOrders.filter(
+
+o=>
 getStatus(o).className==="pending"
+
 ).length;
+
 
 const ready=
-customerOrders.filter(o=>
+
+customerOrders.filter(
+
+o=>
 getStatus(o).className==="ready"
+
 ).length;
+
 
 const completed=
-customerOrders.filter(o=>
+
+customerOrders.filter(
+
+o=>
 getStatus(o).className==="completed"
+
 ).length;
+
 
 const delivered=
-customerOrders.filter(o=>
+
+customerOrders.filter(
+
+o=>
 getStatus(o).className==="delivered"
+
 ).length;
 
+
+/* CARD HTML */
 
 card.innerHTML=`
 
 <div class="head">
 
+
 <div class="avatar">
+
 ${avatar}
+
 </div>
 
 
 <div class="info">
 
 <div class="name">
-${escapeHtml(customer.name||"نام نہیں")}
+
+${escapeHtml(
+customer.name||"نام نہیں"
+)}
+
 </div>
 
+
 <div class="meta">
-📱 ${escapeHtml(customer.phone||"-")}<br>
-📍 ${escapeHtml(customer.address||"-")}
+
+📱 ${escapeHtml(
+customer.phone||"-"
+)}
+
+<br>
+
+📍 ${escapeHtml(
+customer.address||"-"
+)}
+
 </div>
 
 </div>
 
 
 <div class="badge">
-#${escapeHtml(customer.accountNo||"-")}
+
+#${escapeHtml(
+customer.accountNo||"-"
+)}
+
 </div>
 
 
 <div class="arrow">
+
 ⌄
+
 </div>
 
 </div>
@@ -1139,94 +1507,176 @@ ${escapeHtml(customer.name||"نام نہیں")}
 
 <div class="details">
 
+
 <div class="section-title">
+
 👤 Customer Information
+
 </div>
+
 
 <div class="info-grid">
 
+
 <div class="info-box">
+
 <b>نام</b>
-${escapeHtml(customer.name||"-")}
+
+${escapeHtml(
+customer.name||"-"
+)}
+
 </div>
 
+
 <div class="info-box">
+
 <b>فون نمبر</b>
-${escapeHtml(customer.phone||"-")}
+
+${escapeHtml(
+customer.phone||"-"
+)}
+
 </div>
 
+
 <div class="info-box">
+
 <b>پتہ</b>
-${escapeHtml(customer.address||"-")}
+
+${escapeHtml(
+customer.address||"-"
+)}
+
 </div>
 
+
 <div class="info-box">
+
 <b>Account No.</b>
-#${escapeHtml(customer.accountNo||"-")}
+
+#${escapeHtml(
+customer.accountNo||"-"
+)}
+
 </div>
+
 
 </div>
 
 
 <div class="total-box">
 
-<b>${total}</b>
+<b>
+
+${total}
+
+</b>
 
 <span>
+
 Total Orders — اس Customer کے کل کپڑے
+
 </span>
 
 </div>
 
 
-<div class="info-grid" style="margin-top:8px">
+<div
+class="info-grid"
+style="margin-top:8px"
+>
+
 
 <div class="info-box">
-<b>🟡 Pending</b>
+
+<b>
+🟡 Pending
+</b>
+
 ${pending}
+
 </div>
 
+
 <div class="info-box">
-<b>🔵 Ready</b>
+
+<b>
+🔵 Ready
+</b>
+
 ${ready}
+
 </div>
 
+
 <div class="info-box">
-<b>🟢 Completed</b>
+
+<b>
+🟢 Completed
+</b>
+
 ${completed}
+
 </div>
 
+
 <div class="info-box">
-<b>📦 Delivered</b>
+
+<b>
+📦 Delivered
+</b>
+
 ${delivered}
+
 </div>
+
 
 </div>
 
 
 <div class="section-title">
+
 🧵 تمام Orders
+
 </div>
+
 
 ${ordersHtml}
 
 
 <div class="actions">
 
+
 <button
+
 class="action add-customer"
-data-id="${customer.id}"
+
+data-id="${escapeHtml(
+customer.id
+)}"
+
 >
+
 ➕ Add Customer
+
 </button>
 
 
 <button
+
 class="action delete"
-data-id="${customer.id}"
+
+data-id="${escapeHtml(
+customer.id
+)}"
+
 >
+
 🗑️ Delete
+
 </button>
+
 
 </div>
 
@@ -1236,28 +1686,153 @@ data-id="${customer.id}"
 `;
 
 
-/* OPEN */
+/* OPEN / CLOSE */
 
 card
 .querySelector(".head")
 .onclick=()=>{
 
-card.classList.toggle("open");
+card.classList.toggle(
+"open"
+);
 
 };
 
 
-/* ADD CUSTOMER */
+/*
+================================
+ADD CUSTOMER
+================================
+
+اب یہاں New User کو
+بغیر فارم کھولے سیدھا
+Customers میں منتقل کیا جائے گا۔
+*/
 
 card
 .querySelector(".add-customer")
-.onclick=event=>{
+.onclick=async event=>{
 
 event.stopPropagation();
 
-location.href=
-"new-user.html?edit="+
-encodeURIComponent(customer.id);
+
+const button=
+card.querySelector(
+".add-customer"
+);
+
+
+button.disabled=true;
+
+button.textContent=
+"⏳ Customers میں محفوظ ہو رہا ہے...";
+
+
+try{
+
+
+/*
+Customer object سے id الگ کریں۔
+*/
+
+const customerData={
+...customer
+};
+
+
+delete customerData.id;
+
+
+/*
+اسی Document ID کے ساتھ
+Customers میں محفوظ کریں۔
+*/
+
+await setDoc(
+
+doc(
+
+db,
+
+"users",
+
+currentUser.uid,
+
+"customers",
+
+customer.id
+
+),
+
+{
+
+...customerData,
+
+updatedAt:
+serverTimestamp()
+
+},
+
+{
+
+merge:true
+
+}
+
+);
+
+
+/*
+Local New Users list سے
+اس User کو remove کریں۔
+*/
+
+customers=
+customers.filter(
+
+c=>
+c.id!==customer.id
+
+);
+
+
+/*
+Screen update */
+
+updateStats();
+
+render(customers);
+
+
+/*
+Success message */
+
+$("msg").style.color=
+"#86efac";
+
+$("msg").textContent=
+"✅ Customer کامیابی سے Customers میں شامل ہوگیا۔";
+
+
+}catch(error){
+
+console.error(error);
+
+
+button.disabled=false;
+
+button.textContent=
+"➕ Add Customer";
+
+
+$("msg").style.color=
+"#fca5a5";
+
+$("msg").textContent=
+"❌ Customer محفوظ نہیں ہوا: "+
+error.message;
+
+}
 
 };
 
@@ -1270,24 +1845,35 @@ card
 
 event.stopPropagation();
 
+
 const ok=
 confirm(
-"کیا آپ یہ New User حذف کرنا چاہتے ہیں؟\n\nCustomer کا اصل ریکارڈ اور Orders الگ محفوظ رہ سکتے ہیں۔"
+
+"کیا آپ یہ New User حذف کرنا چاہتے ہیں؟\n\nCustomer کا اصل ریکارڈ حذف ہو جائے گا۔"
+
 );
+
 
 if(!ok)return;
 
 
 try{
 
+
 await deleteDoc(
 
 doc(
+
 db,
+
 "users",
+
 currentUser.uid,
+
 "customers",
+
 customer.id
+
 )
 
 );
@@ -1295,14 +1881,20 @@ customer.id
 
 customers=
 customers.filter(
-c=>c.id!==customer.id
+
+c=>
+c.id!==customer.id
+
 );
 
 
-render(customers);
-
 updateStats();
 
+render(customers);
+
+
+$("msg").style.color=
+"#86efac";
 
 $("msg").textContent=
 "✅ Customer New Users سے حذف ہوگیا۔";
@@ -1311,6 +1903,10 @@ $("msg").textContent=
 }catch(error){
 
 console.error(error);
+
+
+$("msg").style.color=
+"#fca5a5";
 
 $("msg").textContent=
 "❌ Delete نہیں ہوا: "+
@@ -1330,9 +1926,11 @@ list.appendChild(card);
 
 /* SEARCH */
 
-$("search").addEventListener(
+$("search")
+.addEventListener(
 "input",
 ()=>{
+
 
 const q=
 $("search")
@@ -1351,45 +1949,57 @@ return;
 
 
 const result=
-customers.filter(customer=>{
+customers.filter(
+customer=>{
 
 return(
 
-String(customer.name||"")
+String(
+customer.name||""
+)
 .toLowerCase()
 .includes(q)
 
 ||
 
-String(customer.phone||"")
+String(
+customer.phone||""
+)
 .toLowerCase()
 .includes(q)
 
 ||
 
-String(customer.accountNo||"")
+String(
+customer.accountNo||""
+)
 .toLowerCase()
 .includes(q)
 
 ||
 
-String(customer.address||"")
+String(
+customer.address||""
+)
 .toLowerCase()
 .includes(q)
 
 );
 
-});
+}
+);
 
 
 render(result);
 
-});
+}
+);
 
 
 /* REFRESH */
 
-$("refresh").onclick=async()=>{
+$("refresh").onclick=
+async()=>{
 
 await loadData();
 
