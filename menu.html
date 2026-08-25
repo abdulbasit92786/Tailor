@@ -2115,3 +2115,462 @@ $("fileInput").click();
 
 /* =====================================================
    FILE SELEC
+===================================================== */
+
+$("fileInput").addEventListener(
+"change",
+async event=>{
+
+const file=
+event.target.files[0];
+
+
+if(!file){
+
+return;
+
+}
+
+
+await importBackup(
+file
+);
+
+
+/*
+دوبارہ وہی file select کرنے
+کی اجازت کے لیے reset
+*/
+
+event.target.value="";
+
+}
+);
+
+
+/* =====================================================
+   IMPORT BACKUP
+===================================================== */
+
+async function importBackup(
+file
+){
+
+if(!currentUser){
+
+message(
+"پہلے Login کریں۔",
+"error"
+);
+
+return;
+
+}
+
+
+const button=
+$("importBtn");
+
+button.disabled=true;
+
+
+try{
+
+
+progress(
+5,
+"Backup فائل پڑھی جا رہی ہے..."
+);
+
+
+const text=
+await file.text();
+
+
+progress(
+15,
+"Backup چیک کیا جا رہا ہے..."
+);
+
+
+let backup;
+
+
+try{
+
+backup=
+JSON.parse(
+text
+);
+
+}catch(error){
+
+throw new Error(
+"یہ صحیح Tailor Backup JSON فائل نہیں ہے۔"
+);
+
+}
+
+
+/* ================================================
+   VALIDATION
+================================================ */
+
+if(
+!backup ||
+!backup.data
+){
+
+throw new Error(
+"Backup فائل کا Data موجود نہیں ہے۔"
+);
+
+}
+
+
+if(
+!Array.isArray(
+backup.data.customers
+)
+){
+
+throw new Error(
+"Customers Data خراب یا موجود نہیں ہے۔"
+);
+
+}
+
+
+if(
+!Array.isArray(
+backup.data.orders
+)
+){
+
+throw new Error(
+"Orders Data خراب یا موجود نہیں ہے۔"
+);
+
+}
+
+
+/* ================================================
+   CONFIRM
+================================================ */
+
+const customerTotal=
+backup.data.customers.length;
+
+
+const orderTotal=
+backup.data.orders.length;
+
+
+const confirmed=
+confirm(
+
+`Backup Import کرنا ہے؟
+
+Customers: ${customerTotal}
+
+Orders: ${orderTotal}
+
+Existing Data delete نہیں ہوگا۔
+Backup کا Data موجودہ Account میں
+دوبارہ شامل/Restore ہوگا۔
+
+کیا آپ جاری رکھنا چاہتے ہیں؟`
+
+);
+
+
+if(!confirmed){
+
+button.disabled=false;
+
+hideProgress();
+
+return;
+
+}
+
+
+/* ================================================
+   PREPARE ALL RECORDS
+================================================ */
+
+const records=[];
+
+
+/*
+Customers
+*/
+
+for(
+const item
+of backup.data.customers
+){
+
+if(
+!item.id
+){
+
+continue;
+
+}
+
+
+records.push({
+
+type:
+"customers",
+
+id:
+item.id,
+
+data:
+deserializeValue(
+item.data||{}
+)
+
+});
+
+}
+
+
+/*
+Orders
+*/
+
+for(
+const item
+of backup.data.orders
+){
+
+if(
+!item.id
+){
+
+continue;
+
+}
+
+
+records.push({
+
+type:
+"orders",
+
+id:
+item.id,
+
+data:
+deserializeValue(
+item.data||{}
+)
+
+});
+
+}
+
+
+/* ================================================
+   FIRESTORE BATCH
+   Maximum 500 writes per batch
+================================================ */
+
+const total=
+records.length;
+
+
+let completed=
+0;
+
+
+const batchSize=
+450;
+
+
+for(
+let start=0;
+start<records.length;
+start+=batchSize
+){
+
+const batch=
+writeBatch(
+db
+);
+
+
+const part=
+records.slice(
+start,
+start+batchSize
+);
+
+
+for(
+const record
+of part
+){
+
+const reference=
+doc(
+
+db,
+
+"users",
+
+currentUser.uid,
+
+record.type,
+
+record.id
+
+);
+
+
+batch.set(
+
+reference,
+
+record.data,
+
+{
+merge:true
+}
+
+);
+
+}
+
+
+await batch.commit();
+
+
+completed+=
+part.length;
+
+
+const percent=
+20+
+Math.round(
+(completed/total)*75
+);
+
+
+progress(
+
+Math.min(
+95,
+percent
+),
+
+`Data Restore ہو رہا ہے... ${completed}/${total}`
+
+);
+
+}
+
+
+/* ================================================
+   COMPLETE
+================================================ */
+   progress(
+100,
+"Import مکمل ہو گیا ✓"
+);
+
+
+await loadCounts();
+
+
+message(
+
+`✅ Backup کامیابی سے Restore ہوگیا۔ Customers: ${customerTotal} — Orders: ${orderTotal}`,
+
+"success"
+
+);
+
+
+hideProgress();
+
+
+button.disabled=false;
+
+
+}catch(error){
+
+console.error(error);
+
+
+hideProgress();
+
+
+button.disabled=false;
+
+
+message(
+
+"❌ Backup Import نہیں ہو سکا: "+
+error.message,
+
+"error"
+
+);
+
+}
+
+}
+
+
+/* =====================================================
+   REFRESH
+===================================================== */
+
+$("refresh").onclick=
+async()=>{
+
+message(
+"Data refresh ہو رہا ہے...",
+"info"
+);
+
+await loadCounts();
+
+message(
+"✅ Data تازہ ہوگیا۔",
+"success"
+);
+
+setTimeout(
+()=>{
+
+message(
+"",
+"info"
+);
+
+},
+2500
+);
+
+
+/* =====================================================
+   EXPORT
+===================================================== */
+
+};
+
+
+$("exportBtn").onclick=
+exportBackup;
+
+
+</script>
+
+</body>
+
+</html>
