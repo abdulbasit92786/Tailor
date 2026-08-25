@@ -13,6 +13,10 @@ padding:0;
 -webkit-tap-highlight-color:transparent
 }
 
+html{
+scroll-behavior:smooth
+}
+
 body{
 min-height:100vh;
 font-family:Arial,Helvetica,sans-serif;
@@ -29,6 +33,11 @@ text-decoration:none;
 color:inherit
 }
 
+button,a{
+-webkit-user-select:none;
+user-select:none
+}
+
 .app{
 width:100%;
 max-width:480px;
@@ -37,6 +46,7 @@ padding:16px
 }
 
 /* TOP BAR */
+
 .top-bar{
 display:flex;
 align-items:center;
@@ -55,12 +65,15 @@ background:#ffffff12;
 border:1px solid #ffffff20;
 box-shadow:0 8px 25px #0005;
 backdrop-filter:blur(15px);
-font-size:22px
+font-size:22px;
+transition:transform .15s,background .15s
 }
 
 .top-button:active{
 transform:scale(.92)
 }
+
+/* TITLE */
 
 .title-area{
 flex:1;
@@ -80,6 +93,7 @@ color:#94a3b8
 }
 
 /* HEADING */
+
 .heading{
 text-align:center;
 margin:18px 0 25px
@@ -102,6 +116,7 @@ line-height:1.6
 }
 
 /* OPTIONS */
+
 .options{
 display:flex;
 flex-direction:column;
@@ -119,11 +134,12 @@ align-items:center;
 gap:18px;
 border:1px solid #ffffff18;
 box-shadow:0 15px 35px #0005;
-transition:.2s
+transition:transform .15s,filter .15s
 }
 
 .order-card:active{
-transform:scale(.97)
+transform:scale(.97);
+filter:brightness(.95)
 }
 
 .order-card:before{
@@ -134,7 +150,8 @@ height:130px;
 border-radius:50%;
 background:#ffffff14;
 right:-45px;
-top:-55px
+top:-55px;
+pointer-events:none
 }
 
 .old{
@@ -161,7 +178,8 @@ z-index:2
 
 .card-text{
 position:relative;
-z-index:2
+z-index:2;
+min-width:0
 }
 
 .card-text h3{
@@ -183,6 +201,7 @@ z-index:2
 }
 
 /* INFO */
+
 .info{
 margin-top:22px;
 padding:17px;
@@ -205,6 +224,7 @@ line-height:1.6
 }
 
 /* BOTTOM NAV */
+
 .bottom-navigation{
 position:fixed;
 left:0;
@@ -232,7 +252,7 @@ width:55px;
 text-align:center;
 color:#94a3b8;
 font-size:9px;
-transition:.2s
+transition:transform .15s,color .15s
 }
 
 .nav-button:active{
@@ -259,6 +279,7 @@ background:#ffffff14
 }
 
 /* ADD BUTTON */
+
 .add-order{
 margin-top:-25px
 }
@@ -278,10 +299,18 @@ position:relative;
 top:2px
 }
 
+/* SMALL SCREEN */
+
 @media(max-width:360px){
 
 .app{
 padding:12px
+}
+
+.order-card{
+padding:18px;
+gap:14px;
+min-height:145px
 }
 
 .card-icon{
@@ -293,6 +322,10 @@ font-size:28px
 
 .card-text h3{
 font-size:16px
+}
+
+.card-text p{
+font-size:10px
 }
 
 .nav-button{
@@ -309,26 +342,45 @@ font-size:8px
 <div class="app">
 
 <!-- TOP BAR -->
+
 <div class="top-bar">
 
-<a href="index.html" class="top-button">←</a>
+<a href="index.html"
+class="top-button"
+aria-label="Back to Home">
+←
+</a>
 
 <div class="title-area">
+
 <h1>Add Order</h1>
-<p>Tailor Manager</p>
+
+<p>
+Tailor Manager
+</p>
+
 </div>
 
-<a href="search.html" class="top-button">🔍</a>
+<a href="search.html"
+class="top-button"
+aria-label="Search">
+🔍
+</a>
 
 </div>
 
 
 <!-- HEADING -->
+
 <div class="heading">
 
-<div class="icon">🧵</div>
+<div class="icon">
+🧵
+</div>
 
-<h2>Create New Order</h2>
+<h2>
+Create New Order
+</h2>
 
 <p>
 Choose whether this is an existing customer
@@ -339,16 +391,24 @@ or a new customer.
 
 
 <!-- TWO OPTIONS -->
+
 <div class="options">
 
-<!-- OLD / REGULAR CUSTOMER -->
-<a href="old-customer.html" class="order-card old">
 
-<div class="card-icon">👤</div>
+<!-- OLD / REGULAR CUSTOMER -->
+
+<a href="old-customer.html"
+class="order-card old">
+
+<div class="card-icon">
+👤
+</div>
 
 <div class="card-text">
 
-<h3>Old / Regular Customer</h3>
+<h3>
+Old / Regular Customer
+</h3>
 
 <p>
 Select a customer already saved in your
@@ -357,19 +417,27 @@ Tailor Manager and create a new order.
 
 </div>
 
-<div class="arrow">←</div>
+<div class="arrow">
+←
+</div>
 
 </a>
 
 
 <!-- NEW CUSTOMER -->
-<a href="new-customer.html" class="order-card new">
 
-<div class="card-icon">🆕</div>
+<a href="new-customer.html"
+class="order-card new">
+
+<div class="card-icon">
+🆕
+</div>
 
 <div class="card-text">
 
-<h3>New Customer</h3>
+<h3>
+New Customer
+</h3>
 
 <p>
 Add a new customer for the first time
@@ -378,7 +446,9 @@ and create their order.
 
 </div>
 
-<div class="arrow">←</div>
+<div class="arrow">
+←
+</div>
 
 </a>
 
@@ -386,9 +456,12 @@ and create their order.
 
 
 <!-- INFO -->
+
 <div class="info">
 
-<strong>💡 Quick Tip</strong>
+<strong>
+💡 Quick Tip
+</strong>
 
 <span>
 For an existing customer, use Old Customer.
@@ -402,56 +475,88 @@ use New Customer.
 
 
 <!-- BOTTOM NAVIGATION -->
+
 <div class="bottom-navigation">
 
 <div class="bottom-inner">
 
+
 <!-- 1 HOME -->
-<a href="index.html" class="nav-button">
 
-<div class="nav-icon">🏠</div>
+<a href="index.html"
+class="nav-button">
 
-<span>Home</span>
+<div class="nav-icon">
+🏠
+</div>
+
+<span>
+Home
+</span>
 
 </a>
 
 
 <!-- 2 ADD ORDER -->
-<a href="add-order.html" class="nav-button add-order active">
 
-<div class="nav-icon">+</div>
+<a href="add-order.html"
+class="nav-button add-order active">
 
-<span>Add Order</span>
+<div class="nav-icon">
++
+</div>
+
+<span>
+Add Order
+</span>
 
 </a>
 
 
 <!-- 3 CUSTOMERS -->
-<a href="customers.html" class="nav-button">
 
-<div class="nav-icon">👥</div>
+<a href="customers.html"
+class="nav-button">
 
-<span>Customers</span>
+<div class="nav-icon">
+👥
+</div>
+
+<span>
+Customers
+</span>
 
 </a>
 
 
 <!-- 4 NEW USERS -->
-<a href="new-users.html" class="nav-button">
 
-<div class="nav-icon">🆕</div>
+<a href="new-users.html"
+class="nav-button">
 
-<span>New Users</span>
+<div class="nav-icon">
+🆕
+</div>
+
+<span>
+New Users
+</span>
 
 </a>
 
 
-<!-- 6 MENU -->
-<a href="menu.html" class="nav-button">
+<!-- 5 MENU -->
 
-<div class="nav-icon">☰</div>
+<a href="menu.html"
+class="nav-button">
 
-<span>Menu</span>
+<div class="nav-icon">
+☰
+</div>
+
+<span>
+Menu
+</span>
 
 </a>
 
