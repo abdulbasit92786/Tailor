@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>New User - Tailor Manager</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#020617;--card:#ffffff0b;--line:#ffffff16;--muted:#94a3b8;--primary:#6366f1;--green:#22c55e}
+html{scroll-behavior:smooth}
+body{
+font-family:"Segoe UI",Arial,sans-serif;min-height:100vh;color:#fff;
+background:
+radial-gradient(circle at 10% 0%,#1e3a8a55,transparent 32%),
+radial-gradient(circle at 100% 100%,#312e8150,transparent 34%),
+linear-gradient(145deg,#020617,#0f172a);
+padding:14px 14px calc(96px + env(safe-area-inset-bottom));
+}
+.app{width:100%;max-width:500px;margin:auto}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.back,.top-action{
+width:44px;height:44px;min-width:44px;border-radius:14px;
+display:grid;place-items:center;color:#fff;text-decoration:none;
+background:#ffffff0d;border:1px solid var(--line);font-size:21px;
+}
+.top-action{cursor:pointer}
+.title{flex:1;text-align:center}
+.title h1{font-size:21px;font-weight:800}
+.title p{font-size:10px;color:var(--muted);margin-top:4px}
+.status{
+display:flex;align-items:center;justify-content:center;gap:7px;
+padding:8px 12px;border-radius:50px;background:#22c55e12;
+border:1px solid #22c55e25;color:#86efac;font-size:10px;margin-bottom:12px
+}
+.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px #22c55e18}
+.section{
+margin-top:12px;padding:16px;border-radius:20px;background:var(--card);
+border:1px solid var(--line);box-shadow:0 10px 28px #0003
+}
+.section-head{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.section-icon{width:35px;height:35px;border-radius:11px;display:grid;place-items:center;background:#6366f122;font-size:17px}
+.section h2{font-size:15px;font-weight:800}
+.section-sub{font-size:10px;color:var(--muted);margin-top:3px}
+label{display:block;color:#cbd5e1;font-size:11px;margin-bottom:6px}
+input{
+width:100%;padding:12px 13px;border-radius:12px;border:1px solid #ffffff18;
+background:#ffffff0a;color:#fff;outline:none;font-size:13px;margin-bottom:12px;
+transition:border-color .15s,background .15s
+}
+input:focus{border-color:#818cf855;background:#ffffff0f}
+input::placeholder{color:#64748b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.grid input{margin-bottom:2px}
+.photo{display:flex;align-items:center;gap:12px}
+.preview{
+width:76px;height:76px;min-width:76px;border-radius:19px;overflow:hidden;
+display:grid;place-items:center;background:#ffffff0a;border:1px solid #ffffff14;font-size:28px
+}
+.preview img{width:100%;height:100%;object-fit:cover}
+.photo-info{flex:1}
+.pick{
+display:inline-flex;align-items:center;justify-content:center;gap:5px;
+padding:10px 13px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#4338ca);
+font-size:11px;font-weight:700;cursor:pointer
+}
+#photo{display:none}
+.file-note{font-size:9px;color:#64748b;margin-top:7px;line-height:1.6}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.option input{display:none}
+.option label{
+padding:12px 7px;margin:0;border:1px solid #ffffff15;background:#ffffff07;
+border-radius:12px;text-align:center;cursor:pointer;color:#cbd5e1
+}
+.option input:checked+label{
+background:linear-gradient(135deg,#6366f1,#4338ca);
+border-color:#818cf8;color:#fff;box-shadow:0 5px 15px #6366f133
+}
+.meta{
+display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px
+}
+.meta-box{padding:10px;border-radius:12px;background:#0003;border:1px solid #ffffff0c;text-align:center}
+.meta-box span{display:block;color:#64748b;font-size:9px;margin-bottom:4px}
+.meta-box b{font-size:10px;color:#cbd5e1}
+.save{
+width:100%;margin-top:16px;padding:15px;border:0;border-radius:16px;
+background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;
+font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 8px 22px #22c55e2b;
+transition:transform .15s,opacity .15s
+}
+.save:active{transform:scale(.985)}
+.save:disabled{opacity:.55;cursor:not-allowed}
+.msg{min-height:23px;text-align:center;margin-top:9px;font-size:11px;line-height:1.7}
+.msg.success{color:#86efac}.msg.error{color:#fca5a5}.msg.info{color:#93c5fd}
+.loading{display:inline-block;width:15px;height:15px;border:2px solid #ffffff55;border-top-color:#fff;border-radius:50%;vertical-align:-3px;animation:spin .7s linear infinite;margin-left:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bottom{
+position:fixed;left:0;right:0;bottom:0;height:74px;padding-bottom:env(safe-area-inset-bottom);
+background:#020617f4;border-top:1px solid #ffffff14;backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);z-index:100
+}
+.nav{
+height:100%;max-width:500px;margin:auto;display:flex;align-items:center;
+justify-content:space-around;direction:ltr
+}
+.nav a{
+width:20%;text-decoration:none;color:#64748b;text-align:center;font-size:8px;direction:rtl
+}
+.nav i{display:block;font-style:normal;font-size:19px;line-height:24px;margin-bottom:2px}
+.nav a.active{color:#fff}
+.nav a.active i{filter:drop-shadow(0 0 7px #818cf8)}
+@media(max-width:360px){
+body{padding-left:10px;padding-right:10px}
+.section{padding:14px}.grid,.options{grid-template-columns:1fr}
+.title h1{font-size:19px}.nav i{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="top">
+<a href="customers.html" class="back" aria-label="واپس">→</a>
+<div class="title">
+<h1 id="pageTitle">👤 نیا کسٹمر</h1>
+<p id="pageSub">New Customer Profile</p>
+</div>
+<button id="refresh" class="top-action" type="button" aria-label="تازہ کریں">↻</button>
+</div>
+
+<div class="status"><span class="dot"></span><span id="statusText">محفوظ طریقے سے ڈیٹا تیار ہے</span></div>
+
+<div class="section">
+<div class="section-head"><div class="section-icon">👤</div><div><h2>کسٹمر کی معلومات</h2><div class="section-sub">بنیادی معلومات</div></div></div>
+<label for="name">نام *</label>
+<input id="name" autocomplete="name" placeholder="کسٹمر کا نام">
+<label for="phone">فون نمبر *</label>
+<input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="03XXXXXXXXX">
+<label for="address">علاقہ / مکمل پتہ</label>
+<input id="address" autocomplete="street-address" placeholder="علاقہ اور مکمل پتہ">
+</div>
+
+<div class="section">
+<div class="section-head"><div class="section-icon">📷</div><div><h2>کسٹمر کی تصویر</h2><div class="section-sub">اختیاری، خودکار طور پر compress ہوگی</div></div></div>
+<div class="photo">
+<div class="preview" id="preview">👤</div>
+<div class="photo-info">
+<label class="pick" for="photo">📷 تصویر منتخب کریں</label>
+<input id="photo" type="file" accept="image/*" capture="environment">
+<div class="file-note">بڑی تصویر کو خودکار طور پر چھوٹا کر کے Firebase Storage میں محفوظ کیا جائے گا۔</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-head"><div class="section-icon">📏</div><div><h2>کسٹمر کا مستقل ناپ</h2><div class="section-sub">اوپر سے نیچے ترتیب</div></div></div>
+<div class="grid">
+<div><label>لمبائی</label><input id="length" inputmode="decimal"></div>
+<div><label>تیرا</label><input id="tera" inputmode="decimal"></div>
+<div><label>آستین</label><input id="sleeve" inputmode="decimal"></div>
+<div><label>گلہ</label><input id="neck" inputmode="decimal"></div>
+<div><label>چھاتی</label><input id="chest" inputmode="decimal"></div>
+<div><label>کمر</label><input id="waist" inputmode="decimal"></div>
+<div><label>دامن</label><input id="daman" inputmode="decimal"></div>
+<div><label>شلوار لمبائی مکمل</label><input id="shalwarLength" inputmode="decimal"></div>
+<div><label>پانچہ</label><input id="pancha" inputmode="decimal"></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-head"><div class="section-icon">✂️</div><div><h2>مستقل ڈیزائن / پسند</h2><div class="section-sub">آئندہ آرڈرز میں یاد رکھنے کے لیے</div></div></div>
+<div class="options">
+<div class="option"><input id="twoPiece" type="checkbox"><label for="twoPiece">ٹو پیس</label></div>
+<div class="option"><input id="band" type="checkbox"><label for="band">بین</label></div>
+<div class="option"><input id="roundDaman" type="checkbox"><label for="roundDaman">گول دامن</label></div>
+<div class="option"><input id="squareDaman" type="checkbox"><label for="squareDaman">چورس دامن</label></div>
+<div class="option"><input id="bothSides" type="checkbox"><label for="bothSides">دوبغل</label></div>
+<div class="option"><input id="front" type="checkbox"><label for="front">سامنے</label></div>
+<div class="option"><input id="shalwarPocket" type="checkbox"><label for="shalwarPocket">شلوار جیب</label></div>
+<div class="option"><input id="tilaGoot" type="checkbox"><label for="tilaGoot">تیلا گوٹ</label></div>
+<div class="option"><input id="fitCuff" type="checkbox"><label for="fitCuff">فیٹ کف</label></div>
+<div class="option"><input id="simpleSleeve" type="checkbox"><label for="simpleSleeve">سادہ آستین</label></div>
+<div class="option"><input id="cuffed" type="checkbox"><label for="cuffed">کف دار</label></div>
+</div>
+</div>
+
+<div class="meta">
+<div class="meta-box"><span>ریکارڈ نمبر</span><b id="accountNo">نیا</b></div>
+<div class="meta-box"><span>آخری تبدیلی</span><b id="lastDate">—</b></div>
+</div>
+
+<button id="save" class="save" type="button">💾 کسٹمر محفوظ کریں</button>
+<div id="msg" class="msg"></div>
+
+</div>
+
+<div class="bottom">
+<div class="nav">
+<a href="index.html"><i>🏠</i>Home</a>
+<a href="add-order.html"><i>➕</i>Add Order</a>
+<a href="customers.html"><i>👥</i>Customers</a>
+<a href="new-users.html" class="active"><i>🆕</i>New User</a>
+<a href="menu.html"><i>☰</i>Menu</a>
+</div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,collection,addDoc,runTransaction,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import{getStorage,ref,uploadBytes,getDownloadURL}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyDsoWnSGzzt3BRuL5fIhq7dfg2fqyibM1U",
+authDomain:"tailor-web-f1f1c.firebaseapp.com",
+projectId:"tailor-web-f1f1c",
+storageBucket:"tailor-web-f1f1c.firebasestorage.app",
+messagingSenderId:"129811668871",
+appId:"1:129811668871:web:586357e9e696a9652ffd22"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const storage=getStorage(app);
+
+const $=id=>document.getElementById(id);
+const V=id=>$(id).value.trim();
+
+const measurementFields=["length","tera","sleeve","neck","chest","waist","daman","shalwarLength","pancha"];
+const designFields=["twoPiece","band","roundDaman","squareDaman","bothSides","front","shalwarPocket","tilaGoot","fitCuff","simpleSleeve","cuffed"];
+
+const editId=new URLSearchParams(location.search).get("edit");
+let currentUser=null;
+let selectedFile=null;
+let oldPhoto="";
+let loaded=false;
+
+function showMsg(text,type="info"){
+const el=$("msg");
+el.className="msg "+type;
+el.textContent=text;
+}
+
+function formatDate(value){
+if(!value)return "—";
+let d=value?.toDate?value.toDate():new Date(value);
+if(Number.isNaN(d.getTime()))return "—";
+return new Intl.DateTimeFormat("ur-PK",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).format(d);
+}
+
+function setBusy(busy){
+const btn=$("save");
+btn.disabled=busy;
+if(busy)btn.innerHTML='⏳ محفوظ ہو رہا ہے <span class="loading"></span>';
+else btn.textContent=editId?"🔄 Customer Update کریں":"💾 کسٹمر محفوظ کریں";
+}
+
+function compressImage(file){
+return new Promise((resolve,reject)=>{
+const reader=new FileReader();
+reader.onerror=()=>reject(new Error("تصویر پڑھ نہیں سکی"));
+reader.onload=()=>{
+const img=new Image();
+img.onerror=()=>reject(new Error("تصویر درست نہیں"));
+img.onload=()=>{
+const max=900;
+const scale=Math.min(1,max/img.width,max/img.height);
+const w=Math.max(1,Math.round(img.width*scale));
+const h=Math.max(1,Math.round(img.height*scale));
+const canvas=document.createElement("canvas");
+canvas.width=w;canvas.height=h;
+canvas.getContext("2d").drawImage(img,0,0,w,h);
+canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("تصویر compress نہیں ہوئی")),"image/jpeg",.72);
+};
+img.src=reader.result;
+};
+reader.readAsDataURL(file);
+});
+}
+
+async function loadEdit(){
+try{
+const snap=await getDoc(doc(db,"users",currentUser.uid,"customers",editId));
+if(!snap.exists()){
+showMsg("❌ Customer نہیں ملا","error");
+$("statusText").textContent="Customer دستیاب نہیں";
+return;
+}
+const c=snap.data();
+const m=c.measurements||{};
+const d=c.designs||{};
+
+$("pageTitle").textContent="✏️ Customer Edit";
+$("pageSub").textContent="موجودہ معلومات تبدیل کریں";
+$("save").textContent="🔄 Customer Update کریں";
+$("statusText").textContent="موجودہ Customer میں ترمیم";
+$("accountNo").textContent=c.accountNo?`#${c.accountNo}`:"—";
+$("lastDate").textContent=formatDate(c.updatedAt||c.createdAt);
+
+$("name").value=c.name||"";
+$("phone").value=c.phone||"";
+$("address").value=c.address||"";
+oldPhoto=c.photo||"";
+
+if(oldPhoto)$("preview").innerHTML=`<img src="${oldPhoto}" alt="Customer">`;
+
+measurementFields.forEach(id=>$(id).value=m[id]??"");
+designFields.forEach(id=>$(id).checked=!!d[id]);
+loaded=true;
+}catch(error){
+console.error(error);
+showMsg("❌ Data لوڈ نہیں ہوا: "+error.message,"error");
+}
+}
+
+$("photo").addEventListener("change",event=>{
+selectedFile=event.target.files?.[0]||null;
+if(!selectedFile)return;
+if(selectedFile.size>8*1024*1024){
+showMsg("❌ تصویر 8MB سے کم ہونی چاہیے","error");
+selectedFile=null;
+event.target.value="";
+return;
+}
+const reader=new FileReader();
+reader.onload=()=>{$("preview").innerHTML=`<img src="${reader.result}" alt="Preview">`};
+reader.readAsDataURL(selectedFile);
+});
+
+$("refresh").onclick=()=>location.reload();
+
+onAuthStateChanged(auth,async user=>{
+if(!user){location.replace("login.html");return}
+currentUser=user;
+if(editId)await loadEdit();
+else{
+$("statusText").textContent="نیا Customer تیار ہے";
+$("lastDate").textContent=formatDate(new Date());
+}
+});
+
+$("save").onclick=async()=>{
+if(!currentUser){showMsg("پہلے Login کریں","error");return}
+if(editId&&!loaded){showMsg("Customer Data ابھی لوڈ ہو رہا ہے","info");return}
+
+const name=V("name");
+const phone=V("phone");
+
+if(!name){showMsg("❌ کسٹمر کا نام ضروری ہے","error");$("name").focus();return}
+if(!phone){showMsg("❌ فون نمبر ضروری ہے","error");$("phone").focus();return}
+
+setBusy(true);
+showMsg("Customer Data محفوظ کیا جا رہا ہے...","info");
+
+try{
+let photo=oldPhoto;
+
+if(selectedFile){
+showMsg("📷 تصویر تیار کی جا رہی ہے...","info");
+const blob=await compressImage(selectedFile);
+const storagePath=`customers/${currentUser.uid}/${editId||crypto.randomUUID()}.jpg`;
+const storageRef=ref(storage,storagePath);
+await uploadBytes(storageRef,blob,{contentType:"image/jpeg"});
+photo=await getDownloadURL(storageRef);
+}
+
+const measurements={};
+measurementFields.forEach(id=>measurements[id]=V(id));
+
+const designs={};
+designFields.forEach(id=>designs[id]=$(id).checked);
+
+const now=serverTimestamp();
+
+if(editId){
+const customerRef=doc(db,"users",currentUser.uid,"customers",editId);
+await setDoc(customerRef,{
+name,phone,address:V("address"),measurements,designs,photo,
+userId:currentUser.uid,updatedAt:now
+},{merge:true});
+}else{
+const counterRef=doc(db,"users",currentUser.uid,"meta","counters");
+const customerRef=doc(collection(db,"users",currentUser.uid,"customers"));
+
+const accountNo=await runTransaction(db,async tx=>{
+const counterSnap=await tx.get(counterRef);
+const next=Number(counterSnap.exists()?counterSnap.data().customerNo:0)+1;
+tx.set(counterRef,{customerNo:next,updatedAt:now},{merge:true});
+return next;
+});
+
+await setDoc(customerRef,{
+name,phone,address:V("address"),measurements,designs,photo,
+accountNo,userId:currentUser.uid,
+status:"active",
+customerType:"new",
+createdAt:now,
+updatedAt:now
+});
+
+$("accountNo").textContent=`#${accountNo}`;
+}
+
+showMsg(editId?"✅ Customer کامیابی سے Update ہوگیا":"✅ Customer کامیابی سے محفوظ ہوگیا","success");
+$("statusText").textContent=editId?"Customer Update ہوگیا":"New User میں محفوظ ہوگیا";
+$("lastDate").textContent=formatDate(new Date());
+
+setTimeout(()=>location.href="customers.html",900);
+}catch(error){
+console.error(error);
+showMsg("❌ محفوظ نہیں ہوا: "+error.message,"error");
+setBusy(false);
+}
+};
+</script>
+</body>
+</html>
