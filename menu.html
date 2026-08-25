@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1"
+>
+
+<title>Menu - Tailor Manager</title>
+
+<style>
+
+/* ================= BASIC ================= */
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+-webkit-tap-highlight-color:transparent
+}
+
+html{
+scroll-behavior:smooth
+}
+
+body{
+
+font-family:
+Arial,
+Helvetica,
+sans-serif;
+
+min-height:100vh;
+
+color:#fff;
+
+background:
+
+radial-gradient(
+circle at top left,
+#334155 0%,
+transparent 35%
+),
+
+radial-gradient(
+circle at bottom right,
+#312e81 0%,
+transparent 40%
+),
+
+linear-gradient(
+145deg,
+#020617,
+#0f172a
+);
+
+padding:
+16px 16px 110px
+}
+
+button,
+input{
+font-family:inherit
+}
+
+button{
+-webkit-appearance:none
+}
+
+.app{
+max-width:480px;
+margin:auto
+}
+
+
+/* ================= TOP ================= */
+
+.top{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+margin-bottom:18px
+}
+
+.back,
+.refresh{
+
+width:46px;
+
+height:46px;
+
+border-radius:15px;
+
+display:grid;
+
+place-items:center;
+
+background:#ffffff12;
+
+border:
+1px solid #ffffff20;
+
+color:#fff;
+
+text-decoration:none;
+
+font-size:21px;
+
+cursor:pointer
+}
+
+.refresh{
+
+background:
+linear-gradient(
+135deg,
+#334155,
+#1e293b
+)
+}
+
+.title{
+
+flex:1;
+
+text-align:center
+}
+
+.title h1{
+
+font-size:22px;
+
+font-weight:bold
+}
+
+.title p{
+
+font-size:11px;
+
+color:#94a3b8;
+
+margin-top:4px
+}
+
+
+/* ================= USER BOX ================= */
+
+.user-box{
+
+padding:15px;
+
+border-radius:20px;
+
+background:#ffffff0b;
+
+border:
+1px solid #ffffff14;
+
+box-shadow:
+0 10px 25px #0003;
+
+margin-bottom:15px
+}
+
+.user-row{
+
+display:flex;
+
+align-items:center;
+
+gap:12px
+}
+
+.user-avatar{
+
+width:50px;
+
+height:50px;
+
+min-width:50px;
+
+border-radius:50%;
+
+display:grid;
+
+place-items:center;
+
+background:
+linear-gradient(
+135deg,
+#6366f1,
+#4338ca
+);
+
+font-size:22px
+}
+
+.user-info{
+
+flex:1;
+
+min-width:0
+}
+
+.user-name{
+
+font-size:14px;
+
+font-weight:bold;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+white-space:nowrap
+}
+
+.user-email{
+
+font-size:10px;
+
+color:#94a3b8;
+
+margin-top:5px;
+
+direction:ltr;
+
+text-align:right;
+
+overflow:hidden;
+
+text-overflow:ellipsis
+}
+
+
+/* ================= SECTION ================= */
+
+.section-title{
+
+font-size:14px;
+
+font-weight:bold;
+
+margin:
+18px 3px 10px
+}
+
+
+/* ================= BACKUP CARD ================= */
+
+.backup-card{
+
+padding:17px;
+
+border-radius:22px;
+
+background:
+linear-gradient(
+145deg,
+#111827,
+#172554
+);
+
+border:
+1px solid #ffffff18;
+
+box-shadow:
+0 12px 30px #0005;
+
+margin-bottom:12px
+}
+
+.backup-icon{
+
+width:58px;
+
+height:58px;
+
+border-radius:18px;
+
+display:grid;
+
+place-items:center;
+
+font-size:28px;
+
+background:
+linear-gradient(
+135deg,
+#6366f1,
+#4338ca
+);
+
+margin-bottom:12px
+}
+
+.backup-title{
+
+font-size:17px;
+
+font-weight:bold;
+
+margin-bottom:6px
+}
+
+.backup-text{
+
+font-size:11px;
+
+line-height:1.8;
+
+color:#94a3b8;
+
+margin-bottom:15px
+}
+
+
+/* ================= BACKUP INFO ================= */
+
+.backup-info{
+
+display:grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap:8px;
+
+margin-bottom:12px
+}
+
+.info-box{
+
+padding:11px;
+
+border-radius:13px;
+
+background:#0004;
+
+border:
+1px solid #ffffff0d;
+
+text-align:center
+}
+
+.info-box b{
+
+display:block;
+
+font-size:18px;
+
+margin-bottom:3px
+}
+
+.info-box span{
+
+font-size:9px;
+
+color:#94a3b8
+}
+
+
+/* ================= BUTTONS ================= */
+
+.action-button{
+
+width:100%;
+
+padding:15px;
+
+border:0;
+
+border-radius:15px;
+
+color:#fff;
+
+font-size:13px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+margin-top:8px;
+
+transition:
+transform .15s,
+opacity .15s
+}
+
+.action-button:active{
+
+transform:scale(.98)
+}
+
+.action-button:disabled{
+
+opacity:.55;
+
+cursor:not-allowed
+}
+
+.export-button{
+
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#15803d
+);
+
+box-shadow:
+0 8px 20px #22c55e22
+}
+
+.import-button{
+
+background:
+linear-gradient(
+135deg,
+#3b82f6,
+#1d4ed8
+);
+
+box-shadow:
+0 8px 20px #3b82f622
+}
+
+
+/* ================= WARNING ================= */
+
+.warning{
+
+padding:13px;
+
+border-radius:15px;
+
+background:#f59e0b12;
+
+border:
+1px solid #f59e0b2b;
+
+color:#fcd34d;
+
+font-size:10px;
+
+line-height:1.8;
+
+margin-top:12px
+}
+
+
+/* ================= PROGRESS ================= */
+
+.progress-box{
+
+display:none;
+
+margin-top:14px;
+
+padding:13px;
+
+border-radius:15px;
+
+background:#0004;
+
+border:
+1px solid #ffffff12
+}
+
+.progress-box.show{
+
+display:block
+}
+
+.progress-text{
+
+font-size:11px;
+
+color:#cbd5e1;
+
+margin-bottom:8px;
+
+text-align:center
+}
+
+.progress{
+
+height:8px;
+
+border-radius:20px;
+
+background:#ffffff12;
+
+overflow:hidden
+}
+
+.progress-bar{
+
+width:0%;
+
+height:100%;
+
+border-radius:20px;
+
+background:
+linear-gradient(
+90deg,
+#6366f1,
+#22c55e
+);
+
+transition:
+width .25s
+}
+
+
+/* ================= MESSAGE ================= */
+
+.msg{
+
+min-height:22px;
+
+text-align:center;
+
+font-size:11px;
+
+line-height:1.7;
+
+margin:
+10px 0
+}
+
+.success{
+
+color:#86efac
+}
+
+.error{
+
+color:#fca5a5
+}
+
+.info{
+
+color:#93c5fd
+}
+
+
+/* ================= BACKUP DETAILS ================= */
+
+.details-card{
+
+padding:16px;
+
+border-radius:20px;
+
+background:#ffffff09;
+
+border:
+1px solid #ffffff12;
+
+margin-top:12px
+}
+
+.detail-row{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:10px;
+
+padding:11px 0;
+
+border-bottom:
+1px solid #ffffff0d;
+
+font-size:11px
+}
+
+.detail-row:last-child{
+
+border-bottom:0
+}
+
+.detail-label{
+
+color:#94a3b8
+}
+
+.detail-value{
+
+font-weight:bold;
+
+text-align:left;
+
+direction:ltr
+}
+
+
+/* ================= EMPTY / HELP ================= */
+
+.help-card{
+
+padding:16px;
+
+border-radius:20px;
+
+background:#ffffff09;
+
+border:
+1px solid #ffffff12;
+
+margin-top:12px
+}
+
+.help-title{
+
+font-size:14px;
+
+font-weight:bold;
+
+margin-bottom:10px
+}
+
+.help-item{
+
+display:flex;
+
+gap:9px;
+
+padding:9px 0;
+
+font-size:10px;
+
+line-height:1.7;
+
+color:#cbd5e1;
+
+border-bottom:
+1px solid #ffffff0d
+}
+
+.help-item:last-child{
+
+border-bottom:0
+}
+
+.help-number{
+
+width:24px;
+
+height:24px;
+
+min-width:24px;
+
+border-radius:50%;
+
+display:grid;
+
+place-items:center;
+
+background:#6366f122;
+
+color:#c7d2fe;
+
+font-weight:bold
+}
+
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom{
+
+position:fixed;
+
+left:0;
+
+right:0;
+
+bottom:0;
+
+height:78px;
+
+background:#020617f7;
+
+border-top:
+1px solid #ffffff15;
+
+backdrop-filter:
+blur(18px);
+
+-webkit-backdrop-filter:
+blur(18px);
+
+z-index:999
+}
+
+.nav{
+
+height:100%;
+
+max-width:480px;
+
+margin:auto;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-around
+}
+
+.nav a{
+
+text-decoration:none;
+
+color:#94a3b8;
+
+font-size:9px;
+
+text-align:center;
+
+min-width:50px
+}
+
+.nav i{
+
+display:block;
+
+font-style:normal;
+
+font-size:20px;
+
+margin-bottom:3px
+}
+
+.nav .active{
+
+color:#fff
+}
+
+.nav .active i{
+
+filter:
+drop-shadow(
+0 0 7px #818cf8
+)
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:360px){
+
+.nav a{
+
+font-size:8px;
+
+min-width:43px
+}
+
+.nav i{
+
+font-size:18px
+}
+
+.backup-info{
+
+grid-template-columns:
+1fr 1fr
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- ================= TOP ================= -->
+
+<div class="top">
+
+<a
+href="index.html"
+class="back"
+>
+←
+</a>
+
+<div class="title">
+
+<h1>
+☰ Menu
+</h1>
+
+<p>
+Tailor Manager Settings
+</p>
+
+</div>
+
+<button
+id="refresh"
+class="refresh"
+>
+↻
+</button>
+
+</div>
+
+
+<!-- ================= USER ================= -->
+
+<div class="user-box">
+
+<div class="user-row">
+
+<div class="user-avatar">
+👤
+</div>
+
+<div class="user-info">
+
+<div
+id="userName"
+class="user-name"
+>
+Tailor Manager
+</div>
+
+<div
+id="userEmail"
+class="user-email"
+>
+-
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= BACKUP TITLE ================= -->
+
+<div class="section-title">
+
+💾 Backup & Restore
+
+</div>
+
+
+<!-- ================= BACKUP CARD ================= -->
+
+<div class="backup-card">
+
+
+<div class="backup-icon">
+
+💾
+
+</div>
+
+
+<div class="backup-title">
+
+Tailor Manager Backup
+
+</div>
+
+
+<div class="backup-text">
+
+اپنے تمام Customers اور Orders کا مکمل Backup
+ایک فائل میں محفوظ کریں۔ بعد میں اسی فائل سے
+اپنا پورا ریکارڈ دوبارہ واپس لایا جا سکتا ہے۔
+
+</div>
+
+
+<!-- ================= COUNTS ================= -->
+
+<div class="backup-info">
+
+
+<div class="info-box">
+
+<b id="customerCount">
+0
+</b>
+
+<span>
+Customers
+</span>
+
+</div>
+
+
+<div class="info-box">
+
+<b id="orderCount">
+0
+</b>
+
+<span>
+Orders
+</span>
+
+</div>
+
+</div>
+
+
+<!-- ================= EXPORT ================= -->
+
+<button
+id="exportBtn"
+class="action-button export-button"
+>
+
+📤 Export Full Backup
+
+</button>
+
+
+<!-- ================= IMPORT ================= -->
+
+<button
+id="importBtn"
+class="action-button import-button"
+>
+
+📥 Import Backup
+
+</button>
+
+
+<input
+id="fileInput"
+type="file"
+accept=".json,application/json"
+style="display:none"
+>
+
+
+<!-- ================= PROGRESS ================= -->
+
+<div
+id="progressBox"
+class="progress-box"
+>
+
+<div
+id="progressText"
+class="progress-text"
+>
+تیاری ہو رہی ہے...
+</div>
+
+<div class="progress">
+
+<div
+id="progressBar"
+class="progress-bar"
+>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= MESSAGE ================= -->
+
+<div
+id="msg"
+class="msg"
+>
+</div>
+
+
+<!-- ================= WARNING ================= -->
+
+<div class="warning">
+
+⚠️ <b>اہم:</b>
+Backup فائل کو محفوظ جگہ پر ضرور رکھیں۔
+آپ اسے موبائل، کمپیوٹر، USB یا کسی دوسری جگہ
+پر بھی رکھ سکتے ہیں۔ Import کرنے سے موجودہ
+Customers/Orders خود سے Delete نہیں ہوں گے۔
+
+</div>
+
+
+</div>
+
+
+<!-- ================= BACKUP DETAILS ================= -->
+
+<div class="details-card">
+
+<div class="section-title" style="margin-top:0">
+
+📦 Backup میں کیا محفوظ ہوگا؟
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+👥 Customers
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+📏 Measurements
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+✂️ Designs
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+🧵 Orders
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+📅 Order Dates
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+🟡 Pending
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+🔵 Ready in Shop
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+🟢 Completed
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+📦 Delivered
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+🎨 Colors
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+
+<div class="detail-row">
+
+<span class="detail-label">
+👤 Receiver Information
+</span>
+
+<span class="detail-value">
+✓
+</span>
+
+</div>
+
+</div>
+
+
+<!-- ================= HELP ================= -->
+
+<div class="help-card">
+
+<div class="help-title">
+
+📚 Backup کیسے استعمال کرنا ہے؟
+
+</div>
+
+
+<div class="help-item">
+
+<div class="help-number">
+1
+</div>
+
+<div>
+
+پہلے <b>Export Full Backup</b> دبائیں۔
+آپ کے موجودہ Customers اور Orders کی
+JSON Backup فائل بن جائے گی۔
+
+</div>
+
+</div>
+
+
+<div class="help-item">
+
+<div class="help-number">
+2
+</div>
+
+<div>
+
+Backup فائل کو اپنے File Manager،
+Computer، USB یا کسی محفوظ جگہ پر رکھیں۔
+
+</div>
+
+</div>
+
+
+<div class="help-item">
+
+<div class="help-number">
+3
+</div>
+
+<div>
+
+اگر کبھی موبائل تبدیل ہو جائے یا Data
+delete ہو جائے تو Tailor Manager میں login
+کریں اور <b>Import Backup</b> دبائیں۔
+
+</div>
+
+</div>
+
+
+<div class="help-item">
+
+<div class="help-number">
+4
+</div>
+
+<div>
+
+اپنی محفوظ کی ہوئی
+<b>Tailor-Backup-....json</b>
+فائل منتخب کریں۔
+
+</div>
+
+</div>
+
+
+<div class="help-item">
+
+<div class="help-number">
+5
+</div>
+
+<div>
+
+Backup کا Customers اور Orders Data
+دوبارہ آپ کے موجودہ Account میں
+Restore ہو جائے گا۔
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<div class="bottom">
+
+<div class="nav">
+
+
+<a href="index.html">
+
+<i>🏠</i>
+
+Home
+
+</a>
+
+
+<a href="add-order.html">
+
+<i>➕</i>
+
+Add Order
+
+</a>
+
+
+<a href="customers.html">
+
+<i>👥</i>
+
+Customers
+
+</a>
+
+
+<a href="new-user.html">
+
+<i>🆕</i>
+
+New Users
+
+</a>
+
+
+<a
+href="menu.html"
+class="active"
+>
+
+<i>☰</i>
+
+Menu
+
+</a>
+
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE IMPORTS
+===================================================== */
+
+import{
+
+initializeApp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+
+import{
+
+getAuth,
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+
+import{
+
+getFirestore,
+
+collection,
+
+getDocs,
+
+doc,
+
+writeBatch,
+
+Timestamp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig={
+
+apiKey:
+"AIzaSyDsoWnSGzzt3BRuL5fIhq7dfg2fqyibM1U",
+
+authDomain:
+"tailor-web-f1f1c.firebaseapp.com",
+
+projectId:
+"tailor-web-f1f1c",
+
+storageBucket:
+"tailor-web-f1f1c.firebasestorage.app",
+
+messagingSenderId:
+"129811668871",
+
+appId:
+"1:129811668871:web:586357e9e696a9652ffd22"
+
+};
+
+
+/* =====================================================
+   FIREBASE START
+===================================================== */
+
+const app=
+initializeApp(
+firebaseConfig
+);
+
+const auth=
+getAuth(app);
+
+const db=
+getFirestore(app);
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentUser=null;
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+const $=
+id=>
+document.getElementById(id);
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function message(
+text,
+type="info"
+){
+
+const box=$("msg");
+
+box.className=
+"msg "+
+type;
+
+box.textContent=
+text;
+
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function progress(
+percent,
+text
+){
+
+$("progressBox")
+.classList.add("show");
+
+$("progressBar")
+.style.width=
+percent+"%";
+
+$("progressText")
+.textContent=
+text;
+
+}
+
+
+function hideProgress(){
+
+setTimeout(
+()=>{
+
+$("progressBox")
+.classList.remove(
+"show"
+);
+
+$("progressBar")
+.style.width=
+"0%";
+
+},
+1000
+);
+
+}
+
+
+/* =====================================================
+   FIRESTORE TIMESTAMP → JSON
+===================================================== */
+
+function serializeValue(
+value
+){
+
+/*
+Firestore Timestamp
+*/
+
+if(
+value instanceof Timestamp
+){
+
+return{
+
+__type:
+"timestamp",
+
+seconds:
+value.seconds,
+
+nanoseconds:
+value.nanoseconds
+
+};
+
+}
+
+
+/*
+Array
+*/
+
+if(
+Array.isArray(value)
+){
+
+return value.map(
+serializeValue
+);
+
+}
+
+
+/*
+Object
+*/
+
+if(
+value &&
+typeof value==="object"
+){
+
+const result={};
+
+for(
+const key
+of Object.keys(value)
+){
+
+result[key]=
+serializeValue(
+value[key]
+);
+
+}
+
+return result;
+
+}
+
+
+/*
+Normal value
+*/
+
+return value;
+
+}
+
+
+/* =====================================================
+   JSON → FIRESTORE
+===================================================== */
+
+function deserializeValue(
+value
+){
+
+if(
+Array.isArray(value)
+){
+
+return value.map(
+deserializeValue
+);
+
+}
+
+
+if(
+value &&
+typeof value==="object"
+){
+
+if(
+value.__type===
+"timestamp"
+){
+
+return Timestamp.fromMillis(
+
+(
+Number(value.seconds)||0
+)*1000
++
+Math.floor(
+(
+Number(value.nanoseconds)||0
+)/1000000
+)
+
+);
+
+}
+
+
+const result={};
+
+for(
+const key
+of Object.keys(value)
+){
+
+result[key]=
+deserializeValue(
+value[key]
+);
+
+}
+
+return result;
+
+}
+
+
+return value;
+
+}
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+onAuthStateChanged(
+auth,
+async user=>{
+
+if(!user){
+
+location.replace(
+"login.html"
+);
+
+return;
+
+}
+
+currentUser=user;
+
+
+/*
+User information
+*/
+
+$("userEmail")
+.textContent=
+user.email||"-";
+
+
+$("userName")
+.textContent=
+user.displayName||
+"Tailor Manager";
+
+
+await loadCounts();
+
+}
+);
+
+
+/* =====================================================
+   LOAD COUNTS
+===================================================== */
+
+async function loadCounts(){
+
+try{
+
+
+const customerSnap=
+await getDocs(
+
+collection(
+
+db,
+
+"users",
+
+currentUser.uid,
+
+"customers"
+
+)
+
+);
+
+
+const orderSnap=
+await getDocs(
+
+collection(
+
+db,
+
+"users",
+
+currentUser.uid,
+
+"orders"
+
+)
+
+);
+
+
+$("customerCount")
+.textContent=
+customerSnap.size;
+
+
+$("orderCount")
+.textContent=
+orderSnap.size;
+
+
+}catch(error){
+
+console.error(error);
+
+message(
+"Data count لوڈ نہیں ہو سکا۔",
+"error"
+);
+
+}
+
+}
+
+
+/* =====================================================
+   EXPORT BACKUP
+===================================================== */
+
+async function exportBackup(){
+
+if(!currentUser){
+
+message(
+"پہلے Login کریں۔",
+"error"
+);
+
+return;
+
+}
+
+
+const button=
+$("exportBtn");
+
+button.disabled=true;
+
+message(
+"Backup تیار ہو رہا ہے...",
+"info"
+);
+
+progress(
+10,
+"Customers پڑھ رہے ہیں..."
+);
+
+
+try{
+
+
+/* ================================================
+   CUSTOMERS
+================================================ */
+
+const customerSnap=
+await getDocs(
+
+collection(
+
+db,
+
+"users",
+
+currentUser.uid,
+
+"customers"
+
+)
+
+);
+
+
+progress(
+35,
+"Customers محفوظ ہو رہے ہیں..."
+);
+
+
+const customers=
+customerSnap.docs.map(
+item=>({
+
+id:item.id,
+
+data:
+serializeValue(
+item.data()
+)
+
+})
+);
+
+
+/* ================================================
+   ORDERS
+================================================ */
+
+progress(
+50,
+"Orders پڑھ رہے ہیں..."
+);
+
+
+const orderSnap=
+await getDocs(
+
+collection(
+
+db,
+
+"users",
+
+currentUser.uid,
+
+"orders"
+
+)
+
+);
+
+
+progress(
+70,
+"Orders محفوظ ہو رہے ہیں..."
+);
+
+
+const orders=
+orderSnap.docs.map(
+item=>({
+
+id:item.id,
+
+data:
+serializeValue(
+item.data()
+)
+
+})
+);
+
+
+/* ================================================
+   BACKUP OBJECT
+================================================ */
+
+const now=
+new Date();
+
+
+const backup={
+
+backupVersion:
+"1.0",
+
+backupType:
+"Tailor Manager Full Backup",
+
+createdAt:
+now.toISOString(),
+
+sourceProject:
+firebaseConfig.projectId,
+
+sourceUser:
+currentUser.uid,
+
+sourceEmail:
+currentUser.email||"",
+
+data:{
+
+customers:
+customers,
+
+orders:
+orders
+
+}
+
+};
+
+
+/* ================================================
+   JSON
+================================================ */
+
+progress(
+82,
+"Backup فائل بن رہی ہے..."
+);
+
+
+const json=
+JSON.stringify(
+backup,
+null,
+2
+);
+
+
+/* ================================================
+   BLOB
+================================================ */
+
+const blob=
+new Blob(
+[json],
+{
+type:
+"application/json"
+}
+);
+
+
+/* ================================================
+   FILE NAME
+================================================ */
+
+const year=
+now.getFullYear();
+
+
+const month=
+String(
+now.getMonth()+1
+).padStart(
+2,
+"0"
+);
+
+
+const day=
+String(
+now.getDate()
+).padStart(
+2,
+"0"
+);
+
+
+const hour=
+String(
+now.getHours()
+).padStart(
+2,
+"0"
+);
+
+
+const minute=
+String(
+now.getMinutes()
+).padStart(
+2,
+"0"
+);
+
+
+const fileName=
+`Tailor-Backup-${year}-${month}-${day}-${hour}-${minute}.json`;
+
+
+/* ================================================
+   DOWNLOAD
+================================================ */
+
+progress(
+92,
+"Backup موبائل میں محفوظ ہو رہا ہے..."
+);
+
+
+const url=
+URL.createObjectURL(
+blob
+);
+
+
+const a=
+document.createElement(
+"a"
+);
+
+a.href=url;
+
+a.download=
+fileName;
+
+document.body.appendChild(
+a
+);
+
+a.click();
+
+a.remove();
+
+
+setTimeout(
+()=>URL.revokeObjectURL(url),
+2000
+);
+
+
+progress(
+100,
+"Backup مکمل ہو گیا ✓"
+);
+
+
+message(
+`✅ Backup تیار ہے: ${fileName}`,
+"success"
+);
+
+
+hideProgress();
+
+
+button.disabled=false;
+
+
+}catch(error){
+
+console.error(error);
+
+
+hideProgress();
+
+
+button.disabled=false;
+
+
+message(
+"❌ Backup نہیں بن سکا: "+
+error.message,
+"error"
+);
+
+}
+
+}
+
+
+/* =====================================================
+   IMPORT BUTTON
+===================================================== */
+
+$("importBtn").onclick=()=>{
+
+$("fileInput").click();
+
+};
+
+
+/* =====================================================
+   FILE SELEC
