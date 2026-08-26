@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pending Orders - Tailor Manager</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:Arial,"Segoe UI",sans-serif;min-height:100vh;color:#fff;padding:14px 14px 100px;background:linear-gradient(145deg,#08111f,#111827 55%,#172554)}
+button,input{font-family:inherit}.app{max-width:480px;margin:auto}
+.top{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.top-btn{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;text-decoration:none;color:#fff;background:#ffffff10;border:1px solid #ffffff18;font-size:20px}
+.title{flex:1;text-align:center}.title h1{font-size:20px}.title p{font-size:10px;color:#94a3b8;margin-top:3px}
+
+.hero{padding:15px;border-radius:20px;background:linear-gradient(135deg,#7c2d12,#c2410c);box-shadow:0 12px 28px #0005;margin-bottom:10px}
+.hero-row{display:flex;align-items:center;gap:10px}.hero-icon{font-size:30px}.hero h2{font-size:17px}.hero p{font-size:9px;color:#ffedd5;margin-top:3px}
+.big-count{font-size:31px;font-weight:800;margin-top:8px}.big-count span{font-size:10px;font-weight:400}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:9px}
+.stat{padding:10px 5px;text-align:center;border-radius:14px;background:#ffffff09;border:1px solid #ffffff10}.stat b{display:block;font-size:19px}.stat span{font-size:8px;color:#94a3b8}
+
+.search{width:100%;padding:12px 13px;border-radius:14px;background:#ffffff0b;border:1px solid #ffffff15;color:#fff;outline:none;font-size:12px;margin-bottom:7px}
+.search:focus{border-color:#fb923c;box-shadow:0 0 0 3px #fb923c18}.search::placeholder{color:#64748b}
+.filters{display:flex;gap:6px;margin-bottom:4px}.filter{flex:1;border:1px solid #ffffff12;background:#ffffff07;color:#94a3b8;padding:8px 5px;border-radius:11px;font-size:9px}.filter.active{background:#fb923c1c;color:#fdba74;border-color:#fb923c55}
+.msg{text-align:center;min-height:18px;font-size:10px;color:#a7f3d0;margin:3px 0}
+
+.card{margin-bottom:9px;border-radius:18px;background:linear-gradient(145deg,#ffffff0b,#ffffff06);border:1px solid #ffffff12;box-shadow:0 8px 22px #0004;overflow:hidden}
+.card-head{padding:12px;display:flex;align-items:center;gap:9px;cursor:pointer}
+.avatar{width:45px;height:45px;min-width:45px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#4f46e5,#312e81);font-size:19px}
+.main{flex:1;min-width:0}.name{font-size:13px;font-weight:bold;margin-bottom:3px}.meta{font-size:9px;color:#94a3b8;line-height:1.6}
+.order-no{font-size:8px;background:#fb923c18;color:#fdba74;border:1px solid #fb923c30;padding:5px 6px;border-radius:8px;white-space:nowrap}
+.summary{display:flex;gap:5px;flex-wrap:wrap;padding:0 12px 10px}.pill{font-size:8px;padding:4px 6px;border-radius:8px;background:#ffffff08;border:1px solid #ffffff0e;color:#cbd5e1}.pill.new{color:#c4b5fd;background:#8b5cf615}.pill.old{color:#7dd3fc;background:#0ea5e915}
+
+.details{display:none;border-top:1px solid #ffffff10;padding:12px;background:#02061728}.open .details{display:block}
+.detail-section{margin-bottom:11px}.detail-title{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:bold;padding-bottom:7px;margin-bottom:7px;border-bottom:1px solid #ffffff14;color:#e2e8f0}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.box{padding:8px;border-radius:10px;background:#ffffff07;border:1px solid #ffffff08;font-size:9px;color:#cbd5e1}.box b{display:block;color:#94a3b8;margin-bottom:3px;font-size:8px}
+.cloth{display:flex;align-items:center;gap:8px;padding:9px;border-radius:10px;background:#ffffff07;border:1px solid #ffffff08;font-size:9px}.dot{width:25px;height:25px;border-radius:50%;border:2px solid #fff4;box-shadow:0 2px 8px #0006}
+.measure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.measure{padding:8px 4px;text-align:center;border-radius:9px;background:#02061755;border:1px solid #ffffff08;font-size:9px;color:#cbd5e1}.measure b{display:block;color:#f8fafc;font-size:8px;margin-bottom:3px}
+.designs{padding:8px;border-radius:10px;background:#02061740;border:1px solid #ffffff08}.tag{display:inline-block;padding:5px 7px;margin:2px;border-radius:8px;background:#6366f11c;border:1px solid #6366f133;color:#c7d2fe;font-size:8px}
+.actions{display:flex;gap:7px;padding-top:10px;border-top:1px solid #ffffff10}.btn{flex:1;border:0;border-radius:10px;padding:11px;color:#fff;font-weight:bold;font-size:10px;cursor:pointer}.complete{background:linear-gradient(135deg,#22c55e,#15803d)}.delete{background:linear-gradient(135deg,#ef4444,#991b1b)}.btn:active{transform:scale(.97)}
+
+.empty{padding:30px 14px;text-align:center;background:#ffffff07;border:1px solid #ffffff10;border-radius:18px;color:#94a3b8}.empty strong{display:block;color:#fff;font-size:14px;margin-bottom:6px}
+.bottom{position:fixed;left:0;right:0;bottom:0;height:72px;background:#020617f5;border-top:1px solid #ffffff12;backdrop-filter:blur(18px);z-index:999}.nav{height:100%;max-width:480px;margin:auto;display:flex;align-items:center;justify-content:space-around;direction:ltr}.nav a{text-decoration:none;color:#94a3b8;font-size:8px;text-align:center;min-width:44px;direction:rtl}.nav i{display:block;font-style:normal;font-size:19px;margin-bottom:3px}.nav .active{color:#fff}.nav .active i{filter:drop-shadow(0 0 6px #fb923c)}
+@media(max-width:360px){.measure-grid{grid-template-columns:repeat(2,1fr)}.nav a{font-size:7px;min-width:39px}.nav i{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top">
+<a href="index.html" class="top-btn">←</a>
+<div class="title"><h1>🧵 Pending Orders</h1><p>زیرِ سلائی تمام آرڈرز</p></div>
+<a href="search.html" class="top-btn">🔍</a>
+</div>
+
+<div class="hero">
+<div class="hero-row"><div class="hero-icon">🧵</div><div><h2>Pending کپڑے</h2><p>جو کپڑے ابھی مکمل نہیں ہوئے</p></div></div>
+<div class="big-count" id="totalPending">0 <span>Orders</span></div>
+</div>
+
+<div class="stats">
+<div class="stat"><b id="customerCount">0</b><span>Customers</span></div>
+<div class="stat"><b id="newCount">0</b><span>New Users</span></div>
+<div class="stat"><b id="oldCount">0</b><span>Saved Customers</span></div>
+</div>
+
+<input id="search" class="search" type="search" placeholder="🔍 نام، موبائل، Account یا Order تلاش کریں" autocomplete="off">
+<div class="filters">
+<button class="filter active" data-filter="all">سب</button>
+<button class="filter" data-filter="new">🆕 New Users</button>
+<button class="filter" data-filter="old">👤 Saved Customers</button>
+</div>
+<div id="msg" class="msg"></div>
+<div id="list"><div class="empty"><strong>⏳ Pending Orders لوڈ ہو رہے ہیں...</strong>براہ کرم انتظار کریں۔</div></div>
+</div>
+
+<div class="bottom"><div class="nav">
+<a href="index.html"><i>🏠</i>Home</a>
+<a href="add-order.html"><i>➕</i>Add Order</a>
+<a href="customers.html"><i>👥</i>Customers</a>
+<a href="new-users.html"><i>🆕</i>New Users</a>
+<a href="menu.html"><i>☰</i>Menu</a>
+</div></div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import{getFirestore,collection,getDocs,doc,updateDoc,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyDsoWnSGzzt3BRuL5fIhq7dfg2fqyibM1U",
+authDomain:"tailor-web-f1f1c.firebaseapp.com",
+projectId:"tailor-web-f1f1c",
+storageBucket:"tailor-web-f1f1c.firebasestorage.app",
+messagingSenderId:"129811668871",
+appId:"1:811668871:web:586357e9e696a9652ffd22"
+};
+
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+let user=null,orders=[],customers=[],active="all";
+
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+
+function dateVal(v){
+if(!v)return null;
+if(v?.toDate)return v.toDate();
+if(v?.seconds)return new Date(v.seconds*1000);
+const d=new Date(v);return isNaN(d)?null:d;
+}
+function dateText(v){
+const d=dateVal(v);
+return d?d.toLocaleDateString("ur-PK",{year:"numeric",month:"short",day:"numeric"}):"-";
+}
+
+function sourceOf(o,c){
+const s=String(o.customerType||o.customerSource||o.source||o.userType||c?.customerType||c?.customerSource||c?.source||c?.userType||"").toLowerCase();
+if(s.includes("new"))return"new";
+if(s.includes("exist")||s.includes("old")||s.includes("saved"))return"old";
+if(c?.isNewUser===true)return"new";
+return"old";
+}
+
+const fields=[
+["length","لمبائی"],["tera","تیرا"],["sleeve","آستین"],["neck","گلہ"],
+["chest","چھاتی"],["waist","کمر"],["daman","دامن"],["shalwarLength","شلوار لمبائی"],["panja","پانچہ"]
+];
+
+const designNames={
+twoPiece:"ٹو پیس",band:"بین",roundDaman:"گول دامن",squareDaman:"چورس دامن",
+bothSides:"دوبغل",front:"سامنے",shalwarPocket:"شلوار جیب",pocketDouble:"ڈبل جیب",
+pocketFront:"سامنے جیب",pocketSide:"سائیڈ جیب",tilaGoot:"تیلا گوٹ",fitCuff:"فیٹ کف",
+simpleSleeve:"سادہ آستین",cuffed:"کف دار",cuffSleeve:"کف دار آستین",tops:"ٹوپس"
+};
+
+onAuthStateChanged(auth,async u=>{
+if(!u){location.replace("login.html");return}
+user=u;
+await load();
+});
+
+async function load(){
+try{
+$("msg").textContent="⏳ Orders لوڈ ہو رہے ہیں...";
+const[os,cs]=await Promise.all([
+getDocs(collection(db,"users",user.uid,"orders")),
+getDocs(collection(db,"users",user.uid,"customers"))
+]);
+
+customers=cs.docs.map(d=>({id:d.id,...d.data()}));
+
+/* صرف Pending یہاں دکھائیں۔ Customer delete ہونے کے باوجود Order رہے گا۔ */
+orders=os.docs.map(d=>({id:d.id,...d.data()}))
+.filter(o=>String(o.status||"pending").toLowerCase()==="pending")
+.sort((a,b)=>(dateVal(b.createdAtIso||b.createdAt)?.getTime()||0)-(dateVal(a.createdAtIso||a.createdAt)?.getTime()||0));
+
+$("msg").textContent="";
+render();
+}catch(e){
+console.error(e);
+$("msg").textContent="❌ Data لوڈ نہیں ہو سکا: "+e.message;
+}
+}
+
+function render(){
+const q=$("search").value.toLowerCase().trim();
+
+let data=orders.map(o=>({...o,_customer:customers.find(c=>c.id===o.customerId)}));
+
+if(active!=="all")data=data.filter(o=>sourceOf(o,o._customer)===active);
+
+if(q){
+data=data.filter(o=>[
+o.customerName,o.customerPhone,o.customerNo,o.colorName,o.id,
+o.accountNo,o.customerArea
+].some(v=>String(v||"").toLowerCase().includes(q)));
+}
+
+$("totalPending").innerHTML=`${data.length} <span>Orders</span>`;
+$("customerCount").textContent=new Set(data.map(o=>o.customerId||`${o.customerName}|${o.customerPhone}`)).size;
+$("newCount").textContent=data.filter(o=>sourceOf(o,o._customer)==="new").length;
+$("oldCount").textContent=data.filter(o=>sourceOf(o,o._customer)==="old").length;
+
+const list=$("list");
+list.innerHTML="";
+
+if(!data.length){
+list.innerHTML=`<div class="empty"><strong>✅ Pending میں کوئی Order نہیں</strong>تمام کپڑے اس وقت Pending میں نہیں ہیں۔</div>`;
+return;
+}
+
+data.forEach((o,i)=>{
+const c=o._customer||{};
+const src=sourceOf(o,c);
+const m=o.measurements||o.measurement||{};
+const d=o.design||o.designs||{};
+const colorHex=/^#[0-9a-f]{3,8}$/i.test(String(o.colorHex||o.fabricColorHex||""))?(o.colorHex||o.fabricColorHex):"#475569";
+
+const tags=Object.keys(designNames).filter(k=>d[k]).map(k=>`<span class="tag">${esc(designNames[k])}</span>`).join("");
+
+const card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=`
+<div class="card-head">
+<div class="avatar">👤</div>
+<div class="main">
+<div class="name">${esc(o.customerName||c.name||"نام نہیں")}</div>
+<div class="meta">📱 ${esc(o.customerPhone||c.phone||"-")}<br>📅 ${dateText(o.createdAtIso||o.createdAt)}</div>
+</div>
+<div class="order-no">#${i+1}</div>
+</div>
+
+<div class="summary">
+<span class="pill ${src}">${src==="new"?"🆕 New User":"👤 Saved Customer"}</span>
+<span class="pill">📅 ${dateText(o.createdAtIso||o.createdAt)}</span>
+<span class="pill">🧵 ${esc(o.quantity||1)} کپڑا</span>
+</div>
+
+<div class="details">
+
+<div class="detail-section">
+<div class="detail-title">👤 Customer Detail</div>
+<div class="info-grid">
+<div class="box"><b>نام</b>${esc(o.customerName||c.name||"-")}</div>
+<div class="box"><b>فون نمبر</b>${esc(o.customerPhone||c.phone||"-")}</div>
+<div class="box"><b>Account No.</b>${esc(o.customerNo||c.accountNo||"-")}</div>
+<div class="box"><b>پتہ</b>${esc(o.customerArea||c.area||c.address||"-")}</div>
+<div class="box"><b>Order Date</b>${dateText(o.createdAtIso||o.createdAt)}</div>
+<div class="box"><b>Delivery Date</b>${dateText(o.deliveryDate)}</div>
+</div>
+</div>
+
+<div class="detail-section">
+<div class="detail-title">👕 کپڑے کی معلومات</div>
+<div class="cloth">
+<span class="dot" style="background:${esc(colorHex)}"></span>
+<span>رنگ: <b>${esc(o.colorName||o.fabricColor||"رنگ درج نہیں")}</b><br>Quantity: <b>${esc(o.quantity||1)}</b></span>
+</div>
+</div>
+
+<div class="detail-section">
+<div class="detail-title">📏 کپڑوں کے ناپ</div>
+<div class="measure-grid">
+${fields.map(x=>`<div class="measure"><b>${x[1]}</b>${esc(m[x[0]]||"-")}</div>`).join("")}
+</div>
+</div>
+
+<div class="detail-section">
+<div class="detail-title">✂️ کپڑے میں کرنے والا کام / Design</div>
+<div class="designs">${tags||'<span style="color:#64748b;font-size:9px">کوئی خاص Design محفوظ نہیں</span>'}</div>
+</div>
+
+<div class="detail-section">
+<div class="detail-title">💰 Payment</div>
+<div class="info-grid">
+<div class="box"><b>کل قیمت</b>Rs ${Number(o.totalPrice||0).toLocaleString("en-PK")}</div>
+<div class="box"><b>وصول</b>Rs ${Number(o.received||o.paidAmount||0).toLocaleString("en-PK")}</div>
+<div class="box"><b>باقی</b>Rs ${Number(o.remaining||o.balance||0).toLocaleString("en-PK")}</div>
+<div class="box"><b>Status</b>Pending</div>
+</div>
+</div>
+
+<div class="actions">
+<button class="btn complete" data-complete="${esc(o.id)}">✅ کپڑے مکمل</button>
+<button class="btn delete" data-delete="${esc(o.id)}">🗑️ Delete / Cancel</button>
+</div>
+
+</div>`;
+
+card.querySelector(".card-head").onclick=()=>{
+/* ایک وقت میں صرف ایک Customer کا detail کھلے */
+document.querySelectorAll(".card.open").forEach(other=>{
+if(other!==card)other.classList.remove("open");
+});
+card.classList.toggle("open");
+};
+
+list.appendChild(card);
+});
+}
+
+$("search").oninput=render;
+
+document.querySelectorAll(".filter").forEach(b=>{
+b.onclick=()=>{
+document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+b.classList.add("active");
+active=b.dataset.filter;
+render();
+};
+});
+
+$("list").onclick=async e=>{
+const complete=e.target.closest("[data-complete]");
+const del=e.target.closest("[data-delete]");
+
+if(complete){
+const o=orders.find(x=>x.id===complete.dataset.complete);
+if(!o)return;
+
+if(!confirm("کیا یہ کپڑے مکمل ہو گئے ہیں؟\nیہ Order Pending سے ختم ہو کر Ready in Shop میں چلا جائے گا۔"))return;
+
+try{
+/* اہم: Pending → Ready in Shop */
+await updateDoc(doc(db,"users",user.uid,"orders",o.id),{
+status:"ready-shop",
+readyInShopAtIso:new Date().toISOString(),
+updatedAt:serverTimestamp()
+});
+await load();
+}catch(err){
+console.error(err);
+alert("Ready in Shop میں منتقل نہیں ہو سکا: "+err.message);
+}
+}
+
+if(del){
+const o=orders.find(x=>x.id===del.dataset.delete);
+if(!o)return;
+
+const reason=prompt("Order Cancel/Delete کرنے کی وجہ لکھیں:\nمثلاً:\n• Order غلط تھا\n• Customer نے Cancel کیا\n• کپڑے واپس لے گئے\n• دوسری وجہ");
+
+if(reason===null||!reason.trim()){
+alert("Delete/Cancel کرنے کے لیے وجہ ضروری ہے۔");
+return;
+}
+
+try{
+/* اصل Order delete نہیں کیا جا رہا؛ status محفوظ رہے گا تاکہ history/new-users بعد میں اسے دکھا سکیں */
+await updateDoc(doc(db,"users",user.uid,"orders",o.id),{
+status:"cancelled",
+cancelReason:reason.trim(),
+cancelledAtIso:new Date().toISOString(),
+updatedAt:serverTimestamp()
+});
+await load();
+}catch(err){
+console.error(err);
+alert("Order Cancel نہیں ہو سکا: "+err.message);
+}
+}
+};
+</script>
+</body>
+</html>
