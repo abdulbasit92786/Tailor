@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tailor Manager - Profile</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;min-height:100vh;background:linear-gradient(145deg,#020617,#172554,#312e81);color:#fff;padding:18px}
+.card{max-width:430px;margin:auto;background:#ffffff12;border:1px solid #ffffff20;border-radius:28px;padding:24px;box-shadow:0 20px 50px #0007;backdrop-filter:blur(18px)}
+.back{display:inline-flex;width:44px;height:44px;border-radius:14px;align-items:center;justify-content:center;background:#ffffff16;color:#fff;text-decoration:none;font-size:22px}
+h1{text-align:center;margin:8px 0 5px;font-size:24px}.sub{text-align:center;color:#b9c3d6;font-size:12px;margin-bottom:24px}
+.photoBox{text-align:center;margin-bottom:20px}.photo{width:110px;height:110px;border-radius:50%;object-fit:cover;border:4px solid #ffffff44;background:#4f46e5;display:block;margin:auto}
+.photoBtns{display:flex;gap:9px;justify-content:center;margin-top:14px}
+.photoBtns label,.photoBtns button{border:0;border-radius:13px;padding:10px 13px;background:#ffffff18;color:#fff;font-size:12px;cursor:pointer}
+input[type=file]{display:none}
+.field{margin-top:16px}.field label{display:block;color:#cbd5e1;font-size:12px;margin-bottom:7px}
+.field input{width:100%;padding:14px;border:1px solid #ffffff20;border-radius:14px;background:#0004;color:#fff;outline:none;font-size:14px}
+.email{opacity:.65}
+.btn{width:100%;margin-top:12px;padding:15px;border:0;border-radius:15px;color:#fff;font-weight:bold;font-size:14px;cursor:pointer}
+.save{background:linear-gradient(135deg,#22c55e,#15803d);margin-top:20px}
+.photoSave{background:linear-gradient(135deg,#6366f1,#4338ca)}
+.logout{background:#ef44441c;border:1px solid #ef444455;color:#fecaca}
+.msg{text-align:center;min-height:22px;margin-top:13px;font-size:12px;color:#a7f3d0;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="card">
+<a href="index.html" class="back">←</a>
+<h1>My Profile</h1>
+<div class="sub">Tailor Manager Account</div>
+
+<div class="photoBox">
+<img id="photo" class="photo" alt="Profile Photo">
+<div class="photoBtns">
+<label>📷 Camera<input id="camera" type="file" accept="image/*" capture="user"></label>
+<label>🖼️ Gallery<input id="gallery" type="file" accept="image/*"></label>
+</div>
+<button id="setPhoto" class="btn photoSave">🖼️ Set / Save Photo</button>
+</div>
+
+<div class="field">
+<label>Your Name</label>
+<input id="name" type="text" placeholder="Enter your name">
+</div>
+
+<div class="field">
+<label>Google Email</label>
+<input id="email" class="email" type="text" readonly>
+</div>
+
+<button id="save" class="btn save">💾 Save Name & Profile</button>
+<button id="logout" class="btn logout">🚪 Logout</button>
+<div id="msg" class="msg"></div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import{getAuth,onAuthStateChanged,updateProfile,signOut}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyDsoWnSGzzt3BRuL5fIhq7dfg2fqyibM1U",
+authDomain:"tailor-web-f1f1c.firebaseapp.com",
+projectId:"tailor-web-f1f1c",
+storageBucket:"tailor-web-f1f1c.firebasestorage.app",
+messagingSenderId:"129811668871",
+appId:"1:129811668871:web:586357e9e696a9652ffd22"
+};
+
+const app=initializeApp(firebaseConfig),auth=getAuth(app);
+const $=x=>document.getElementById(x);
+let user=null,photoData="";
+
+function defaultPhoto(){
+$("photo").src="data:image/svg+xml;charset=UTF-8,"+
+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110"><rect width="100%" height="100%" fill="#4f46e5"/><text x="50%" y="58%" text-anchor="middle" font-size="48">👤</text></svg>');
+}
+function showMessage(t){$("msg").textContent=t}
+function showPhoto(src){src?$("photo").src=src:defaultPhoto()}
+
+onAuthStateChanged(auth,u=>{
+if(!u){location.replace("login.html");return}
+user=u;
+$("name").value=u.displayName||"";
+$("email").value=u.email||"";
+photoData=localStorage.getItem("profilePhoto_"+u.uid)||"";
+showPhoto(photoData||u.photoURL);
+});
+
+function chooseFile(file){
+if(!file)return;
+if(file.size>5*1024*1024){showMessage("تصویر 5 MB سے کم ہونی چاہیے۔");return}
+const r=new FileReader();
+r.onload=()=>{
+photoData=r.result;
+showPhoto(photoData);
+showMessage("تصویر منتخب ہو گئی۔ اب Set / Save Photo دبائیں۔");
+};
+r.readAsDataURL(file);
+}
+$("camera").onchange=e=>chooseFile(e.target.files[0]);
+$("gallery").onchange=e=>chooseFile(e.target.files[0]);
+
+$("setPhoto").onclick=()=>{
+if(!user){showMessage("پہلے Google سے Login کریں۔");return}
+if(!photoData){showMessage("پہلے Camera یا Gallery سے تصویر منتخب کریں۔");return}
+try{
+localStorage.setItem("profilePhoto_"+user.uid,photoData);
+showPhoto(photoData);
+showMessage("✅ تصویر کامیابی سے Set ہو گئی۔");
+}catch(e){
+showMessage("تصویر محفوظ نہیں ہو سکی۔ تصویر چھوٹی کریں۔");
+}
+};
+
+$("save").onclick=async()=>{
+if(!user)return;
+const name=$("name").value.trim();
+if(!name){showMessage("براہ کرم نام لکھیں۔");return}
+try{
+await updateProfile(user,{displayName:name});
+if(photoData)localStorage.setItem("profilePhoto_"+user.uid,photoData);
+showMessage("✅ نام اور پروفائل کامیابی سے محفوظ ہو گیا۔");
+}catch(e){showMessage("Save میں مسئلہ: "+e.message)}
+};
+
+$("logout").onclick=async()=>{
+try{await signOut(auth);localStorage.removeItem("isLoggedIn");location.replace("login.html")}
+catch(e){showMessage("Logout failed: "+e.message)}
+};
+</script>
+</body>
+</html>
