@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Completed Paid - Tailor Manager</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:Arial,Helvetica,sans-serif;min-height:100vh;color:#fff;padding:16px 16px 105px;background:radial-gradient(circle at top left,#064e3b 0%,transparent 38%),radial-gradient(circle at bottom right,#1e3a8a 0%,transparent 42%),linear-gradient(145deg,#02140f,#071b2e)}
+button,input,select{font:inherit}.app{max-width:480px;margin:auto}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.top-btn{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;color:#fff;text-decoration:none;background:#ffffff12;border:1px solid #ffffff20;font-size:20px}
+.title{flex:1;text-align:center}.title h1{font-size:20px}.title p{font-size:11px;color:#a7f3d0;margin-top:4px}
+.hero{padding:18px;border-radius:24px;background:linear-gradient(135deg,#065f46,#047857,#0f766e);border:1px solid #ffffff20;box-shadow:0 15px 35px #0005;margin-bottom:14px}
+.hero-top{display:flex;align-items:center;gap:13px}.hero-icon{width:56px;height:56px;border-radius:18px;background:#ffffff1c;display:grid;place-items:center;font-size:28px}
+.hero h2{font-size:18px}.hero p{font-size:11px;color:#d1fae5;margin-top:5px;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}
+.stat{padding:11px 6px;text-align:center;border-radius:15px;background:#0003;border:1px solid #ffffff12}.stat b{display:block;font-size:19px}.stat span{font-size:9px;color:#d1fae5}
+.search{width:100%;padding:14px 15px;border-radius:16px;background:#ffffff0d;border:1px solid #ffffff18;color:#fff;outline:0;margin-bottom:12px}.search::placeholder{color:#94a3b8}.search:focus{border-color:#34d399;box-shadow:0 0 0 3px #34d39922}
+.msg{text-align:center;min-height:20px;margin:6px 0 10px;font-size:11px;color:#a7f3d0}
+.card{margin-bottom:12px;border-radius:22px;background:#ffffff0b;border:1px solid #ffffff14;overflow:hidden;box-shadow:0 10px 28px #0004}
+.head{padding:15px;display:flex;gap:10px;align-items:center;cursor:pointer}
+.avatar{width:51px;height:51px;min-width:51px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#10b981,#047857);font-size:21px}
+.info{min-width:0;flex:1}.name{font-weight:bold;font-size:15px;margin-bottom:5px}.meta{font-size:10px;color:#94a3b8;line-height:1.7;white-space:normal}.badge{font-size:9px;padding:6px 8px;border-radius:10px;background:#10b98122;color:#a7f3d0;white-space:nowrap}
+.details{display:none;border-top:1px solid #ffffff12;padding:0 15px 16px}.open .details{display:block}
+.st{font-size:13px;font-weight:bold;margin:15px 0 9px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.d{padding:10px;border-radius:11px;background:#0003;font-size:11px;color:#cbd5e1;min-height:47px}.d b{display:block;color:#fff;margin-bottom:4px}
+.payment{padding:13px;border-radius:16px;background:#064e3b80;border:1px solid #10b98133}
+.money{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.money .d{text-align:center;background:#0004}.money .d b{font-size:15px;color:#fff}
+.history{margin-top:9px}.pay-row{padding:10px;border-radius:11px;background:#0003;margin-bottom:6px;font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;gap:8px}.pay-row strong{color:#a7f3d0}
+.actions{display:flex;gap:8px;margin-top:13px;padding-top:12px;border-top:1px solid #ffffff12}
+.btn{flex:1;border:0;border-radius:12px;padding:12px;color:#fff;font-weight:bold;font-size:11px;cursor:pointer}
+.pay{background:linear-gradient(135deg,#10b981,#047857)}.deliver{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}.danger{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.empty{padding:35px 15px;text-align:center;background:#ffffff09;border:1px solid #ffffff12;border-radius:22px;color:#94a3b8}.empty strong{display:block;color:#fff;font-size:16px;margin-bottom:8px}
+.bottom{position:fixed;left:0;right:0;bottom:0;height:75px;background:#020617f5;border-top:1px solid #ffffff15;backdrop-filter:blur(18px);z-index:999}
+.nav{height:100%;max-width:480px;margin:auto;display:flex;align-items:center;justify-content:space-around;direction:ltr}.nav a{text-decoration:none;color:#94a3b8;font-size:9px;text-align:center;min-width:45px;direction:rtl}.nav i{display:block;font-style:normal;font-size:20px;margin-bottom:3px}.nav .active{color:#fff}.nav .active i{filter:drop-shadow(0 0 6px #34d399)}
+@media(max-width:360px){.grid{grid-template-columns:1fr}.money{grid-template-columns:1fr 1fr}.nav a{font-size:8px;min-width:40px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top">
+<a href="index.html" class="top-btn">←</a>
+<div class="title"><h1>💳 Completed Paid</h1><p>Completed & Payment Records</p></div>
+<a href="search.html" class="top-btn">🔍</a>
+</div>
+
+<div class="hero">
+<div class="hero-top">
+<div class="hero-icon">💳</div>
+<div><h2>Completed Paid Orders</h2><p>مکمل کپڑے اور وصول شدہ ادائیگیوں کا ریکارڈ</p></div>
+</div>
+<div class="stats">
+<div class="stat"><b id="total">0</b><span>Paid Orders</span></div>
+<div class="stat"><b id="customers">0</b><span>Customers</span></div>
+<div class="stat"><b id="received">0</b><span>Received</span></div>
+</div>
+</div>
+
+<input id="search" class="search" type="search" placeholder="🔍 نام، موبائل، Account No. یا Order No." autocomplete="off">
+<div id="msg" class="msg">⏳ Records لوڈ ہو رہے ہیں...</div>
+<div id="list"><div class="empty"><strong>⏳ Loading...</strong>براہ کرم انتظار کریں۔</div></div>
+</div>
+
+<div class="bottom"><div class="nav">
+<a href="index.html"><i>🏠</i>Home</a>
+<a href="add-order.html"><i>➕</i>Add Order</a>
+<a href="customers.html"><i>👥</i>Customers</a>
+<a href="new-users.html"><i>🆕</i>New Users</a>
+<a href="menu.html"><i>☰</i>Menu</a>
+</div></div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import{getFirestore,collection,getDocs,doc,updateDoc,deleteDoc,onSnapshot}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyDsoWnSGzzt3BRuL5fIhq7dfg2fqyibM1U",
+authDomain:"tailor-web-f1f1c.firebaseapp.com",
+projectId:"tailor-web-f1f1c",
+storageBucket:"tailor-web-f1f1c.firebasestorage.app",
+messagingSenderId:"129811668871",
+appId:"1:129811668871:web:586357e9e696a9652ffd22"
+};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+let user=null,all=[];
+
+const esc=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+const num=v=>Number(String(v??0).replace(/[^0-9.-]/g,""))||0;
+const money=v=>num(v).toLocaleString("en-PK");
+
+function dateText(v){
+ if(!v)return"-";
+ try{
+  if(typeof v==="object"&&v.seconds)v=new Date(v.seconds*1000);
+  else if(typeof v==="object"&&v.toDate)v=v.toDate();
+  else v=new Date(v);
+  if(isNaN(v.getTime()))return String(v);
+  return v.toLocaleString("en-PK",{dateStyle:"medium",timeStyle:"short"});
+ }catch{return String(v)}
+}
+function statusText(o){
+ return String(o.status||o.orderStatus||"").toLowerCase().replaceAll("_"," ").trim();
+}
+function isPaid(o){
+ const p=String(o.paymentStatus||o.payment_state||"").toLowerCase();
+ if(["paid","complete","completed","fully paid","payment complete"].includes(p))return true;
+ const total=num(o.totalAmount??o.total??o.price??o.amount);
+ const received=num(o.paymentReceivedAmount??o.amountReceived??o.receivedAmount??o.paidAmount??o.advance??o.received);
+ return Boolean(o.paid===true||o.paymentComplete===true||(total>0&&received>=total));
+}
+function isRelevant(o){
+ if(!isPaid(o))return false;
+ const s=statusText(o);
+ return !["cancelled","canceled","deleted"].includes(s);
+}
+
+onAuthStateChanged(auth,async u=>{
+ if(!u){location.replace("login.html");return}
+ user=u;
+ await loadOrders();
+});
+
+async function loadOrders(){
+ try{
+  $("msg").textContent="⏳ Records لوڈ ہو رہے ہیں...";
+  const snap=await getDocs(collection(db,"users",user.uid,"orders"));
+  all=snap.docs.map(x=>({id:x.id,...x.data()})).filter(isRelevant);
+  all.sort((a,b)=>{
+   const da=a.updatedAt?.seconds||a.createdAt?.seconds||0;
+   const dbb=b.updatedAt?.seconds||b.createdAt?.seconds||0;
+   return dbb-da;
+  });
+  $("msg").textContent="";
+  render();
+ }catch(e){
+  console.error(e);
+  $("msg").textContent="❌ Orders لوڈ نہیں ہو سکے: "+e.message;
+ }
+}
+
+function render(){
+ const q=$("search").value.toLowerCase().trim();
+ const data=!q?all:all.filter(o=>[
+  o.name,o.customerName,o.phone,o.mobile,o.accountNo,o.orderNo,o.orderId,o.color,o.clothColor
+ ].some(v=>String(v??"").toLowerCase().includes(q)));
+
+ $("total").textContent=all.length;
+ $("customers").textContent=new Set(all.map(o=>o.customerId||o.customerUid||o.accountNo||o.phone||o.customerName||o.name)).size;
+ $("received").textContent=money(all.reduce((s,o)=>s+num(o.paymentReceivedAmount??o.amountReceived??o.receivedAmount??o.paidAmount??o.advance??o.received),0));
+
+ const list=$("list");list.innerHTML="";
+ if(!data.length){
+  list.innerHTML=`<div class="empty"><strong>💳 کوئی Paid Order نہیں</strong>Payment complete ہونے کے بعد order یہاں نظر آئے گا۔</div>`;
+  return;
+ }
+ data.forEach(o=>list.appendChild(card(o)));
+}
+
+function card(o){
+ const total=num(o.totalAmount??o.total??o.price??o.amount);
+ const received=num(o.paymentReceivedAmount??o.amountReceived??o.receivedAmount??o.paidAmount??o.advance??o.received);
+ const balance=Math.max(0,total-received);
+ const name=o.customerName||o.name||"-";
+ const phone=o.phone||o.mobile||"-";
+ const account=o.accountNo||o.customerAccountNo||"-";
+ const orderNo=o.orderNo||o.orderId||o.id;
+ const color=o.color||o.clothColor||o.fabricColor||"-";
+ const qty=o.quantity||o.qty||o.itemsCount||1;
+ const created=o.createdAt||o.orderDate||o.date;
+ const history=Array.isArray(o.paymentHistory)?o.paymentHistory:[];
+ const c=document.createElement("div");c.className="card";
+ c.innerHTML=`
+ <div class="head">
+  <div class="avatar">👤</div>
+  <div class="info">
+   <div class="name">${esc(name)}</div>
+   <div class="meta">📱 ${esc(phone)}<br>📍 ${esc(o.address||"-")}<br>🎨 ${esc((o.color&&o.color.name)||color||"-")} · 👕 ${qty} Piece<br>🧾 Order #${esc(orderNo)} · ${esc(dateText(created))}</div>
+  </div>
+  <div class="badge">✓ PAID</div>
+ </div>
+ <div class="details">
+  <div class="st">💳 Payment Summary</div>
+  <div class="payment">
+   <div class="money">
+    <div class="d"><b>Rs ${money(total)}</b>Total</div>
+    <div class="d"><b>Rs ${money(received)}</b>Received</div>
+    <div class="d"><b>Rs ${money(balance)}</b>Balance</div>
+   </div>
+  </div>
+
+  <div class="st">👤 Customer / Order</div>
+  <div class="grid">
+   <div class="d"><b>نام</b>${esc(name)}</div>
+   <div class="d"><b>فون</b>${esc(phone)}</div>
+   <div class="d"><b>Account No.</b>${esc(account)}</div>
+   <div class="d"><b>Order No.</b>${esc(orderNo)}</div>
+   <div class="d"><b>کپڑوں کی تعداد</b>${esc(qty)}</div>
+   <div class="d"><b>Color / کپڑا</b>${esc((o.color&&o.color.name)||color||"-")}</div>
+   <div class="d"><b>Order Date</b>${esc(dateText(created))}</div>
+   <div class="d"><b>Status</b>${esc(o.status||o.orderStatus||"Completed / Paid")}</div>
+  </div>
+
+  <div class="st">🧾 Payment History</div>
+  <div class="history">
+   ${history.length?history.map(p=>`<div class="pay-row"><span>${esc(p.note||p.type||"Payment")}</span><strong>Rs ${money(p.amount??p.value)} · ${esc(dateText(p.date||p.createdAt))}</strong></div>`).join(""):`<div class="pay-row"><span>Full payment</span><strong>Rs ${money(received)} · ${esc(dateText(o.paidAt||o.updatedAt))}</strong></div>`}
+  </div>
+
+  <div class="actions">
+   <button class="btn danger">🗑️ Delete</button>
+  </div>
+ </div>`;
+ c.querySelector(".head").onclick=()=>c.classList.toggle("open");
+
+ c.querySelector(".danger").onclick=async e=>{
+  e.stopPropagation();
+  const reason=prompt("Delete کرنے کی وجہ لکھیں:");
+  if(reason===null)return;
+  if(!reason.trim()){alert("Delete کی وجہ لکھنا ضروری ہے۔");return}
+  if(!confirm("یہ record مستقل Delete کرنا ہے؟"))return;
+  try{
+   await deleteDoc(doc(db,"users",user.uid,"orders",o.id));
+   $("msg").textContent="✅ Record Delete ہوگیا۔ وجہ: "+reason;
+   await loadOrders();
+  }catch(err){$("msg").textContent="❌ Delete نہیں ہوا: "+err.message}
+ };
+ return c;
+}
+
+$("search").oninput=render;
+</script>
+</body>
+</html>
