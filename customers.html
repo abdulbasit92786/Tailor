@@ -1,0 +1,40 @@
+<!doctype html><html lang="ur" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>محفوظ کسٹمرز</title><link rel="stylesheet" href="style.css"></head><body><div id="app"></div>
+<script type="module">
+import{requireAuth,nav,bindNav,db,collection,getDocs,deleteDoc,doc,$,esc,fields,designs,lang,dateText}from'./app.js';
+requireAuth(async u=>{
+const en=lang()==='en', T=(ur,eng)=>en?eng:ur;
+document.getElementById('app').innerHTML=nav('customers')+`<main class="wrap"><div class="hero"><h1>${T('محفوظ کسٹمرز','Saved Customers')}</h1><p>${T('کسٹمر پر کلک کریں، پھر تفصیل کھولیں۔','Tap a customer to view details.')}</p></div><div class="card"><div class="row-actions"><button class="primary" id="add">＋ ${T('کسٹمر شامل کریں','Add Customer')}</button></div><div class="searchbar"><span>🔎</span><input id="q" placeholder="${T('نام، فون، علاقہ یا پتہ تلاش کریں','Search name, phone, area or address')}"></div></div><div id="list"><div class="loading">${T('لوڈ ہو رہا ہے...','Loading...')}</div></div></main>`;
+bindNav(); let customers=[],orders=[];
+const norm=v=>String(v??'').trim().replace(/\s+/g,'').toLowerCase();
+async function load(){try{
+const [cs,os]=await Promise.all([getDocs(collection(db,'users',u.uid,'customers')),getDocs(collection(db,'users',u.uid,'orders'))]);
+customers=cs.docs.map(d=>({id:d.id,...d.data()}));orders=os.docs.map(d=>({id:d.id,...d.data()}));render();
+}catch(e){$('list').innerHTML=`<div class="card empty">${T('کسٹمرز لوڈ نہیں ہو سکے۔','Could not load customers.')}<br>${esc(e.message)}</div>`}}
+function statusFor(c){
+const mine=orders.filter(o=>(o.customerId&&String(o.customerId)===String(c.id)) || (!o.customerId&&norm(o.phone)===norm(c.phone)));
+if(!mine.length)return T('کوئی آرڈر نہیں','No orders');
+const pending=mine.some(o=>(o.status||'pending')==='pending' && Number(o.completedQuantity||0)<Math.max(1,Number(o.quantity)||1));
+const completed=mine.reduce((n,o)=>n+(Number(o.completedQuantity)||0),0);
+return pending?T('پینڈنگ','Pending'):T('مکمل','Completed')+' • '+completed;
+}
+function history(c){
+return orders.filter(o=>(o.customerId&&String(o.customerId)===String(c.id)) || (!o.customerId&&norm(o.phone)===norm(c.phone))).sort((a,b)=>String(b.createdAt?.seconds||b.createdAt||'').localeCompare(String(a.createdAt?.seconds||a.createdAt||'')));
+}
+function render(){
+const q=norm($('q').value); const a=customers.filter(c=>[c.name,c.phone,c.area,c.address].some(v=>norm(v).includes(q)));
+$('list').innerHTML=a.length?a.map(c=>{const hs=history(c), qty=hs.reduce((n,o)=>n+(Number(o.quantity)||1),0);
+return `<article class="card customer-card"><details><summary class="customer-row"><div class="summary-main"><strong>${esc(c.name||'-')}</strong><div class="muted">📞 ${esc(c.phone||'-')} • 📍 ${esc(c.area||'-')}</div><div class="muted">🟢 ${esc(statusFor(c))}</div></div><div class="count-box"><b>${hs.length}</b><span class="muted">${T('آرڈر','Orders')}</span></div></summary>
+<div class="detail">${T('پتہ','Address')}: ${esc(c.address||'-')}</div>
+<div class="detail"><b>${T('ناپ','Measurements')}</b><br>${fields.map(([k,ur,eng])=>`${en?eng:ur}: ${esc(c.measurements?.[k]||'-')}`).join('<br>')}</div>
+<div class="detail"><b>${T('ڈیزائن','Design')}</b><br>${designs.filter(([k])=>c.designs?.[k]).map(([,ur,eng])=>en?eng:ur).join(', ')||'-'}</div>
+<div class="detail"><b>${T('آرڈر ہسٹری','Order History')} (${hs.length})</b><br>${T('کل کپڑے','Total Clothes')}: ${qty}</div>
+<button class="secondary show-history" data-cid="${esc(c.id)}">${T('مزید دیکھیں','Show More')}</button>
+<div id="hist-${esc(c.id)}" class="hidden"></div>
+<div class="row-actions"><a class="primary" href="new-user.html?customer=${encodeURIComponent(c.id)}">${T('آرڈر بنائیں','Create Order')}</a><button class="danger" data-del="${esc(c.id)}">${T('حذف کریں','Delete')}</button></div>
+</details></article>`}).join(''):`<div class="card empty">${T('کوئی محفوظ کسٹمر نہیں ملا۔','No saved customers found.')}</div>`;
+document.querySelectorAll('.show-history').forEach(b=>b.onclick=()=>{const box=$('hist-'+b.dataset.cid);const c=customers.find(x=>x.id===b.dataset.cid);const hs=history(c);box.classList.toggle('hidden');b.textContent=box.classList.contains('hidden')?T('مزید دیکھیں','Show More'):T('بند کریں','Hide');if(!box.classList.contains('hidden'))box.innerHTML=hs.length?hs.map(o=>`<div class="detail"><b>${T('تاریخ','Date')}:</b> ${dateText(o.createdAt)}<br><b>${T('کپڑے','Clothes')}:</b> ${Number(o.quantity)||1}<br><b>${T('مکمل','Completed')}:</b> ${Number(o.completedQuantity)||0}<br><b>${T('اسٹیٹس','Status')}:</b> ${esc(o.status||'pending')}<br><b>${T('رنگ','Color')}:</b> ${esc(o.color||'-')}</div>`).join(''):T('کوئی آرڈر نہیں','No orders');});
+document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(!confirm(T('یہ کسٹمر حذف کریں؟','Delete this customer?')))return;await deleteDoc(doc(db,'users',u.uid,'customers',b.dataset.del));load()});
+}
+$('add').onclick=()=>location.href='save-customer.html';$('q').oninput=render;load();
+});
+</script></body></html>
