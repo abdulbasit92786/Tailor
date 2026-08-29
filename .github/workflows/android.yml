@@ -17,21 +17,30 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
-      - name: Create package.json
+      - name: Prepare web files
+        run: |
+          mkdir www
+          cp *.html www/
+          cp *.js www/
+          cp *.css www/ 2>/dev/null || true
+          cp *.json www/ 2>/dev/null || true
+          cp *.png www/ 2>/dev/null || true
+
+      - name: Install Capacitor
         run: |
           npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Initialize Capacitor
         run: |
-          npx cap init "Tailor Manager" "com.abdulbasit92786.tailor" --web-dir .
+          npx cap init "Tailor Manager" "com.abdulbasit92786.tailor" --web-dir www
 
       - name: Add Android
         run: npx cap add android
 
-      - name: Copy web files
+      - name: Copy Web App
         run: npx cap copy android
 
       - name: Sync Android
