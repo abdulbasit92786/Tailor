@@ -21,6 +21,7 @@ jobs:
 
       - name: Prepare web files
         run: |
+          rm -rf www
           mkdir www
           cp *.html www/
           cp *.js www/
@@ -28,17 +29,55 @@ jobs:
           cp *.json www/ 2>/dev/null || true
           cp *.png www/ 2>/dev/null || true
 
-      - name: Install Capacitor
+      - name: Install Capacitor and Firebase Authentication
         run: |
           npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm install --save-exact @capacitor/core@8.5.0 @capacitor/cli@8.5.0 @capacitor/android@8.5.0 @capacitor-firebase/authentication@8.4.0 firebase@12.2.1 esbuild@0.25.9
 
       - name: Initialize Capacitor
         run: |
           npx cap init "Tailor Manager" "com.abdulbasit92786.tailor" --web-dir www
+          node - <<'NODE'
+          const fs = require('fs');
+          const p = JSON.parse(fs.readFileSync('capacitor.config.json','utf8'));
+          p.plugins = p.plugins || {};
+          p.plugins.FirebaseAuthentication = {
+            skipNativeAuth: false,
+            providers: ['google.com']
+          };
+          fs.writeFileSync('capacitor.config.json', JSON.stringify(p, null, 2));
+          NODE
 
       - name: Add Android
         run: npx cap add android
+
+      - name: Add Firebase Android configuration
+        run: |
+          test -f google-services.json
+          cp google-services.json android/app/google-services.json
+
+      - name: Configure Google Services Gradle plugin
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('android/build.gradle')
+          s = p.read_text()
+          if 'com.google.gms:google-services' not in s:
+              marker = 'dependencies {'
+              s = s.replace(marker, marker + "\n        classpath 'com.google.gms:google-services:4.4.3'", 1)
+          p.write_text(s)
+
+          p = Path('android/app/build.gradle')
+          s = p.read_text()
+          if "com.google.gms.google-services" not in s:
+              s += "\napply plugin: 'com.google.gms.google-services'\n"
+          p.write_text(s)
+          PY
+
+      - name: Bundle native authentication bridge
+        run: |
+          npx esbuild native-auth-source.js --bundle --format=esm --platform=browser --outfile=www/native-auth.js
+          rm -f www/native-auth-source.js
 
       - name: Copy Web App
         run: npx cap copy android
@@ -52,12 +91,19 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Show debug SHA-1
+        working-directory: android
+        run: |
+          ./gradlew signingReport | tee ../signing-report.txt
+
       - name: Build APK
         working-directory: android
         run: ./gradlew assembleDebug
 
-      - name: Upload APK
+      - name: Upload APK and signing report
         uses: actions/upload-artifact@v4
         with:
           name: Tailor-Manager-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: |
+            android/app/build/outputs/apk/debug/app-debug.apk
+            signing-report.txt
