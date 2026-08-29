@@ -60,23 +60,37 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+
           p = Path('android/build.gradle')
           s = p.read_text()
+
           if 'com.google.gms:google-services' not in s:
               marker = 'dependencies {'
-              s = s.replace(marker, marker + "\n        classpath 'com.google.gms:google-services:4.4.3'", 1)
+              s = s.replace(
+                  marker,
+                  marker + "\n        classpath 'com.google.gms:google-services:4.4.3'",
+                  1
+              )
+
           p.write_text(s)
 
           p = Path('android/app/build.gradle')
           s = p.read_text()
+
           if "com.google.gms.google-services" not in s:
               s += "\napply plugin: 'com.google.gms.google-services'\n"
+
           p.write_text(s)
           PY
 
       - name: Bundle native authentication bridge
         run: |
-          npx esbuild native-auth-source.js --bundle --format=esm --platform=browser --outfile=www/native-auth.js
+          npx esbuild native-auth-source.js \
+            --bundle \
+            --format=esm \
+            --platform=browser \
+            --outfile=www/native-auth.js
+
           rm -f www/native-auth-source.js
 
       - name: Copy Web App
@@ -90,6 +104,20 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
+
+      - name: Create debug keystore
+        run: |
+          mkdir -p ~/.android
+
+          keytool -genkeypair -v \
+            -keystore ~/.android/debug.keystore \
+            -storepass android \
+            -alias AndroidDebugKey \
+            -keypass android \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
 
       - name: Show debug SHA-1
         working-directory: android
@@ -107,4 +135,3 @@ jobs:
           path: |
             android/app/build/outputs/apk/debug/app-debug.apk
             signing-report.txt
-# Google Login build update
