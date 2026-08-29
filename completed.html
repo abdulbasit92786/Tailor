@@ -1,4 +1,5 @@
-<!doctype html><html lang="ur" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مکمل</title><link rel="stylesheet" href="style.css"></head><body><div id="app"></div>
+<!doctype html><html lang="ur" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مکمل</title><link rel="stylesheet" href="style.css"><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#ffffff">
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("pwabuilder-sw.js").catch(()=>{});}</script></head><body><div id="app"></div>
 <script type="module">
 import{requireAuth,nav,bindNav,db,collection,getDocs,$,esc,fields,designs,lang,dateText}from'./app.js';
 requireAuth(async u=>{
