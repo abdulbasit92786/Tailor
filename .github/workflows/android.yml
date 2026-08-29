@@ -32,7 +32,7 @@ jobs:
       - name: Install Capacitor and Firebase Authentication
         run: |
           npm init -y
-          npm install --save-exact @capacitor/core@8.5.0 @capacitor/cli@8.5.0 @capacitor/android@8.5.0 @capacitor-firebase/authentication@8.4.0 firebase@12.2.1 esbuild@0.25.9
+          npm install --save-exact @capacitor/core@8.5.0 @capacitor/cli@8.5.0 @capacitor/android@8.5.0 @capacitor-firebase/authentication@8.4.0 firebase@12.18.0 esbuild@0.25.9
 
       - name: Initialize Capacitor
         run: |
