@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "129811668871",
+    "project_id": "tailor-web-f1f1c",
+    "storage_bucket": "tailor-web-f1f1c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129811668871:android:d160bd3ebe098ec82ffd22",
+        "android_client_info": {
+          "package_name": "com.abdulbasit92786.tailor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129811668871-9gi6q4ousblh3670e4u2r52q3mbv1bad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu25pSf3oAkdslrvXcJr16kUwgewkNwFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129811668871-9gi6q4ousblh3670e4u2r52q3mbv1bad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
